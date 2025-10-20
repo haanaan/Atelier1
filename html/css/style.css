@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  width: 380px;
+  padding: 40px 45px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  position: relative;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.form-toggle {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.form-toggle button {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: #888;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-toggle button.active {
+  color: #ff7a00;
+  border-bottom: 3px solid #ff7a00;
+  padding-bottom: 5px;
+}
+
+/* === Formulaire === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* === Champs de saisie === */
+input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff7a00;
+  box-shadow: 0 0 0 2px rgba(255, 122, 0, 0.2);
+}
+
+button[type="submit"] {
+  background-color: #ff7a00;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #e56c00;
+}
+
+.switch-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.switch-text a {
+  color: #ff7a00;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}
