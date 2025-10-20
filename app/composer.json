@@ -2,7 +2,9 @@
     "name": "grp/charlymatloc",
     "autoload": {
         "psr-4": {
-            "Grp\\Charlymatloc\\": "src/"
+      "charlymatloc\\api\\" : "./src/api",
+      "charlymatloc\\core\\" : "./src/application_core",
+      "charlymatloc\\infra\\" : "./src/infrastructure"
         }
     },
     "require": {

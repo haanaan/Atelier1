@@ -8,9 +8,7 @@ use toubilib\api\actions\ListerPraticiensAction;
 return function( \Slim\App $app):\Slim\App {
 
 
-
-    // $app->get('/', HomeAction::class);
-    $app->get('/praticiens', ListerPraticiensAction::class);
+    // $app->get('/praticiens',D::Class);
 
   
 

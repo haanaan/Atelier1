@@ -18,6 +18,12 @@ class ComposerStaticInit87abcad7be18aee8bafdb055e6b27f88
     );
 
     public static $prefixLengthsPsr4 = array (
+        'c' => 
+        array (
+            'charlymatloc\\infra\\' => 19,
+            'charlymatloc\\core\\' => 18,
+            'charlymatloc\\api\\' => 17,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php81\\' => 23,
@@ -54,7 +60,6 @@ class ComposerStaticInit87abcad7be18aee8bafdb055e6b27f88
         ),
         'G' => 
         array (
-            'Grp\\Charlymatloc\\' => 17,
             'GrahamCampbell\\ResultType\\' => 26,
         ),
         'F' => 
@@ -76,6 +81,18 @@ class ComposerStaticInit87abcad7be18aee8bafdb055e6b27f88
     );
 
     public static $prefixDirsPsr4 = array (
+        'charlymatloc\\infra\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/infrastructure',
+        ),
+        'charlymatloc\\core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/application_core',
+        ),
+        'charlymatloc\\api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/api',
+        ),
         'Symfony\\Polyfill\\Php81\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php81',
@@ -141,10 +158,6 @@ class ComposerStaticInit87abcad7be18aee8bafdb055e6b27f88
         'Invoker\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/invoker/src',
-        ),
-        'Grp\\Charlymatloc\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (
