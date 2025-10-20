@@ -8,7 +8,13 @@ class Reservation {
     private string $datefin;
     private string $montanttotal;
     private string $statut;
+    private Utilisateurs $utilisateur;
+    private array $outils;
 
+    public function getUtilisateur():Utilisateurs
+    {
+        return $this->utilisateur;
+    }
     public function getId():string
     {
         return $this->id;
@@ -28,5 +34,8 @@ class Reservation {
     public function getStatut():string
     {
         return $this->statut;
+    }
+    public function getOutils(): array {
+        return $this->outils;
     }
 }

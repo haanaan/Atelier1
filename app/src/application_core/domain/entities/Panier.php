@@ -4,14 +4,18 @@ namespace charlymatloc\core\application\entities;
 
 class Panier {
     private string $id;
-    private string $montant;
+    private Utilisateurs $utilisateur;
+    private array $outils;
 
     public function getId():string
     {
         return $this->id;
     }
-    public function getMontant():string
+    public function getUtilisateur():Utilisateurs
     {
-        return $this->montant;
+        return $this->utilisateur;
+    }
+    public function getOutils(): array {
+        return $this->outils;
     }
 }

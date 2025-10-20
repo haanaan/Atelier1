@@ -6,6 +6,7 @@ class Outils {
     private string $id;
     private string $nom;
     private string $description;
+    private string $montant;
     private string $image;
     private string $exemplaires;
     private Categorie $categorie;
@@ -21,6 +22,10 @@ class Outils {
     public function getDescription():string
     {
         return $this->description;
+    }
+    public function getMontant():string
+    {
+        return $this->montant;
     }
     public function getImage():string
     {
