@@ -1,0 +1,51 @@
+networks:
+  charlymatloc.net:
+    driver: bridge
+
+services:
+  # Backend: Slim PHP Application (with Apache)
+  api.charlymatloc:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Ensure Dockerfile for Slim is in place
+    ports:
+      - '6080:80'  # Expose backend service on port 6080
+    volumes:
+      - ./app:/var/php  # Mount local app directory to container
+    working_dir: /var/php
+    networks:
+      - charlymatloc.net
+    depends_on:
+      - charyoutils.db  # Ensure backend starts after DB is ready
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"  # Run Slim app
+
+  # PostgreSQL database for backend
+  charyoutils.db:
+    image: 'postgres:latest'
+    env_file: ./charyoutils.env  # Environment variables (DB credentials)
+    ports:
+      - '5432:5432'  # Expose database on port 5432
+    networks:
+      - charlymatloc.net
+    volumes:
+      - ./sql:/var/sql  # Mount SQL directory to initialize DB
+
+  # HTML frontend served by Apache
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend  # Use Dockerfile for Apache frontend setup
+    ports:
+      - "8080:80"  # Expose frontend on port 8080
+    volumes:
+      - ./html:/var/www/html  # Mount local HTML directory to Apache's default directory
+    networks:
+      - charlymatloc.net
+
+  # Adminer for SQL management
+  adminer:
+    image: adminer
+    ports:
+      - '8081:8080'  # Expose Adminer on port 8081 (different from frontend)
+    networks:
+      - charlymatloc.net

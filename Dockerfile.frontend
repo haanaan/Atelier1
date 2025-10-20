@@ -1,0 +1,17 @@
+# Use an official Apache image
+FROM php:8.4-apache
+
+# Install Apache if not already installed (usually comes pre-installed with PHP-Apache images)
+RUN apt-get update && apt-get install -y \
+    cron \
+    openssl \
+    && apt-get clean
+
+# Enable mod_rewrite (useful if you want clean URLs, etc.)
+RUN a2enmod rewrite
+
+# Copy HTML files to the Apache default directory
+COPY html/ /var/www/html/
+
+# Expose port 80 to access the frontend via the browser
+EXPOSE 80
