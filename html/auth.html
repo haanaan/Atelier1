@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentification | CharlyMatLoc</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+
+  <header>
+    <h1>CharlyMatLoc</h1>
+    <nav aria-label="Navigation principale">
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Catalogue</a></li>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!--Authentification -->
+    <section aria-labelledby="titre-auth">
+      <h2 id="titre-auth">Espace utilisateur</h2>
+
+      <nav aria-label="Choisir un formulaire">
+        <ul>
+          <li>
+            <button id="btn-login" type="button"
+              aria-controls="form-login"
+              aria-expanded="true"
+              onclick="toggleLogin()">Connexion</button>
+          </li>
+          <li>
+            <button id="btn-signup" type="button"
+              aria-controls="form-signup"
+              aria-expanded="false"
+              onclick="toggleSignup()">Inscription</button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Connexion -->
+      <article id="article-login" aria-labelledby="titre-login">
+        <header>
+          <h3 id="titre-login">Connexion</h3>
+        </header>
+
+        <form id="form-login" aria-describedby="aide-login" novalidate>
+          <fieldset>
+            <legend>Se connecter à votre compte</legend>
+
+            <label for="email-login">Adresse e-mail</label>
+            <input type="email" id="email-login" name="email" autocomplete="username" required>
+
+            <label for="password-login">Mot de passe</label>
+            <input type="password" id="password-login" name="password" autocomplete="current-password" required>
+
+            <button type="submit">Se connecter</button>
+          </fieldset>
+        </form>
+
+        <p id="aide-login">
+          Pas encore de compte ? <a href="#" onclick="toggleSignup()">Créez-en un ici</a>.
+        </p>
+      </article>
+
+      <!-- Inscription -->
+      <article id="article-signup" aria-labelledby="titre-signup" hidden>
+        <header>
+          <h3 id="titre-signup">Inscription</h3>
+        </header>
+
+        <form id="form-signup" aria-describedby="aide-signup" novalidate>
+          <fieldset>
+            <legend>Créer un compte utilisateur</legend>
+
+            <label for="nom-signup">Nom complet</label>
+            <input type="text" id="nom-signup" name="nom" required>
+
+            <label for="email-signup">Adresse e-mail</label>
+            <input type="email" id="email-signup" name="email" autocomplete="email" required>
+
+            <label for="password-signup">Mot de passe</label>
+            <input type="password" id="password-signup" name="password" autocomplete="new-password" required>
+
+            <button type="submit">Créer un compte</button>
+          </fieldset>
+        </form>
+
+        <p id="aide-signup">
+          Déjà inscrit ? <a href="#" onclick="toggleLogin()">Connectez-vous ici</a>.
+        </p>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CharlyMatLoc — Tous droits réservés.</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+
+</body>
+</html>
