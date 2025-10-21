@@ -1,3 +1,5 @@
+version: '3.8'
+
 networks:
   charlymatloc.net:
     driver: bridge
@@ -7,38 +9,87 @@ services:
   api.charlymatloc:
     build:
       context: .
-      dockerfile: Dockerfile  
+      dockerfile: Dockerfile
     ports:
-      - '6080:80'  
+      - '6080:80'  # Port exposé pour l'API Slim
     volumes:
-      - ./app:/var/php  
+      - ./app:/var/php
     working_dir: /var/php
     networks:
       - charlymatloc.net
     depends_on:
-      - charyoutils.db  
-    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public" 
+      - charyoutils.db  # Dépendance vers la base de données outils
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
-  # PostgreSQL database for backend
+  # PostgreSQL database for backend (outils)
   charyoutils.db:
     image: 'postgres:latest'
-    env_file: ./charyoutils.env  
+    env_file: ./charyoutils.env  # Chargement des variables d'environnement pour PostgreSQL
     ports:
-      - '5432:5432'  
+      - '5432:5432'  # Port exposé pour la base de données outils
     networks:
       - charlymatloc.net
     volumes:
-      - ./sql:/var/sql  
+      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+    environment:
+      POSTGRES_USER: charyoutils
+      POSTGRES_PASSWORD: charyoutils
+      POSTGRES_DB: charyoutils
+
+  # PostgreSQL database for backend (panier)
+  charypanier.db:
+    image: 'postgres:latest'
+    env_file: ./charypanier.env
+    ports:
+      - '5433:5432'  # Port exposé pour la base de données panier
+    networks:
+      - charlymatloc.net
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+    environment:
+      POSTGRES_USER: charypanier
+      POSTGRES_PASSWORD: charypanier
+      POSTGRES_DB: charypanier
+
+  # PostgreSQL database for backend (auth)
+  charyauth.db:
+    image: 'postgres:latest'
+    env_file: ./charyauth.env
+    ports:
+      - '5434:5432'  # Port exposé pour la base de données auth
+    networks:
+      - charlymatloc.net
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+    environment:
+      POSTGRES_USER: charyauth
+      POSTGRES_PASSWORD: charyauth
+      POSTGRES_DB: charyauth
+
+  # PostgreSQL database for backend (reservation)
+  charyreservation.db:
+    image: 'postgres:latest'
+    env_file: ./charyreservation.env
+    ports:
+      - '5435:5432'  # Port exposé pour la base de données reservation
+    networks:
+      - charlymatloc.net
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+    environment:
+      POSTGRES_USER: charyreservation
+      POSTGRES_PASSWORD: charyreservation
+      POSTGRES_DB: charyreservation
 
   # HTML frontend
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.frontend  
+      dockerfile: Dockerfile.frontend
     ports:
-      - "8080:80"  
+      - "8080:80"
     volumes:
-      - ./html:/var/www/html  
+      - ./html:/var/www/html
     networks:
       - charlymatloc.net
 
@@ -46,6 +97,6 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8081:8080'  
+      - '8081:8080'  # Adminer accessible sur le port 8081
     networks:
       - charlymatloc.net
