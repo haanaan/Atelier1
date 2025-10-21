@@ -1,5 +1,7 @@
 <?php
 
+use app\scr\api\application_core\application\useCase\OutilsService;
+use app\scr\api\application_core\application\useCase\OutilsServiceInterface;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\ObtenirOutilAction;
@@ -25,16 +27,20 @@ return [
 
         return new PDO($dsn, $user, $pass);
     },
-     PDOOutilsRepositoryInterface::class => function ($c) {
-        return new PDOOutilsRepository($c->get('charlyoutils_db')); 
+    PDOOutilsRepositoryInterface::class => function ($c) {
+        return new PDOOutilsRepository($c->get('charlyoutils_db'));
     },
 
-    // Services
-    
-    
-    // Actions
+    OutilsServiceInterface::class => function ($c) {
+        return new OutilsService($c->get(PDOOutilsRepositoryInterface::class));
+    },
+
     GetOutilsAction::class => function ($c) {
-        return new GetOutilsAction($c->get(ServiceOutilsInterface::class));
+        return new GetOutilsAction($c->get(OutilsServiceInterface::class));
+    },
+
+    ListerOutilsAction::class => function ($c) {
+        return new ListerOutilsAction($c->get(OutilsServiceInterface::class));
     },
 
 ];
