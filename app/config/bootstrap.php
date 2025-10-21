@@ -6,6 +6,7 @@ use DI\DependencyException;
 use DI\NotFoundException;
 use Dotenv\Dotenv;
 use Slim\Factory\AppFactory;
+use charlymatloc\api\middlewares\CorsMiddleware;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -44,5 +45,6 @@ $errorMw = $app->addErrorMiddleware(
 $errorMw->getDefaultErrorHandler()->forceContentType('application/json');
 
 $app = (require __DIR__ . '/../src/api/routes.php')($app);
+$app->add(new CorsMiddleware());
 
 return $app;
