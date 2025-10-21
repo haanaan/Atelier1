@@ -18,11 +18,8 @@ class OutilsService implements OutilsServiceInterface{
     }
 
     public function AfficheOutils(): array {
-<<<<<<< HEAD
         $outils = $this->outilsRepository->findAll();
-=======
         $outils = $this->outilsRepository->FindAll();
->>>>>>> 14df4787fca4b490f1507cfb1ede2d18354e2bc3
         $outilsDTO = [];
 
         foreach ($outils as $outil) {
