@@ -7,14 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let outilSelectionne = null;
 
     const showLoader = () => {
-        const loader = document.createElement('div');
-        loader.classList.add('loader');
-        document.body.appendChild(loader); 
+        const loader = document.getElementById('loader');
+        loader.style.display = 'block';
     }
 
     const hideLoader = () => {
-        const loader = document.querySelector('.loader');
-        if (loader) loader.remove(); 
+        const loader = document.getElementById('loader');
+        if (loader) loader.style.display = 'none';
     }
 
     const fetchOutils = async () => {
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Erreur lors de la récupération des outils:', error);
             alert("Une erreur est survenue lors du chargement des outils.");
         } finally {
-            hideLoader(); 
+            hideLoader();
         }
     };
 
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             article.innerHTML = `
               <img src="images/${outil.image}" alt="${outil.nom}">
-              <h2>${outil.nom}</h2>     
+              <h2>${outil.nom}</h2>
               <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
               <button class="btn-reserver" data-id="${outil.id}">Réserver</button>
             `;
@@ -132,5 +131,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500);
     };
 
-    fetchOutils();
+    fetchOutils(); 
 });

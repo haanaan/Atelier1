@@ -1,22 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catalogue</title>
-    <link rel="stylesheet" href="css/catalogue.css">
+    <link rel="stylesheet" href="css/catalogue.css" />
     <link rel="icon" type="image/png" href="images/Charly.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+    <style>
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 
 <body>
   <header>
     <nav class="navbar">
       <a href="#" class="brand">
-        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48">
+        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" />
         <span>CharlyMatLoc</span>
       </a>
       <ul>
@@ -35,28 +55,24 @@
       <p>Découvrez notre sélection d’outils pour vos travaux, rénovations et projets de bricolage.</p>
     </section>
 
-    <section class="catalogue" id="catalogue" aria-label="Catalogue d’outils">
+    <section class="catalogue" id="catalogue" aria-label="Catalogue d’outils"></section>
 
-
-    </section>
+    <div class="loader" id="loader"></div>
   </main>
+
 
   <footer>
     <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
   </footer>
-
-    <div id="calendrierModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3 id="outilTitre"></h3>
-      <label for="datePicker">Choisir un créneau :</label>
-      <input id="datePicker" type="text" placeholder="Sélectionnez la date et l'heure" />
-      <button id="confirmerBtn">Confirmer la réservation</button>
-    </div>
+<div id="calendrierModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span> 
+    <h3 id="outilTitre"></h3>
+    <label for="datePicker">Choisir un créneau :</label>
+    <input id="datePicker" type="text" placeholder="Sélectionnez la date et l'heure" />
+    <button id="confirmerBtn">Confirmer la réservation</button>
   </div>
-
-    <script src="js/catalogue.js"></script>
-  
-
+</div>
+  <script src="js/catalogue.js"></script>
 </body>
 </html>

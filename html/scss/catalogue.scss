@@ -273,3 +273,109 @@ footer {
     background: #dc2626;
   }
 }
+
+// PAGE FICHE OUTIL (intégrée)
+.detail {
+  max-width: 900px;
+  margin: 3rem auto;
+  background: $white;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+
+  h1 {
+    color: $accent;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  // Bloc d'infos
+  > div {
+    width: 100%;
+    max-width: 600px;
+
+    div {
+      margin: 0.6rem 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+
+      strong {
+        color: $text;
+        font-weight: 600;
+      }
+
+      span {
+        color: $muted;
+        text-align: right;
+      }
+    }
+  }
+
+  // Image
+  #image img {
+    max-width: 300px;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    margin: 1.5rem 0;
+  }
+
+  // Bouton panier
+  .btn-panier {
+    @include button-style($accent);
+    margin-top: 2rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Effet d’apparition
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .detail {
+    padding: 1.5rem;
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    > div div {
+      flex-direction: column;
+      align-items: flex-start;
+
+      strong,
+      span {
+        width: 100%;
+        text-align: left;
+      }
+    }
+
+    .btn-panier {
+      width: 100%;
+    }
+  }
+}
