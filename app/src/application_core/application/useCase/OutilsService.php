@@ -15,7 +15,7 @@ class OutilsService {
     }
 
     public function AfficheOutils(): array {
-        $outils = $this->outilsRepository->GetAllOutils();
+        $outils = $this->outilsRepository->findAll();
         $outilsDTO = [];
 
         foreach ($outils as $outil) {
@@ -31,7 +31,7 @@ class OutilsService {
 
     // 2️⃣ Récupérer un seul outil par ID (détail)
     public function AfficheById(string $id_p): DetailOutilDto {
-        $outil = $this->outilsRepository->GetOutil($id_p);
+        $outil = $this->outilsRepository->findbyId($id_p);
 
         if (!$outil) {
             throw new \Exception("Outil avec l'ID $id_p introuvable");
