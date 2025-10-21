@@ -6,11 +6,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use toubilib\api\actions\ListerPraticiensAction;
-use toubilib\core\application\ports\api\ServicePraticienInterface;
-use toubilib\core\application\ports\spi\repositoryInterfaces\PraticienRepositoryInterface;
-use toubilib\core\application\usecases\ServicePraticien;
-use toubilib\infra\repositories\PDOPraticienRepository;
 
 return [
     'settings' => [
@@ -74,23 +69,5 @@ return [
         ]);
     },
 
-    PraticienRepositoryInterface::class => static function ($c) {
-        return new PDOPraticienRepository(
-            $c->get('db.praticien'),
-            $c->get(LoggerInterface::class)
-        );
-    },
-
-    ServicePraticienInterface::class => static function ($c) {
-        return new ServicePraticien(
-            $c->get(PraticienRepositoryInterface::class)
-        );
-    },
-
-    ListerPraticiensAction::class => static function ($c) {
-        return new ListerPraticiensAction(
-            $c->get(ServicePraticienInterface::class)
-        );
-    },
 
 ];
