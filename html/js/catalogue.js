@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error("Erreur dans la récupération des outils.");
             }
             const outils = await response.json();
-            console.log(outils); 
             displayOutils(outils);
         } catch (error) {
             console.error('Erreur lors de la récupération des outils:', error);
@@ -45,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             article.innerHTML = `
               <img src="images/${outil.image}" alt="${outil.nom}">
-              <h2>${outil.nom}</h2>
+              <h2>${outil.nom}</h2>     
               <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
-              <button class="btn-reserver" data-outil="${outil.nom}">Réserver</button>
+              <button class="btn-reserver" data-id="${outil.id}">Réserver</button>
             `;
 
             catalogueSection.appendChild(article);
@@ -55,18 +54,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelectorAll('.btn-reserver').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const article = e.target.closest(".outil");
-
-                outilSelectionne = {
-                    nom: article.querySelector("h2").textContent.trim(),
-                    image: article.querySelector("img").getAttribute("src"),
-                    prix: article.querySelector(".prix").textContent.trim(),
-                };
-
-                outilTitre.textContent = "Réserver : " + outilSelectionne.nom;
-                modal.style.display = "flex";
+                const id = e.target.getAttribute('data-id');
+                fetchOutilDetails(id); 
             });
         });
+    };
+
+    const fetchOutilDetails = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:6080/api/outils/${id}`);
+            if (!response.ok) {
+                throw new Error("Erreur dans la récupération des détails de l'outil.");
+            }
+            const outil = await response.json();
+            showModal(outil); 
+        } catch (error) {
+            console.error('Erreur lors de la récupération des détails de l\'outil:', error);
+            alert("Une erreur est survenue lors du chargement des détails de l'outil.");
+        }
+    };
+
+    const showModal = (outil) => {
+        outilSelectionne = {
+            id: outil.id,
+            nom: outil.nom,
+            image: outil.image,
+            description: outil.description,
+            montant: outil.montant,
+            categorie: outil.categorie
+        };
+
+        outilTitre.textContent = "Réserver : " + outilSelectionne.nom;
+        document.getElementById("outilTitre").innerHTML = `
+            <h3>${outilSelectionne.nom}</h3>
+            <p>${outilSelectionne.description}</p>
+            <p><strong>Catégorie:</strong> ${outilSelectionne.categorie}</p>
+            <p><strong>Prix:</strong> ${outilSelectionne.montant} €/heure</p>
+        `;
+        modal.style.display = "flex";
     };
 
     const fp = flatpickr("#datePicker", {
@@ -85,9 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!date) return alert("Choisis une date d’abord 😅");
 
         const reservation = {
+            id: outilSelectionne.id,
             nom: outilSelectionne.nom,
             image: outilSelectionne.image,
-            prix: outilSelectionne.prix,
+            prix: outilSelectionne.montant,
             date: date,
             statut: "En attente ⏳",
         };
@@ -95,8 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let panier = JSON.parse(localStorage.getItem("panier")) || [];
         panier.push(reservation);
         localStorage.setItem("panier", JSON.stringify(panier));
-
-        console.log("✅ Panier actuel :", panier);
 
         alert(`✅ ${outilSelectionne.nom} ajouté au panier !`);
 

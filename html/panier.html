@@ -6,6 +6,9 @@
   <title>Votre Panier - CharlyMatLoc</title>
   <link rel="stylesheet" href="css/catalogue.css" />
   <link rel="icon" type="image/png" href="images/Charly.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
 </head>
 
 <body class="page-panier">
@@ -33,6 +36,7 @@
 
     <section class="catalogue" id="liste-panier">
 
+      
     </section>
 
     <section class="actions-panier">
@@ -55,5 +59,43 @@
   </footer>
 
   <script src="js/catalogue.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("liste-panier");
+    const panier = JSON.parse(localStorage.getItem("panier")) || [];
+
+    if (!panier || panier.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#555;">Aucune réservation pour le moment.</p>`;
+        return;
+    }
+
+    panier.forEach(item => {
+        const article = document.createElement("article");
+        article.className = "outil";
+        article.innerHTML = `
+            <img src="images/${item.image}" alt="${item.nom}">
+            <h2>${item.nom}</h2>
+            <p>Date de réservation : <strong>${new Date(item.date).toLocaleString()}</strong></p>
+            <p class="prix">${item.prix} €/heure</p>
+            <p class="stock">${item.statut}</p>
+        `;
+        container.appendChild(article);
+    });
+
+    document.getElementById("confirmerPanier").addEventListener("click", () => {
+        if (panier.length === 0) return alert("Panier vide 😅");
+        alert("✅ Panier confirmé !");
+        localStorage.removeItem("panier");
+        window.location.reload();
+    });
+
+    document.getElementById("viderPanier").addEventListener("click", () => {
+        if (confirm("Vider le panier ?")) {
+            localStorage.removeItem("panier");
+            window.location.reload();
+        }
+    });
+});
+  </script>
 </body>
 </html>

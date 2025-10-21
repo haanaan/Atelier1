@@ -23,6 +23,7 @@ class OutilsService implements OutilsServiceInterface{
 
         foreach ($outils as $outil) {
             $outilsDTO[] = new OutilCatalogue(
+                $outil->getId(),
                 $outil->getNom(),
                 $outil->getImage(),
                 $outil->getExemplaires()
@@ -40,6 +41,7 @@ class OutilsService implements OutilsServiceInterface{
         }
 
         return new DetailOutilDto(
+            $outil->getId(),
             $outil->getNom(),
             $outil->getDescription(),
             $outil->getImage(),
