@@ -7,9 +7,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class GetOutilsAction
 {
-    private OutilsRepositoryInterface $outilsRepository;
+    private PDOOutilsRepositoryInterface $outilsRepository;
 
-    public function __construct(OutilsRepositoryInterface $outilsRepository)
+    public function __construct(PDOOutilsRepositoryInterface $outilsRepository)
     {
         $this->outilsRepository = $outilsRepository;
     }
