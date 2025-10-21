@@ -1,0 +1,275 @@
+@use "sass:color";
+
+$bg: #f6f7fb;
+$white: #fff;
+$text: #1f2937;
+$muted: #6b7280;
+$accent: #ff7a1a;
+$shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+$radius: 10px;
+$gap: 2rem;
+
+@mixin grid($min) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
+  gap: $gap;
+}
+
+@mixin flex-center($justify: center, $align: center, $gap: 0) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+}
+
+@mixin button-style($bg-color) {
+  background: $bg-color;
+  color: $white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: color.adjust($bg-color, $lightness: -8%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  color: $text;
+  background: $bg;
+  line-height: 1.5;
+}
+
+header {
+  background: $white;
+  box-shadow: $shadow;
+  padding: 1rem 2rem;
+}
+
+.navbar {
+  @include flex-center(space-between, center);
+
+  .brand {
+    @include flex-center(flex-start, center, 0.6rem);
+    font-weight: 700;
+    color: $accent;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+
+  ul {
+    list-style: none;
+    @include flex-center(flex-end, center, 1rem);
+
+    a {
+      text-decoration: none;
+      color: $text;
+      font-weight: 500;
+      transition: 0.2s;
+
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+}
+
+.intro {
+  text-align: center;
+  margin: 2rem 0;
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $muted;
+  }
+}
+
+.catalogue {
+  @include grid(260px);
+  padding: 2rem;
+}
+
+.outil {
+  background: $white;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+  text-align: center;
+  padding-bottom: 1rem;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    color: $text;
+    margin: 0.8rem 0 0.4rem;
+  }
+
+  p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+    color: $muted;
+  }
+
+  .prix {
+    color: $accent;
+    font-weight: 600;
+  }
+
+  .stock {
+    color: $text;
+    font-size: 0.9rem;
+  }
+}
+
+.btn-reserver {
+  @include button-style($accent);
+  margin-top: 0.5rem;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: $white;
+  border-radius: $radius;
+  padding: 2rem;
+  width: 320px;
+  box-shadow: $shadow;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+
+  label {
+    display: block;
+    margin: 1rem 0 0.4rem;
+    color: $text;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  button {
+    margin-top: 1rem;
+    @include button-style($accent);
+  }
+
+  .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 1.5rem;
+    color: $muted;
+    cursor: pointer;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: $muted;
+  font-size: 0.9rem;
+}
+
+.actions-panier {
+  margin: 2rem 0 3rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn-secondaire {
+  background: #e5e7eb;
+  color: #1f2937;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #d1d5db;
+  }
+}
+
+.btn-confirmer {
+  background: #ff7a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #e96d15;
+  }
+}
+
+.btn-supprimer {
+  background: #f87171;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+
+  &:hover {
+    background: #dc2626;
+  }
+}

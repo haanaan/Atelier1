@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votre Panier - CharlyMatLoc</title>
+  <link rel="stylesheet" href="css/catalogue.css" />
+  <link rel="icon" type="image/png" href="images/Charly.png" />
+</head>
+
+<body class="page-panier">
+  <header>
+    <nav class="navbar">
+      <a href="catalogue.html" class="brand">
+        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" />
+        <span>CharlyMatLoc</span>
+      </a>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="panier.html" class="active">Panier</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Mon panier de réservations</h1>
+      <p>Voici les outils que vous avez sélectionnés avec leur date et statut.</p>
+    </section>
+
+    <section class="catalogue" id="liste-panier">
+
+    </section>
+
+    <section class="actions-panier">
+      <button class="btn-secondaire" onclick="window.location.href='catalogue.html'">
+        ➕ Continuer mes réservations
+      </button>
+
+      <button class="btn-confirmer" id="confirmerPanier">
+        ✅ Confirmer mon panier
+      </button>
+
+      <button class="btn-secondaire" id="viderPanier">
+        🗑️ Vider le panier
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
+  </footer>
+
+  <script src="js/catalogue.js"></script>
+</body>
+</html>
