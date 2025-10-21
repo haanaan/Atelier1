@@ -5,101 +5,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue</title>
     <link rel="stylesheet" href="css/catalogue.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+
 </head>
 
 <body>
-    <header class="site-header">
-        <nav class="navbar">
-            <a href="catalogue.html" class="brand">
-                <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48">
-                <span class="brand-title">CharlyMatLoc</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="categorie.html">Catalogue</a></li>
-                <li><a href="panier.html">Panier</a></li>
-                <li><a href="apropos.html">À propos</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="navbar">
+      <a href="#" class="brand">
+        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48">
+        <span>CharlyMatLoc</span>
+      </a>
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Catalogue</a></li>
+        <li><a href="#">Panier</a></li>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main class="main-content">
+  <main>
     <section class="intro">
-      <h1>Nos outils disponibles</h1>
-      <p>Découvrez tout notre matériel de bricolage et de location.</p>
+      <h1>Nos outils disponibles à la location</h1>
+      <p>Découvrez notre sélection d’outils pour vos travaux, rénovations et projets de bricolage.</p>
     </section>
-<section class="catalogue" aria-label="Catalogue d’outils">
-      <div class="card">
-        <img src="images/Marteau.jpg" alt="Marteau" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Marteau</h2>
-          <p class="card-desc">Marteau en acier avec un manche en bois pour travaux de réparation.</p>
-          <p class="card-price">15 € / jour</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
 
-      <div class="card">
-        <img src="images/Tournevis.jpg" alt="Tournevis" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Tournevis</h2>
-          <p class="card-desc">Tournevis avec embouts interchangeables pour vissage et dévissage.</p>
-          <p class="card-price">10 € / jour</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
+    <section class="catalogue" aria-label="Catalogue d’outils">
 
-      <div class="card">
-        <img src="images/Scie.jpg" alt="Scie à main" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Scie à main</h2>
-          <p class="card-desc">Scie à main avec une lame en acier pour couper du bois.</p>
-          <p class="card-price">25 € / heure</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
+      <article class="outil">
+        <img src="images/perceuse.jpg" alt="Perceuse sans fil 14.4V">
+        <h2>Perceuse sans fil 14.4V</h2>
+        <p>Compacte, légère et performante, idéale pour vos travaux de bricolage.</p>
+        <p class="prix">7,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Perceuse sans fil 14.4V">Réserver</button>
+      </article>
 
-      <div class="card">
-        <img src="images/Perceuse.jpg" alt="Perceuse électrique" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Perceuse électrique</h2>
-          <p class="card-desc">Perceuse sans fil avec plusieurs vitesses et perceuses.</p>
-          <p class="card-price">15 € / heure</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
+      <article class="outil">
+        <img src="images/scie.jpg" alt="Scie circulaire PRO 1600W">
+        <h2>Scie circulaire PRO 1600W</h2>
+        <p>Scie rapide et précise pour découper planches et panneaux.</p>
+        <p class="prix">10,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Scie circulaire PRO 1600W">Réserver</button>
+      </article>
 
-      <div class="card">
-        <img src="images/Pince.jpg" alt="Pince coupante" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Pince coupante</h2>
-          <p class="card-desc">Pince coupante en acier inoxydable pour couper des fils.</p>
-          <p class="card-price">12 € / heure</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
+      <article class="outil">
+        <img src="images/rouleau.jpg" alt="Rouleau de peinture">
+        <h2>Rouleau de peinture</h2>
+        <p>Rouleau pratique pour peindre murs et plafonds avec recharges incluses.</p>
+        <p class="prix">4,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Rouleau de peinture">Réserver</button>
+      </article>
 
-      <div class="card">
-        <img src="images/Pince_multiprise.jpg" alt="Pince multiprise" class="card-img">
-        <div class="card-content">
-          <h2 class="card-title">Pince multiprise</h2>
-          <p class="card-desc">Pince multiprise en acier pour saisir des objets de différentes tailles.</p>
-          <p class="card-price">18 € / heure</p>
-          <p class="card-stock">Exemplaires disponibles : <strong>1</strong></p>
-          <button class="btn">Voir le détail</button>
-        </div>
-      </div>
+      <article class="outil">
+        <img src="images/nettoyeur.webp" alt="Nettoyeur haute pression 1800W">
+        <h2>Nettoyeur haute pression 1800W</h2>
+        <p>Puissant nettoyeur pour terrasses, façades et véhicules.</p>
+        <p class="prix">10,25 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Nettoyeur haute pression 1800W">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/tournevis.jpg" alt="Coffret tournevis & douilles">
+        <h2>Coffret tournevis & douilles</h2>
+        <p>Set complet de 21 pièces pour vos réparations domestiques.</p>
+        <p class="prix">2,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Coffret tournevis & douilles">Réserver</button>
+
+      </article>
+
+      <article class="outil">
+        <img src="images/Pince-multiprise.webp" alt="Pince multiprise">
+        <h2>Pince multiprise</h2>
+        <p>Pince solide et réglable pour saisir des objets de tailles variées.</p>
+        <p class="prix">3,80 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Pince multiprise">Réserver</button>
+
+      </article>
+
+      <article class="outil">
+        <img src="images/aspi.jpg" alt="Aspirateur industriel 2000W">
+        <h2>Aspirateur industriel 2000W</h2>
+        <p>Idéal pour les chantiers : aspire poussières, liquides et gravats.</p>
+        <p class="prix">8,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Aspirateur industriel 2000W">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/cle.webp" alt="Clé à molette universelle">
+        <h2>Clé à molette universelle</h2>
+        <p>Outil robuste pour serrer ou desserrer tous types d’écrous.</p>
+        <p class="prix">2,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Clé à molette universelle">Réserver</button>
+
+      </article>
+
+      <article class="outil">
+        <img src="images/marteau.jpg" alt="Marteau acier">
+        <h2>Marteau acier</h2>
+        <p>Marteau ergonomique, tête en acier trempé pour bricolage quotidien.</p>
+        <p class="prix">1,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Marteau acier">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/ponceuse.webp" alt="Ponceuse orbitale">
+        <h2>Ponceuse orbitale</h2>
+        <p>Idéale pour les finitions et le ponçage de grandes surfaces.</p>
+        <p class="prix">6,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Ponceuse orbitale">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/perforateur.webp" alt="Perforateur SDS+">
+        <h2>Perforateur SDS+</h2>
+        <p>Pour percer le béton, la pierre et les matériaux durs facilement.</p>
+        <p class="prix">8,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Perforateur SDS+">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/visseuse.webp" alt="Visseuse électrique">
+        <h2>Visseuse électrique</h2>
+        <p>Compacte et rapide, idéale pour le montage de meubles.</p>
+        <p class="prix">5,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Visseuse électrique">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/metre.webp" alt="Mètre ruban 5m">
+        <h2>Mètre ruban 5m</h2>
+        <p>Mesurez avec précision vos surfaces de travail.</p>
+        <p class="prix">1,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Mètre ruban 5m">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/niveau.jpg" alt="Niveau à bulle">
+        <h2>Niveau à bulle</h2>
+        <p>Assurez la parfaite horizontalité ou verticalité de vos poses.</p>
+        <p class="prix">1,20 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Niveau à bulle">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/ech.jpg" alt="Échelle aluminium">
+        <h2>Échelle aluminium</h2>
+        <p>Solide et légère pour vos travaux en hauteur.</p>
+        <p class="prix">12,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Échelle aluminium">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/betonniere.jpeg" alt="Bétonnière électrique">
+        <h2>Bétonnière électrique</h2>
+        <p>Préparez vos mélanges de ciment ou mortier rapidement.</p>
+        <p class="prix">18,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Bétonnière électrique">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/lampe.jpg" alt="Lampe de chantier LED">
+        <h2>Lampe de chantier LED</h2>
+        <p>Éclairage puissant, stable et écoénergétique.</p>
+        <p class="prix">3,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Lampe de chantier LED">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/casque.jpg" alt="Casque de sécurité">
+        <h2>Casque de sécurité</h2>
+        <p>Protégez-vous efficacement sur vos chantiers.</p>
+        <p class="prix">0,80 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Casque de sécurité">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/gants.jpg" alt="Gants de protection">
+        <h2>Gants de protection</h2>
+        <p>Souples et résistants, adaptés à tous types de travaux.</p>
+        <p class="prix">0,50 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Gants de protection">Réserver</button>
+      </article>
+
+      <article class="outil">
+        <img src="images/truelle.jpg" alt="Truelle de maçon">
+        <h2>Truelle de maçon</h2>
+        <p>Outil essentiel pour la pose de mortier et la maçonnerie.</p>
+        <p class="prix">1,00 € / heure</p>
+        <p class="stock">Exemplaires disponibles : 1</p>
+        <button class="btn-reserver" data-outil="Truelle de maçon">Réserver</button>
+      </article>
+
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer>
     <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
   </footer>
+
+    <div id="calendrierModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="outilTitre"></h3>
+      <label for="datePicker">Choisir un créneau :</label>
+      <input id="datePicker" type="text" placeholder="Sélectionnez la date et l'heure" />
+      <button id="confirmerBtn">Confirmer la réservation</button>
+    </div>
+  </div>
+
+    <script src="js/catalogue.js"></script>
+
 </body>
 </html>
