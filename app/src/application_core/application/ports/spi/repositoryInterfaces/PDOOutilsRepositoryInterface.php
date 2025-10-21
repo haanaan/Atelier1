@@ -8,4 +8,5 @@ interface PDOOutilsRepositoryInterface
 {
     public function GetAllOutils(): array;
     public function GetOutil(string $id_p): Outils;
+    
 }
