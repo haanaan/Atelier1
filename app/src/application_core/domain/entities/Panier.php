@@ -1,5 +1,5 @@
 <?php
-namespace charlymatloc\core\application\entities;
+namespace charlymatloc\core\domain\entities;
 
 
 class Panier {

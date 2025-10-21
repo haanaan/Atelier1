@@ -1,4 +1,12 @@
 <?php
+
+use charlymatloc\api\actions\ListerOutilsAction;
+use charlymatloc\api\actions\ObtenirOutilAction;
+use charlymatloc\core\application\ports\api\ServiceOutilsInterface;
+use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
+use charlymatloc\core\application\usecases\ServiceOutils;
+use charlymatloc\infra\repositories\PDOOutilsRepository;
+
 return [
     // Connexion PDO
     'charlyoutils_db' => static function ($c): PDO {
@@ -16,4 +24,21 @@ return [
 
         return new PDO($dsn, $user, $pass);
     },
+     PDOOutilsRepositoryInterface::class => function ($c) {
+        return new PDOOutilsRepository($c->get('charlyoutils_db')); 
+    },
+
+    // Services
+    ServiceOutilsInterface::class => function ($c) {
+        return new ServiceOutils($c->get(PDOOutilsRepositoryInterface::class));
+    },
+        // Actions
+    ListerOutilsAction::class => function ($c) {
+        return new ListerOutilsAction($c->get(ServiceOutilsInterface::class));
+    },
+
+    ObtenirOutilAction::class => function ($c) {
+        return new ObtenirOutilAction($c->get(ServiceOutilsInterface::class));
+    },
+
 ];

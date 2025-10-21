@@ -12,6 +12,7 @@ $dotenv->load();
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(__DIR__ . '/settings.php');
+$builder->addDefinitions(__DIR__ . '/services.php');
 
 try {
     $c = $builder->build();
