@@ -1,11 +1,16 @@
 <?php
 
 use charlymatloc\api\actions\GetOutilsAction;
+use charlymatloc\api\actions\GetPanierAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
+use charlymatloc\core\application\ports\api\PanierServiceInterface;
+use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
 use charlymatloc\core\application\usecases\OutilsService;
+use charlymatloc\core\application\usecases\PanierService;
 use charlymatloc\infra\repositories\PDOOutilsRepository;
+use charlymatloc\infra\repositories\PDOPanierRepository;
 
 return [
     // Connexion PDO
@@ -38,6 +43,18 @@ return [
 
     ListerOutilsAction::class => function ($c) {
         return new ListerOutilsAction($c->get(OutilsServiceInterface::class));
+    },
+
+    PanierRepositoryInterface::class => function ($c) {
+        return new PDOPanierRepository($c->get('charlyoutils_db'));  // Assurez-vous que le repo existe
+    },
+
+    PanierServiceInterface::class => function ($c) {
+        return new PanierService($c->get(PanierRepositoryInterface::class));  // Injection du repository dans le service
+    },
+
+    GetPanierAction::class => function ($c) {
+        return new GetPanierAction($c->get(PanierServiceInterface::class));  // Injection du service dans l'action
     },
 
 ];
