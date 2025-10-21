@@ -6,7 +6,7 @@ use charlymatloc\core\domain\entities\Outils;
 
 interface PDOOutilsRepositoryInterface
 {
-    public function findAll(): array;
-    public function findbyId(string $id_p): Outils;
+    public function FindAll(): array;
+    public function FindbyId(string $id_p): Outils;
 
 }
