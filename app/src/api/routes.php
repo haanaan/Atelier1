@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\GetOutilsAction;
+use charlymatloc\api\actions\GetPanierAction;
 
 return function (\Slim\App $app): \Slim\App {
 
@@ -17,6 +18,7 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->get('/outils', ListerOutilsAction::class);
     $app->get('/outils/{id}', GetOutilsAction::class);
+    $app->get('/panier/{id}', GetPanierAction::class);
 
 
 
