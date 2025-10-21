@@ -45,6 +45,10 @@ header nav ul a:hover {
   color: #ff7a00;
 }
 
+header:has(> h3) {
+  justify-content: center;
+}
+
 /* SECTION AUTHENTIFICATION */
 main {
   display: flex;

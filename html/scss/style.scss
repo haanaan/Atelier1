@@ -45,9 +45,6 @@ body {
   line-height: 1.6;
 }
 
-.titre-signup{
-  text-align: center;
-}
 
 /* HEADER */
 header {
@@ -62,6 +59,7 @@ header {
   h1 {
     font-size: 1.4rem;
     color: $orange;
+    
   }
 
   nav ul {
@@ -79,6 +77,10 @@ header {
       }
     }
   }
+}
+
+header:has( > h3){
+  justify-content: center;
 }
 
 /* SECTION AUTHENTIFICATION */
