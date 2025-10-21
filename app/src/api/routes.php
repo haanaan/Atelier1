@@ -9,7 +9,6 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->get('/api/outils/{id}', GetOutilsAction::class);
     $app->get('/api/panier/{id}', GetPanierAction::class);
-
     return $app;
 };
 

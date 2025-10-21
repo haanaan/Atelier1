@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             article.innerHTML = `
               <img src="images/${outil.image}" alt="${outil.nom}">
-              <h2>${outil.nom}</h2>
+              <a style='text-decoration:none;' href="detailOutil.html?id=${outil.id}"><h2>${outil.nom}</h2></a>
               <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
               <button class="btn-reserver" data-id="${outil.id}">Réserver</button>
             `;
