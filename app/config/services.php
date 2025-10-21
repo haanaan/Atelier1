@@ -1,5 +1,6 @@
 <?php
 
+use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\ObtenirOutilAction;
 use charlymatloc\core\application\ports\api\ServiceOutilsInterface;
@@ -29,16 +30,11 @@ return [
     },
 
     // Services
-    ServiceOutilsInterface::class => function ($c) {
-        return new ServiceOutils($c->get(PDOOutilsRepositoryInterface::class));
-    },
-        // Actions
-    ListerOutilsAction::class => function ($c) {
-        return new ListerOutilsAction($c->get(ServiceOutilsInterface::class));
-    },
-
-    ObtenirOutilAction::class => function ($c) {
-        return new ObtenirOutilAction($c->get(ServiceOutilsInterface::class));
+    
+    
+    // Actions
+    GetOutilsAction::class => function ($c) {
+        return new GetOutilsAction($c->get(ServiceOutilsInterface::class));
     },
 
 ];

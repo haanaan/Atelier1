@@ -8,13 +8,13 @@ use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsReposi
 use Exception;
 class PDOOutilsRepository implements PDOOutilsRepositoryInterface
 {
-    private \PDO $pdo;
+    private \PDO $pdo; 
 
     public function __construct(\PDO $pdo) {
         $this->pdo = $pdo;
     }
 
-    public function GetAllOutils(): array {
+    public function FindAll(): array {
         try {
             $statement = $this->pdo->prepare("
                 SELECT o.id, o.nom, o.description, o.montant, o.image, o.exemplaires, 
@@ -47,7 +47,7 @@ class PDOOutilsRepository implements PDOOutilsRepositoryInterface
         }
     }
 
-    public function GetOutil(string $id_p): Outils {
+    public function findbyId(string $id_p): Outils {
         try {
             $statement = $this->pdo->prepare("
                 SELECT o.id, o.nom, o.description, o.montant, o.image, o.exemplaires, 
