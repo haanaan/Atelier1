@@ -9,27 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
-    <style>
-        .loader {
-            display: none;
-            border: 4px solid #f3f3f3; 
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
 </head>
 
 <body>
@@ -56,57 +36,27 @@
     </section>
 
     <section class="catalogue" id="catalogue" aria-label="Catalogue d’outils">
-    </section>
 
-    <div class="loader" id="loader"></div>
+
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
   </footer>
 
-  <script src="js/catalogue.js"></script>
-  <script>
-    const fetchOutils = async () => {
-      const loader = document.getElementById('loader');
-      const catalogueSection = document.getElementById('catalogue');
+    <div id="calendrierModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="outilTitre"></h3>
+      <label for="datePicker">Choisir un créneau :</label>
+      <input id="datePicker" type="text" placeholder="Sélectionnez la date et l'heure" />
+      <button id="confirmerBtn">Confirmer la réservation</button>
+    </div>
+  </div>
 
-      loader.style.display = 'block';
+    <script src="js/catalogue.js"></script>
+  
 
-      try {
-        const response = await fetch('http://localhost:6080/api/outils');
-        const outils = await response.json();
-        
-        loader.style.display = 'none';
-
-        displayOutils(outils);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des outils:', error);
-        loader.style.display = 'none';  
-      }
-    };
-
-    const displayOutils = (outils) => {
-      const catalogueSection = document.getElementById('catalogue');
-
-      outils.forEach(outil => {
-        const article = document.createElement('article');
-        article.classList.add('outil');
-        
-        article.innerHTML = `
-          <img src="images/${outil.image}" alt="${outil.nom}">
-          <h2>${outil.nom}</h2>
-          <p>${outil.description}</p>
-          <p class="prix">${outil.montant} € / heure</p>
-          <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
-          <button class="btn-reserver" data-outil="${outil.nom}">Réserver</button>
-        `;
-
-        catalogueSection.appendChild(article);
-      });
-    };
-
-    fetchOutils();
-  </script>
 </body>
 </html>
