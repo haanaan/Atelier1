@@ -8,8 +8,8 @@ return function (\Slim\App $app): \Slim\App {
     $app->get('/api/outils', ListerOutilsAction::class);
 
     $app->get('/api/outils/{id}', GetOutilsAction::class);
-    $app->get('/panier/{id}', GetPanierAction::class);
-    
+    $app->get('/api/panier/{id}', GetPanierAction::class);
+
     return $app;
 };
 
