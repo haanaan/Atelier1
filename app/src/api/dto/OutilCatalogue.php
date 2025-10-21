@@ -1,5 +1,5 @@
 <?php
-namespace src\api\dto;
+namespace charlymatloc\api\dto;
 
 class OutilCatalogue
 {

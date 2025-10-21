@@ -1,13 +1,10 @@
 <?php
 
-use app\scr\api\application_core\application\useCase\OutilsService;
-use app\scr\api\application_core\application\useCase\OutilsServiceInterface;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\ListerOutilsAction;
-use charlymatloc\api\actions\ObtenirOutilAction;
-use charlymatloc\core\application\ports\api\ServiceOutilsInterface;
+use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
-use charlymatloc\core\application\usecases\ServiceOutils;
+use charlymatloc\core\application\usecases\OutilsService;
 use charlymatloc\infra\repositories\PDOOutilsRepository;
 
 return [

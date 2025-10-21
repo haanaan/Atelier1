@@ -24,7 +24,7 @@ try {
 AppFactory::setContainer($c);
 $app = AppFactory::create();
 
-$app->addBodyParsingMiddleware();
+
 $app->addRoutingMiddleware();
 
 try {

@@ -1,15 +1,17 @@
 <?php
 
-namespace app\scr\api\application_core\application\useCase;
+namespace charlymatloc\core\application\usecases;
 
-use charlymatloc\core\application\ports\api\ServiceOutilsInterface;
+use charlymatloc\api\dto\DetailOutilDto;
+use charlymatloc\api\dto\OutilCatalogue;
+use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\infra\repositories\PDOOutilsRepository;
-use src\api\dto\DetailOutilDto;
-use src\api\dto\OutilCatalogue;
 
 
 
-class OutilsService implements OutilsServiceInterface {
+
+
+class OutilsService implements OutilsServiceInterface{
     private PDOOutilsRepository $outilsRepository;
     public function __construct( PDOOutilsRepository $outilsRepository) {
         $this->outilsRepository=$outilsRepository;
@@ -23,7 +25,7 @@ class OutilsService implements OutilsServiceInterface {
             $outilsDTO[] = new OutilCatalogue(
                 $outil->getNom(),
                 $outil->getImage(),
-                $outil->getNombreExemplaires()
+                $outil->getExemplaires()
             );
         }
 
@@ -41,7 +43,8 @@ class OutilsService implements OutilsServiceInterface {
             $outil->getNom(),
             $outil->getDescription(),
             $outil->getImage(),
-            $outil->getCategorie()->getNom() 
+            $outil->getCategorie()->getNom() ,
+            $outil->getMontant()
         );
     }
 }

@@ -8,7 +8,7 @@ class Outils {
     private string $description;
     private string $montant;
     private string $image;
-    private string $exemplaires;
+    private int $exemplaires;
     private Categorie $categorie;
 
     public function __construct(
@@ -17,7 +17,7 @@ class Outils {
         string $description,
         string $montant,
         string $image,
-        string $exemplaires,
+        int $exemplaires,
         Categorie $categorie
     ) {
         $this->id = $id;
@@ -34,6 +34,6 @@ class Outils {
     public function getDescription(): string { return $this->description; }
     public function getMontant(): string { return $this->montant; }
     public function getImage(): string { return $this->image; }
-    public function getExemplaires(): string { return $this->exemplaires; }
+    public function getExemplaires(): int { return $this->exemplaires; }
     public function getCategorie(): Categorie { return $this->categorie; }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\scr\api\application_core\application\useCase;
+namespace charlymatloc\core\application\ports\api;
 
-use src\api\dto\DetailOutilDto;
+use charlymatloc\api\dto\DetailOutilDto;
 
 interface OutilsServiceInterface {
     public function AfficheOutils(): array;
