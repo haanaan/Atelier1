@@ -6,15 +6,19 @@ use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
+use charlymatloc\core\application\ports\api\ReservationServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
+use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationRepositoryInterface;
 use charlymatloc\core\application\usecases\OutilsService;
 use charlymatloc\core\application\usecases\PanierService;
-use charlymatloc\infra\repositories\PDOOutilsRepository;
-use charlymatloc\infra\repositories\PDOPanierRepository;
+use charlymatloc\core\application\usecases\ReservationService;
+use charlymatloc\infrastructure\repositories\PDOOutilsRepository;
+use charlymatloc\infrastructure\repositories\PDOPanierRepository;
+use charlymatloc\infra\repositories\PDOReservationRepository;
 
 return [
-    // Connexion PDO
+
     'charlyoutils_db' => static function ($c): PDO {
         $dbConfig = $c->get('settings')['charly_db'];
         $driver = $dbConfig['driver'] ?? 'pgsql';
@@ -30,36 +34,41 @@ return [
 
         return new PDO($dsn, $user, $pass);
     },
-    PDOOutilsRepositoryInterface::class => function ($c) {
-        return new PDOOutilsRepository($c->get('charlyoutils_db'));
-    },
 
-    OutilsServiceInterface::class => function ($c) {
-        return new OutilsService($c->get(PDOOutilsRepositoryInterface::class));
-    },
+    // 🧰 OUTILS
+    PDOOutilsRepositoryInterface::class => fn($c) =>
+        new PDOOutilsRepository($c->get('charlyoutils_db')),
 
-    GetOutilsAction::class => function ($c) {
-        return new GetOutilsAction($c->get(OutilsServiceInterface::class));
-    },
+    OutilsServiceInterface::class => fn($c) =>
+        new OutilsService($c->get(PDOOutilsRepositoryInterface::class)),
 
-    ListerOutilsAction::class => function ($c) {
-        return new ListerOutilsAction($c->get(OutilsServiceInterface::class));
-    },
+    GetOutilsAction::class => fn($c) =>
+        new GetOutilsAction($c->get(OutilsServiceInterface::class)),
 
-    PanierRepositoryInterface::class => function ($c) {
-        return new PDOPanierRepository($c->get('charlyoutils_db'));  
-    },
+    ListerOutilsAction::class => fn($c) =>
+        new ListerOutilsAction($c->get(OutilsServiceInterface::class)),
 
-    PanierServiceInterface::class => function ($c) {
-        return new PanierService($c->get(PanierRepositoryInterface::class));  
-    },
+    // 🛒 PANIER
+    PanierRepositoryInterface::class => fn($c) =>
+        new PDOPanierRepository($c->get('charlyoutils_db')),
 
-    GetPanierAction::class => function ($c) {
-        return new GetPanierAction($c->get(PanierServiceInterface::class)); 
-    },
+    PanierServiceInterface::class => fn($c) =>
+        new PanierService($c->get(PanierRepositoryInterface::class)),
 
-    InscriptionAction::class => function ($c) {
-        return new InscriptionAction($c->get(\charlymatloc\core\application\usecases\RegisterUserService::class));
-    },
+    GetPanierAction::class => fn($c) =>
+        new GetPanierAction($c->get(PanierServiceInterface::class)),
 
+    // 👤 INSCRIPTION
+    InscriptionAction::class => fn($c) =>
+        new InscriptionAction($c->get(\charlymatloc\core\application\usecases\RegisterUserService::class)),
+
+    // 📅 RÉSERVATION
+    PDOReservationRepositoryInterface::class => fn($c) =>
+        new PDOReservationRepository($c->get('charlyoutils_db')),
+
+    ReservationServiceInterface::class => fn($c) =>
+        new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
+
+    // Alias DB
+    'db' => static fn($c): PDO => $c->get('charlyoutils_db'),
 ];
