@@ -4,18 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Votre Panier - CharlyMatLoc</title>
-  <link rel="stylesheet" href="css/catalogue.css" />
+  <link rel="stylesheet" href="css/cataloguess.css" />
+  <link rel="stylesheet" href="css/panier.css" />
   <link rel="icon" type="image/png" href="images/Charly.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
-</head>
+  </head>
 
 <body class="page-panier">
   <header>
     <nav class="navbar">
       <a href="catalogue.html" class="brand">
-        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" />
+        <!-- <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" /> -->
         <span>CharlyMatLoc</span>
       </a>
       <ul>
@@ -34,22 +32,22 @@
       <p>Voici les outils que vous avez sélectionnés avec leur date et statut.</p>
     </section>
 
-    <section class="catalogue" id="liste-panier">
+    <section id="liste-panier">
 
       
     </section>
 
     <section class="actions-panier">
       <button class="btn-secondaire" onclick="window.location.href='catalogue.html'">
-        ➕ Continuer mes réservations
+         Continuer mes réservations
       </button>
 
       <button class="btn-confirmer" id="confirmerPanier">
-        ✅ Confirmer mon panier
+         Confirmer mon panier
       </button>
 
       <button class="btn-secondaire" id="viderPanier">
-        🗑️ Vider le panier
+        Vider le panier
       </button>
     </section>
   </main>
@@ -58,44 +56,6 @@
     <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
   </footer>
 
-  <script src="js/catalogue.js"></script>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("liste-panier");
-    const panier = JSON.parse(localStorage.getItem("panier")) || [];
-
-    if (!panier || panier.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#555;">Aucune réservation pour le moment.</p>`;
-        return;
-    }
-
-    panier.forEach(item => {
-        const article = document.createElement("article");
-        article.className = "outil";
-        article.innerHTML = `
-            <img src="images/${item.image}" alt="${item.nom}">
-            <h2>${item.nom}</h2>
-            <p>Date de réservation : <strong>${new Date(item.date).toLocaleString()}</strong></p>
-            <p class="prix">${item.prix} €/heure</p>
-            <p class="stock">${item.statut}</p>
-        `;
-        container.appendChild(article);
-    });
-
-    document.getElementById("confirmerPanier").addEventListener("click", () => {
-        if (panier.length === 0) return alert("Panier vide 😅");
-        alert("✅ Panier confirmé !");
-        localStorage.removeItem("panier");
-        window.location.reload();
-    });
-
-    document.getElementById("viderPanier").addEventListener("click", () => {
-        if (confirm("Vider le panier ?")) {
-            localStorage.removeItem("panier");
-            window.location.reload();
-        }
-    });
-});
-  </script>
+  <script src="js/panier.js"></script>
 </body>
 </html>
