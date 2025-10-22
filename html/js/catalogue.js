@@ -93,13 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "flex";
     };
 
-    const fp = flatpickr("#datePicker", {
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-        minDate: "today",
-        locale: flatpickr.l10ns.fr,
-        time_24hr: true
-    });
+
 
     closeBtn.onclick = () => (modal.style.display = "none");
     window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
@@ -121,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
         panier.push(reservation);
         localStorage.setItem("panier", JSON.stringify(panier));
 
-        alert(`✅ ${outilSelectionne.nom} ajouté au panier !`);
 
         modal.style.display = "none";
         fp.clear();
