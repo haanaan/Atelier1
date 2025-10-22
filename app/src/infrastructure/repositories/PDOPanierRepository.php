@@ -1,5 +1,5 @@
 <?php
-namespace charlymatloc\infrastructure\repositories;
+namespace charlymatloc\infra\repositories;
 
 use PDO;
 use PDOException;
@@ -39,7 +39,8 @@ class PDOPanierRepository implements PanierRepositoryInterface
                 $utilisateurData['nom'],
                 $utilisateurData['prenom'],
                 $utilisateurData['email'],
-                $utilisateurData['password']
+                $utilisateurData['password'],
+                $utilisateurData['role']
             );
 
             $stmt = $this->pdo->prepare("
