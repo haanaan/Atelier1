@@ -3,24 +3,25 @@
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
 use charlymatloc\api\actions\ListerOutilsAction;
+use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
 use charlymatloc\core\application\usecases\OutilsService;
 use charlymatloc\core\application\usecases\PanierService;
-use charlymatloc\infra\repositories\PDOOutilsRepository;
-use charlymatloc\infra\repositories\PDOPanierRepository;
+use charlymatloc\infrastructure\repositories\PDOOutilsRepository;
+use charlymatloc\infrastructure\repositories\PDOPanierRepository;
 
 return [
     // Connexion PDO
     'charlyoutils_db' => static function ($c): PDO {
         $dbConfig = $c->get('settings')['charly_db'];
-        $driver  = $dbConfig['driver'] ?? 'pgsql';
-        $host    = $dbConfig['host'] ?? 'charyoutils.db';
-        $dbname  = $dbConfig['dbname'] ?? 'charlyoutils';
-        $user    = $dbConfig['username'] ?? 'charlyoutils';
-        $pass    = $dbConfig['password'] ?? 'charlyoutils';
+        $driver = $dbConfig['driver'] ?? 'pgsql';
+        $host = $dbConfig['host'] ?? 'charyoutils.db';
+        $dbname = $dbConfig['dbname'] ?? 'charlyoutils';
+        $user = $dbConfig['username'] ?? 'charlyoutils';
+        $pass = $dbConfig['password'] ?? 'charlyoutils';
         $charset = $dbConfig['charset'] ?? 'utf8mb4';
 
         $dsn = $driver === 'mysql'
@@ -55,6 +56,10 @@ return [
 
     GetPanierAction::class => function ($c) {
         return new GetPanierAction($c->get(PanierServiceInterface::class));  // Injection du service dans l'action
+    },
+
+    InscriptionAction::class => function ($c) {
+        return new InscriptionAction($c->get(\charlymatloc\core\application\usecases\RegisterUserService::class));
     },
 
 ];

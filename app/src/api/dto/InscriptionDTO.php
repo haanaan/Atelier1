@@ -1,7 +1,7 @@
 <?php
-namespace scr\api\dto;
 
-class Inscription
+namespace charlymatloc\api\dto;
+class InscriptionDTO
 {
     public string $nom;
     public string $prenom;
@@ -14,5 +14,15 @@ class Inscription
         $this->prenom = $prenom;
         $this->email = $email;
         $this->motDePasse = $motDePasse;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['nom'] ?? '',
+            $data['prenom'] ?? '',
+            $data['email'] ?? '',
+            $data['motDePasse'] ?? ''
+        );
     }
 }
