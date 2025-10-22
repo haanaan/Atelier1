@@ -36,50 +36,50 @@ services:
       POSTGRES_PASSWORD: charyoutils
       POSTGRES_DB: charyoutils
 
-  # PostgreSQL database for backend (panier)
-  charypanier.db:
-    image: 'postgres:latest'
-    env_file: ./charypanier.env
-    ports:
-      - '5433:5432'  # Port exposé pour la base de données panier
-    networks:
-      - charlymatloc.net
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
-    environment:
-      POSTGRES_USER: charypanier
-      POSTGRES_PASSWORD: charypanier
-      POSTGRES_DB: charypanier
+  # # PostgreSQL database for backend (panier)
+  # charypanier.db:
+  #   image: 'postgres:latest'
+  #   env_file: ./charypanier.env
+  #   ports:
+  #     - '5433:5432'  # Port exposé pour la base de données panier
+  #   networks:
+  #     - charlymatloc.net
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+  #   environment:
+  #     POSTGRES_USER: charypanier
+  #     POSTGRES_PASSWORD: charypanier
+  #     POSTGRES_DB: charypanier
 
-  # PostgreSQL database for backend (auth)
-  charyauth.db:
-    image: 'postgres:latest'
-    env_file: ./charyauth.env
-    ports:
-      - '5434:5432'  # Port exposé pour la base de données auth
-    networks:
-      - charlymatloc.net
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
-    environment:
-      POSTGRES_USER: charyauth
-      POSTGRES_PASSWORD: charyauth
-      POSTGRES_DB: charyauth
+  # # PostgreSQL database for backend (auth)
+  # charyauth.db:
+  #   image: 'postgres:latest'
+  #   env_file: ./charyauth.env
+  #   ports:
+  #     - '5434:5432'  # Port exposé pour la base de données auth
+  #   networks:
+  #     - charlymatloc.net
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+  #   environment:
+  #     POSTGRES_USER: charyauth
+  #     POSTGRES_PASSWORD: charyauth
+  #     POSTGRES_DB: charyauth
 
-  # PostgreSQL database for backend (reservation)
-  charyreservation.db:
-    image: 'postgres:latest'
-    env_file: ./charyreservation.env
-    ports:
-      - '5435:5432'  # Port exposé pour la base de données reservation
-    networks:
-      - charlymatloc.net
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
-    environment:
-      POSTGRES_USER: charyreservation
-      POSTGRES_PASSWORD: charyreservation
-      POSTGRES_DB: charyreservation
+  # # PostgreSQL database for backend (reservation)
+  # charyreservation.db:
+  #   image: 'postgres:latest'
+  #   env_file: ./charyreservation.env
+  #   ports:
+  #     - '5435:5432'  # Port exposé pour la base de données reservation
+  #   networks:
+  #     - charlymatloc.net
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d  # Monte le répertoire ./sql pour que PostgreSQL exécute les scripts SQL
+  #   environment:
+  #     POSTGRES_USER: charyreservation
+  #     POSTGRES_PASSWORD: charyreservation
+  #     POSTGRES_DB: charyreservation
 
   # HTML frontend
   frontend:
