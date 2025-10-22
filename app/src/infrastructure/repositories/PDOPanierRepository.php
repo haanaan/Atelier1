@@ -1,5 +1,5 @@
 <?php
-namespace charlymatloc\infra\repositories;
+namespace charlymatloc\infrastructure\repositories;
 
 use PDO;
 use PDOException;
@@ -12,9 +12,10 @@ use charlymatloc\core\domain\entities\Utilisateurs;
 
 class PDOPanierRepository implements PanierRepositoryInterface
 {
-    private PDO $pdo; 
+    private PDO $pdo;
 
-    public function __construct(PDO $pdo) {
+    public function __construct(PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
@@ -26,7 +27,7 @@ class PDOPanierRepository implements PanierRepositoryInterface
             $panierData = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$panierData) {
-                return null; 
+                return null;
             }
 
             $stmt = $this->pdo->prepare("SELECT * FROM utilisateurs WHERE id = :utilisateur_id");
@@ -71,7 +72,7 @@ class PDOPanierRepository implements PanierRepositoryInterface
 
             $panier = new Panier(
                 $panierData['id'],
-                $utilisateur, 
+                $utilisateur,
                 $outils
             );
 

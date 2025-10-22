@@ -1,6 +1,6 @@
 <?php
 
-namespace charlymatloc\infra\repositories;
+namespace charlymatloc\infrastructure\repositories;
 
 use charlymatloc\core\domain\entities\Categorie;
 use charlymatloc\core\domain\entities\Outils;
@@ -8,13 +8,15 @@ use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsReposi
 use Exception;
 class PDOOutilsRepository implements PDOOutilsRepositoryInterface
 {
-    private \PDO $pdo; 
+    private \PDO $pdo;
 
-    public function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
-    public function FindAll(): array {
+    public function FindAll(): array
+    {
         try {
             $statement = $this->pdo->prepare("
                 SELECT o.id, o.nom, o.description, o.montant, o.image, o.exemplaires, 
@@ -24,7 +26,7 @@ class PDOOutilsRepository implements PDOOutilsRepositoryInterface
             ");
             $statement->execute();
             $results = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            
+
             $outils = [];
             foreach ($results as $res) {
                 $outils[] = new Outils(
@@ -47,7 +49,8 @@ class PDOOutilsRepository implements PDOOutilsRepositoryInterface
         }
     }
 
-    public function findbyId(string $id_p): Outils {
+    public function findbyId(string $id_p): Outils
+    {
         try {
             $statement = $this->pdo->prepare("
                 SELECT o.id, o.nom, o.description, o.montant, o.image, o.exemplaires, 
@@ -58,7 +61,7 @@ class PDOOutilsRepository implements PDOOutilsRepositoryInterface
             ");
             $statement->execute([":id_p" => $id_p]);
             $result = $statement->fetch(\PDO::FETCH_ASSOC);
-            
+
             if (!$result) {
                 throw new Exception("Outil not found");
             }
