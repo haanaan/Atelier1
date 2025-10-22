@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+header nav, header nav ul, #catalogue {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+header nav a, header nav ul, header nav ul li, article {
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  padding: 0.2em 0.5em;
+  box-sizing: border-box;
+}
+
+article img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 60em) {
+  header nav a {
+    width: 15.5%;
+  }
+}
+
+@media screen and (max-width: 60em) {
+  header nav ul {
+    width: 81.5%;
+  }
+}
+
+@media screen and (max-width: 60em) {
+  header nav ul li, article {
+    width: 98%;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  header nav a {
+    width: 7.25%;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  article {
+    width: 48.5%;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  header nav a img {
+    width: 81.5%;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  header nav ul {
+    width: 89.75%;
+  }
+}
+
+@media screen and (min-width: 80em) {
+  article {
+    width: 32%;
+  }
+}
+
+body, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+#catalogue {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+article {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+}
+article a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  margin: 1rem 0;
+}
+article p {
+  text-align: center;
+  font-size: 1rem;
+}
+article button {
+  width: 100%;
+  padding: 10px;
+  background: #ff9010;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+article button:hover {
+  background-color: #ffbb00;
+}
+
+main section h1, main section p {
+  color: #333;
+  text-align: center;
+  padding: 0.5em;
+}
+main section p {
+  margin-bottom: 2em;
+}
+
+.loader {
+  display: none;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #fdac50;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+header nav {
+  padding: 1em 0em;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
+  align-items: center;
+}
+header nav a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.5s ease;
+}
+header nav a:hover {
+  color: #f09124;
+}
+header nav ul {
+  justify-content: right;
+}
+header nav ul li {
+  justify-content: right;
+  list-style: none;
+}
+header nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
+}
+header nav ul li a:hover {
+  color: #ff9010;
+}
+
+footer p {
+  color: #333;
+  text-align: left;
+  margin: 3em;
+  padding: 0.5em;
+}
+
+#calendrierModal {
+  display: flex;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+#calendrierModal .modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#calendrierModal .modal-content h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+#calendrierModal .modal-content p {
+  font-weight: 400;
+  font-size: 0.8em;
+}
+#calendrierModal .modal-content label {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+}
+#calendrierModal .modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+#calendrierModal .modal-content button {
+  padding: 10px 20px;
+  background-color: #ff9010;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+#calendrierModal .modal-content button:hover {
+  background-color: #f09124;
+}
+#calendrierModal .modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/*# sourceMappingURL=cataloguess.css.map */

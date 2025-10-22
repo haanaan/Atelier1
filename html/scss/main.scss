@@ -49,7 +49,6 @@ body {
   text-align: center;
 }
 
-/* HEADER */
 header {
   @include flex-center;
   justify-content: space-between;
@@ -81,7 +80,6 @@ header {
   }
 }
 
-/* SECTION AUTHENTIFICATION */
 main {
   @include flex-center;
   flex-direction: column;
@@ -204,7 +202,6 @@ section {
   }
 }
 
-/*FOOTER */
 footer {
   text-align: center;
   font-size: 0.85rem;
@@ -213,7 +210,6 @@ footer {
   padding: 1rem;
 }
 
-/*RESPONSIVE DESIGN */
 @media (max-width: 480px) {
   section {
     padding: 2rem 1.2rem;

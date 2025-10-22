@@ -1,16 +1,21 @@
 <?php
 
-namespace src\api\dto;
+namespace charlymatloc\api\dto;
 
-class AuthDto
+class AuthDTO
 {
+    public string $ID;
     public string $email;
-    public string $password;
+    public string $role;
+    public string $access_token;
+    public string $refresh_token;
 
-    public function __construct(string $email, string $password)
+    public function __construct(UserProfileDTO $profile, string $access_token, string $refresh_token)
     {
-        $this->email = $email;
-        $this->password = $password;
-
+        $this->ID = $profile->id;
+        $this->email = $profile->email;
+        $this->role = $profile->role;
+        $this->access_token = $access_token;
+        $this->refresh_token = $refresh_token;
     }
 }

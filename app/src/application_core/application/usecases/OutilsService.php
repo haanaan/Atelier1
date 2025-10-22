@@ -5,19 +5,22 @@ namespace charlymatloc\core\application\usecases;
 use charlymatloc\api\dto\DetailOutilDto;
 use charlymatloc\api\dto\OutilCatalogue;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
-use charlymatloc\infra\repositories\PDOOutilsRepository;
+use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
 
 
 
 
 
-class OutilsService implements OutilsServiceInterface{
-    private PDOOutilsRepository $outilsRepository;
-    public function __construct( PDOOutilsRepository $outilsRepository) {
-        $this->outilsRepository=$outilsRepository;
+class OutilsService implements OutilsServiceInterface
+{
+    private PDOOutilsRepositoryInterface $outilsRepository;
+    public function __construct(PDOOutilsRepositoryInterface $outilsRepository)
+    {
+        $this->outilsRepository = $outilsRepository;
     }
 
-    public function AfficheOutils(): array {
+    public function AfficheOutils(): array
+    {
         $outils = $this->outilsRepository->findAll();
         $outilsDTO = [];
 
@@ -33,7 +36,8 @@ class OutilsService implements OutilsServiceInterface{
         return $outilsDTO;
     }
 
-    public function AfficheById(string $id_p): DetailOutilDto {
+    public function AfficheById(string $id_p): DetailOutilDto
+    {
         $outil = $this->outilsRepository->findbyId($id_p);
 
         if (!$outil) {
@@ -45,7 +49,7 @@ class OutilsService implements OutilsServiceInterface{
             $outil->getNom(),
             $outil->getDescription(),
             $outil->getImage(),
-            $outil->getCategorie()->getNom() ,
+            $outil->getCategorie()->getNom(),
             $outil->getMontant()
         );
     }

@@ -1,0 +1,114 @@
+$nbColonnes: 12;
+$LargeutCount: 1%;
+$nbGoutiere: $nbColonnes + 1;
+$lgColonne: calc((100% - (($nbGoutiere) * ($LargeutCount))) / $nbColonnes);
+$ecran-small: 40em;
+$ecran-moyen: 60em;
+$ecran-large: 80em;
+
+%row {
+    display: flex;
+    flex-wrap: wrap;
+    // gap: 1rem;
+}
+
+%col {
+    margin-left : 0.5em;
+    margin-top:0.5em;
+    padding:0.2em 0.5em;
+    box-sizing: border-box;
+}
+
+%product-grid {
+    @extend %row;
+}
+
+%product-item {
+    @extend %col;
+    @extend %s12;
+    @extend %m6; 
+    @extend %l4; 
+    img {
+        width: 100%; 
+        height: auto;
+        max-width: 100%;
+        border-radius: 8px;
+    }
+}
+
+
+@for $i from 1 through 10 {
+    %padding-#{$i} {
+        padding: #{calc($i / 2)}em;
+        @media screen and (min-width: $ecran-moyen) {
+            padding: #{$i}em;
+        }
+    }
+}
+
+@for $i from 1 through 10 {
+    %margin-#{$i} {
+        @media screen and (max-width: $ecran-moyen) {
+            margin: #{$i}em;
+        }
+    }
+    
+    %margin-top-#{$i} {
+        @media screen and (max-width: $ecran-moyen) {
+            margin-top: #{$i}em;
+        }
+    }
+    
+    %margin-bottom-#{$i} {
+        @media screen and (max-width: $ecran-moyen) {
+            margin-bottom: #{$i}em;
+        }
+    }
+}
+
+@for $i from 1 through 12 {
+    %s#{$i} {
+        @media screen and (max-width: $ecran-moyen) {
+            width: calc($i * $lgColonne + ($i - 1) * $LargeutCount);
+        }
+    }
+}
+
+@for $i from 1 through 12 {
+    %m#{$i} {
+        @media screen and (min-width: $ecran-moyen) {
+            width: calc($i * $lgColonne + ($i - 1) * $LargeutCount);
+        }
+    }
+}
+
+@for $i from 1 through 12 {
+    %l#{$i} {
+        @media screen and (min-width: $ecran-large) {
+            width: calc($i * $lgColonne + ($i - 1) * $LargeutCount);
+        }
+    }
+}
+
+@for $i from 1 through 11 {
+    %offset-s#{$i} {
+        @media screen and (max-width: $ecran-moyen) {
+            margin-left: calc($i * $lgColonne + $i * $LargeutCount);
+        }
+    }
+    %offset-m#{$i} {
+        @media screen and (min-width: $ecran-moyen) {
+            margin-left: calc($i * $lgColonne + $i * $LargeutCount);
+        }
+    }
+        %offset-l#{$i} {
+        @media screen and (min-width: $ecran-large) {
+            margin-left: calc($i * $lgColonne + $i * $LargeutCount);
+        }
+    }
+}
+
+%bg-black {
+    background-color: black;
+    color: white;
+}

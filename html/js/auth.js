@@ -1,4 +1,3 @@
-    // Basculer entre les deux formulaires
     function toggleLogin() {
       document.getElementById('article-login').hidden = false;
       document.getElementById('article-signup').hidden = true;
@@ -15,5 +14,4 @@
       document.getElementById('btn-signup').setAttribute('aria-expanded', 'true');
     }
 
-    // Par défaut : afficher la connexion
     toggleLogin();

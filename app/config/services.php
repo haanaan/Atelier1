@@ -3,6 +3,7 @@
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
 use charlymatloc\api\actions\ListerOutilsAction;
+use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
@@ -16,11 +17,11 @@ return [
     // Connexion PDO
     'charlyoutils_db' => static function ($c): PDO {
         $dbConfig = $c->get('settings')['charly_db'];
-        $driver  = $dbConfig['driver'] ?? 'pgsql';
-        $host    = $dbConfig['host'] ?? 'charyoutils.db';
-        $dbname  = $dbConfig['dbname'] ?? 'charlyoutils';
-        $user    = $dbConfig['username'] ?? 'charlyoutils';
-        $pass    = $dbConfig['password'] ?? 'charlyoutils';
+        $driver = $dbConfig['driver'] ?? 'pgsql';
+        $host = $dbConfig['host'] ?? 'charyoutils.db';
+        $dbname = $dbConfig['dbname'] ?? 'charlyoutils';
+        $user = $dbConfig['username'] ?? 'charlyoutils';
+        $pass = $dbConfig['password'] ?? 'charlyoutils';
         $charset = $dbConfig['charset'] ?? 'utf8mb4';
 
         $dsn = $driver === 'mysql'
@@ -46,15 +47,19 @@ return [
     },
 
     PanierRepositoryInterface::class => function ($c) {
-        return new PDOPanierRepository($c->get('charlyoutils_db'));  // Assurez-vous que le repo existe
+        return new PDOPanierRepository($c->get('charlyoutils_db'));  
     },
 
     PanierServiceInterface::class => function ($c) {
-        return new PanierService($c->get(PanierRepositoryInterface::class));  // Injection du repository dans le service
+        return new PanierService($c->get(PanierRepositoryInterface::class));  
     },
 
     GetPanierAction::class => function ($c) {
-        return new GetPanierAction($c->get(PanierServiceInterface::class));  // Injection du service dans l'action
+        return new GetPanierAction($c->get(PanierServiceInterface::class)); 
+    },
+
+    InscriptionAction::class => function ($c) {
+        return new InscriptionAction($c->get(\charlymatloc\core\application\usecases\RegisterUserService::class));
     },
 
 ];
