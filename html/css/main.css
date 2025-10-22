@@ -14,6 +14,10 @@ body {
   line-height: 1.6;
 }
 
+.titre-signup {
+  text-align: center;
+}
+
 /* HEADER */
 header {
   display: flex;
@@ -47,10 +51,6 @@ header nav ul a {
 
 header nav ul a:hover {
   color: #ff7a00;
-}
-
-header:has(> h3) {
-  justify-content: center;
 }
 
 /* SECTION AUTHENTIFICATION */
@@ -216,4 +216,4 @@ footer {
 }
 
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=main.css.map */

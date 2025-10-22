@@ -1,0 +1,19 @@
+header a {
+  list-style: none;
+}
+
+header ul {
+  list-style: none;
+}
+
+.detail {
+  width: 25%;
+  color: rgb(255, 255, 255);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=detailOutil.css.map */
