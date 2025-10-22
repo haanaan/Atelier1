@@ -1,0 +1,30 @@
+@use 'contentDetail';
+
+.main{
+    display: flex;
+    flex-direction: column;
+
+    nav{
+        @extend %nav;
+        a{
+            @extend %a;
+        //    @extend %a:hover
+        }
+
+        ul{
+            @extend %ul;
+            li{
+                @extend %li;
+            }
+        }
+    }
+    .detail{
+        @extend %detail;
+> div:nth-child(1) img {
+   @extend %image
+  }
+  > div:nth-child(2) {
+    @extend %content;
+  }
+    }
+}

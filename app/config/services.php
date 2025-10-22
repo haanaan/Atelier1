@@ -70,9 +70,8 @@ return [
         return new GetOutilsAction($c->get(OutilsServiceInterface::class));
     },
 
-    ListerOutilsAction::class => function ($c) {
-        return new ListerOutilsAction($c->get(OutilsServiceInterface::class));
-    },
+    GetOutilsAction::class => fn($c) =>
+        new GetOutilsAction($c->get(OutilsServiceInterface::class)),
 
 
     // InscriptionAction::class => function ($c) {
@@ -101,4 +100,10 @@ return [
     InscriptionAction::class => function ($c) {
         return new InscriptionAction($c->get(InscriptionServiceInterface::class));
     },
+    // PDOReservationRepositoryInterface::class => fn($c) =>
+    //     new PDOReservationRepository($c->get('charlyoutils_db')),
+
+    // ReservationServiceInterface::class => fn($c) =>
+    //     new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
+
 ];
