@@ -5,7 +5,7 @@ namespace charlymatloc\core\application\usecases;
 use charlymatloc\api\dto\DetailOutilDto;
 use charlymatloc\api\dto\OutilCatalogue;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
-use charlymatloc\infrastructure\repositories\PDOOutilsRepository;
+use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
 
 
 
@@ -13,8 +13,8 @@ use charlymatloc\infrastructure\repositories\PDOOutilsRepository;
 
 class OutilsService implements OutilsServiceInterface
 {
-    private PDOOutilsRepository $outilsRepository;
-    public function __construct(PDOOutilsRepository $outilsRepository)
+    private PDOOutilsRepositoryInterface $outilsRepository;
+    public function __construct(PDOOutilsRepositoryInterface $outilsRepository)
     {
         $this->outilsRepository = $outilsRepository;
     }

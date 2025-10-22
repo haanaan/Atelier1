@@ -1,6 +1,6 @@
 <?php
 
-namespace charlymatloc\infrastructure\repositories;
+namespace charlymatloc\infra\repositories;
 
 use charlymatloc\core\domain\entities\Categorie;
 use charlymatloc\core\domain\entities\Outils;

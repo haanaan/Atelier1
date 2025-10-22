@@ -2,42 +2,20 @@
 
 namespace charlymatloc\api\dto;
 
-class AuthDto
+class AuthDTO
 {
-    public string $id;
+    public string $ID;
     public string $email;
-    public string $nom;
-    public string $prenom;
-    public ?string $token;
+    public string $role;
+    public string $access_token;
+    public string $refresh_token;
 
-    public function __construct(string $id, string $email, string $nom, string $prenom, ?string $token = null)
+    public function __construct(UserProfileDTO $profile, string $access_token, string $refresh_token)
     {
-        $this->id = $id;
-        $this->email = $email;
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->token = $token;
-    }
-
-    public static function fromUser(object $user, ?string $token = null): self
-    {
-        return new self(
-            $user->getId(),
-            $user->getEmail(),
-            $user->getNom(),
-            $user->getPrenom(),
-            $token
-        );
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'token' => $this->token,
-        ];
+        $this->ID = $profile->id;
+        $this->email = $profile->email;
+        $this->role = $profile->role;
+        $this->access_token = $access_token;
+        $this->refresh_token = $refresh_token;
     }
 }
