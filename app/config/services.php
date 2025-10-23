@@ -1,10 +1,17 @@
 <?php
 
+use charlymatloc\api\actions\AddOutilToPanierAction;
+use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
+use charlymatloc\api\actions\GetPanierByUserAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\InscriptionAction;
+<<<<<<< HEAD
+use charlymatloc\api\actions\RemoveOutilFromPanierAction;
+=======
 use charlymatloc\api\actions\SigninAction;
+>>>>>>> 2ed87149e594d39561a97a577289bbed392021d8
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
 use charlymatloc\core\application\ports\api\UserServiceInterface;
@@ -116,7 +123,28 @@ return [
     // PDOReservationRepositoryInterface::class => fn($c) =>
     //     new PDOReservationRepository($c->get('charlyoutils_db')),
 
+<<<<<<< HEAD
+    GetPanierByUserAction::class => function ($c) {
+    return new GetPanierByUserAction($c->get(PanierServiceInterface::class));
+   },
+   AddOutilToPanierAction::class =>function ($c) {
+    return new AddOutilToPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+   RemoveOutilFromPanierAction::class => function ($c) {
+    return new RemoveOutilFromPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+   ClearPanierAction::class => function ($c) {
+    return new ClearPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+
+
+];
+=======
     // ReservationServiceInterface::class => fn($c) =>
     //     new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
 
 ];
+>>>>>>> 2ed87149e594d39561a97a577289bbed392021d8
