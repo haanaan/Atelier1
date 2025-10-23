@@ -25,7 +25,8 @@ class AjouterReservationAction
             $data['nom'] ?? '',
             $data['prenom'] ?? '',
             $data['email'] ?? '',
-            $data['password'] ?? ''
+            $data['password'] ?? '',
+            $data['role'],''
         );
 
         $reservation = new Reservation(
