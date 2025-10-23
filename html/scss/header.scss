@@ -1,0 +1,52 @@
+// @use 'grille-options';
+// @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+// header{
+//     nav{
+//    @extend %row;
+//    padding:1em 0em;
+//    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
+//    align-items: center;   
+//    a{ 
+//     color:#333;
+//     font-weight: bold;
+//     text-decoration: none;
+//     transition: all 0.5s ease;
+//     &:hover{
+//         color:#f09124;
+//     }
+//     @extend %s2;
+//     @extend %m1;
+//     @extend %col;
+//     img{
+//         @extend %m10;
+//     }
+//     }
+//     ul{
+//            @extend %row;
+//            @extend %s10;
+//            @extend %m11;
+//            @extend %col;
+//            justify-content: right;
+//            li{
+//               justify-content: right;
+//                 @extend %col;
+//                 @extend %s12;
+//                 list-style: none;
+                
+//                 a{
+//                     text-decoration: none;
+//                     color:#333;
+//                     font-weight: 600;
+//                     font-family: "Inter", sans-serif;
+//                     transition:all 0.3s ease;
+//                 }
+//                 a:hover{
+//                     color:#ff9010;
+//                 }
+              
+//            }
+//     }
+//     }
+// }
