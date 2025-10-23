@@ -1,31 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-    <link rel="stylesheet" href="css/catalogue.css">
-    <link rel="icon" type="image/png" href="images/Charly.png" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accueil — CharlyMatLoc</title>
+  <link rel="stylesheet" href="css/cataloguess.css" />
+  <link rel="icon" type="image/png" href="images/Charly.png" />
 </head>
 
 <body>
+  <!-- HEADER -->
   <header>
     <nav class="navbar">
-      <a href="#" class="brand">
-        <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48">
-        <span>CharlyMatLoc</span>
-      </a>
+      <a href="index.html">CharlyMATLOC</a>
       <ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="catalogue.html" class="active">Catalogue</a></li>
+        <li><a href="index.html" class="active">Accueil</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
         <li><a href="panier.html">Panier</a></li>
         <li><a href="apropos.html">À propos</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
   </header>
-<body>
-    
+
+  <main>
+    <section class="intro">
+      <h1>Bienvenue sur CharlyMatLoc</h1>
+      <p>
+        Louez facilement les outils dont vous avez besoin pour vos travaux, rénovations ou projets de bricolage.
+        Avec <strong>CharlyMatLoc</strong>, accédez à une large gamme d’équipements disponibles entre particuliers,
+        à des prix justes et proches de chez vous.
+      </p>
+    </section>
+
+    <section class="catalogue" id="categories" aria-label="Catégories d’outils">
+    </section>
+
+    <div class="loader" id="loader"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
+  </footer>
+
+  <script src="js/index.js"></script>
 </body>
 </html>
