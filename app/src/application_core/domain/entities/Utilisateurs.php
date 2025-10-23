@@ -32,4 +32,8 @@ class Utilisateurs {
         $id = Uuid::uuid4()->toString(); 
         return new self($id, $nom, $prenom, $email, password_hash($password, PASSWORD_BCRYPT),$role);
     }
+        public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
 }

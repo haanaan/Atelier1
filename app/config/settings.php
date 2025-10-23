@@ -5,6 +5,6 @@ return [
     'settings' => [
         'displayErrorDetails' => true,
         'charly_db' => $dbConfig,
-        'jwtSecret' => "SAdza154189652397",
+        'jwtSecret' => "511e532e2b5b5842",
     ],
 ];
