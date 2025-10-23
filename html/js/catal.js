@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("calendrierModal");
   const outilTitre = document.getElementById("outilTitre");
   const closeBtn = document.querySelector(".close");
+  const logoutBtn = document.querySelector("#logoutbtn");
   const confirmerBtn = document.getElementById("confirmerBtn");
 
   let outilSelectionne = null;
@@ -91,6 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     modal.style.display = "flex";
   };
+logoutBtn.onclick =() =>{
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('user');
+  window.location.href = 'auth.html';
+}
 
   closeBtn.onclick = () => {
     modal.style.display = "none";
