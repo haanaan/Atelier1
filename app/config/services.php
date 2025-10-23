@@ -7,17 +7,21 @@ use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\SigninAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
+use charlymatloc\core\application\ports\api\ReservationServiceInterface;
 use charlymatloc\core\application\ports\api\UserServiceInterface;
 use charlymatloc\core\application\ports\api\AuthnServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOOutilsRepositoryInterface;
+use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationRepositoryInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\UserRepositoryInterface;
 use charlymatloc\core\application\usecases\OutilsService;
 use charlymatloc\core\application\usecases\PanierService;
+use charlymatloc\core\application\usecases\ReservationService;
 use charlymatloc\core\application\usecases\UserService;
 use charlymatloc\core\application\usecases\AuthnService;
 use charlymatloc\infra\repositories\PDOOutilsRepository;
 use charlymatloc\infra\repositories\PDOPanierRepository;
+use charlymatloc\infra\repositories\PDOReservationRepository;
 use charlymatloc\infra\repositories\PDOUtilisateursRepository;
 use charlymatloc\api\provider\jwt\JwtManagerInterface;
 use charlymatloc\api\provider\jwt\JwtManager;
@@ -100,10 +104,10 @@ return [
     InscriptionAction::class => function ($c) {
         return new InscriptionAction($c->get(InscriptionServiceInterface::class));
     },
-    // PDOReservationRepositoryInterface::class => fn($c) =>
-    //     new PDOReservationRepository($c->get('charlyoutils_db')),
+    PDOReservationRepositoryInterface::class => fn($c) =>
+        new PDOReservationRepository($c->get('charlyoutils_db')),
 
-    // ReservationServiceInterface::class => fn($c) =>
-    //     new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
+    ReservationServiceInterface::class => fn($c) =>
+        new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
 
 ];

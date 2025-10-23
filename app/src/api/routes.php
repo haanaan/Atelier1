@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+use charlymatloc\api\actions\GetReservationAction;
 use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\GetOutilsAction;
@@ -17,6 +18,8 @@ return function (\Slim\App $app): \Slim\App {
     $app->get('/api/reservations', ListerReservationsAction::class);
     $app->post('/api/reservations', AjouterReservationAction::class);
     $app->delete('/api/reservations/{id}', SupprimerReservationAction::class);
+    $app->get('/api/reservations/{id}', GetReservationAction::class);
+
 
     return $app;
 };

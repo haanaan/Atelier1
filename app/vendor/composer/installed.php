@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'grp/charlymatloc',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'c1b55ca8da6f1a063b0f45f4a77dfe20c6b50ac1',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'grp/charlymatloc' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'c1b55ca8da6f1a063b0f45f4a77dfe20c6b50ac1',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

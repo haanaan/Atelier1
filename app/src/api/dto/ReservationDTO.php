@@ -1,6 +1,8 @@
 <?php
 namespace charlymatloc\api\dto;
 
+use charlymatloc\core\domain\entities\Reservation;
+
 class ReservationDto
 {
     public string $id;
@@ -9,20 +11,19 @@ class ReservationDto
     public float $montanttotal;
     public string $statut;
     public string $utilisateur_nom;
+    public array $outils;
 
-    public function __construct(
-        string $id,
-        string $datedebut,
-        string $datefin,
-        float $montanttotal,
-        string $statut,
-        string $utilisateur_nom
-    ) {
-        $this->id = $id;
-        $this->datedebut = $datedebut;
-        $this->datefin = $datefin;
-        $this->montanttotal = $montanttotal;
-        $this->statut = $statut;
-        $this->utilisateur_nom = $utilisateur_nom;
+    public function __construct(Reservation $reservation)
+    {
+        $this->id = $reservation->getId();
+        $this->datedebut = $reservation->getDateDebut();
+        $this->datefin = $reservation->getDateFin();
+        $this->montanttotal = (float)$reservation->getMontantTotal();
+        $this->statut = $reservation->getStatut();
+
+        $utilisateur = $reservation->getUtilisateur();
+        $this->utilisateur_nom = trim($utilisateur->getNom() . ' ' . $utilisateur->getPrenom());
+
+        $this->outils = $reservation->getOutil();
     }
 }
