@@ -5,87 +5,113 @@ document.addEventListener("DOMContentLoaded", () => {
   const showLoader = () => (loader.style.display = "block");
   const hideLoader = () => (loader.style.display = "none");
 
-  const fetchCategories = async () => {
-    if (!categoriesContainer) {
-      console.error("L'élément #categories n'existe pas dans le DOM !");
-      return;
-    }
-
+  const fetchCategoriesAndTools = async () => {
     showLoader();
     try {
-      const response = await fetch("http://localhost:6080/api/categories");
-      if (!response.ok)
+      const categoriesResponse = await fetch(
+        "http://localhost:6080/api/categories"
+      );
+      if (!categoriesResponse.ok)
         throw new Error("Erreur lors de la récupération des catégories.");
-      const categories = await response.json();
-      displayCategories(categories);
+      const categories = await categoriesResponse.json();
+
+      categoriesContainer.innerHTML = "";
+
+      const fetchToolsPromises = categories.map(async (cat) => {
+        const section = document.createElement("section");
+        section.classList.add("category");
+        section.innerHTML = `
+          <h2>${cat.nom}</h2>
+          <p class="description">${cat.description || ""}</p>
+          <div class="tools-grid" id="cat-${cat.id}"></div>
+        `;
+        categoriesContainer.appendChild(section);
+
+        const toolsResponse = await fetch(`http://localhost:6080/api/outils`);
+        if (!toolsResponse.ok)
+          throw new Error(`Erreur pour la catégorie ${cat.nom}`);
+        const allOutils = await toolsResponse.json();
+
+        const outilsCat = allOutils.filter((outil) => {
+          return true;
+        });
+
+        const detailedPromises = outilsCat.map(async (outil) => {
+          const res = await fetch(
+            `http://localhost:6080/api/outils/${outil.id}`
+          );
+          if (!res.ok) throw new Error(`Erreur pour l'outil ${outil.id}`);
+          return res.json();
+        });
+
+        const detailedOutils = await Promise.all(detailedPromises);
+        const filteredOutils = detailedOutils.filter(
+          (outil) => outil.categorie === cat.nom
+        );
+
+        displayTools(cat.id, filteredOutils);
+      });
+
+      await Promise.all(fetchToolsPromises);
     } catch (error) {
       console.error(error);
-      alert("Impossible de charger les catégories.");
+      alert("Impossible de charger les catégories ou les outils.");
     } finally {
       hideLoader();
-    }
-  };
-
-  const displayCategories = (categories) => {
-    categoriesContainer.innerHTML = "";
-
-    const fetchPromises = categories.map(async (cat) => {
-      const section = document.createElement("section");
-      section.classList.add("category");
-
-      section.innerHTML = `
-        <h2>${cat.nom}</h2>
-        <p class="description">${cat.description}</p>
-        <div class="tools-grid" id="cat-${cat.id}"></div>
-      `;
-
-      categoriesContainer.appendChild(section);
-
-      await fetchToolsForCategory(cat.id);
-    });
-
-    // Charger toutes les catégories en parallèle
-    return Promise.all(fetchPromises);
-  };
-
-  const fetchToolsForCategory = async (categoryId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:6080/api/outils?categorie=${categoryId}`
-      );
-      if (!response.ok)
-        throw new Error(
-          `Erreur lors du chargement des outils de la catégorie ${categoryId}.`
-        );
-      const outils = await response.json();
-      displayTools(categoryId, outils);
-    } catch (error) {
-      console.error(error);
     }
   };
 
   const displayTools = (categoryId, outils) => {
     const grid = document.getElementById(`cat-${categoryId}`);
     if (!grid) return;
+
     grid.innerHTML = "";
+
+    if (outils.length === 0) {
+      grid.innerHTML =
+        "<p>Aucun outil dans cette catégorie pour le moment.</p>";
+      return;
+    }
 
     const limitedOutils = outils.slice(0, 4);
 
     limitedOutils.forEach((outil) => {
       const article = document.createElement("article");
+      const imgSrc = outil.image
+        ? `images/${outil.image}`
+        : "images/default.jpg";
+
       article.innerHTML = `
-        <img src="images/${outil.image || "default.jpg"}" alt="${outil.nom}" />
+        <img src="${imgSrc}" alt="${outil.nom}" />
         <h3>${outil.nom}</h3>
-        <button onclick="window.location.href='catalogue.html?outil=${encodeURIComponent(
-          outil.nom
-        )}'">
-          Voir l’outil
-        </button>
+        <button data-id="${outil.id}">Voir l’outil</button>
       `;
       grid.appendChild(article);
+
+      const button = article.querySelector("button");
+      button.addEventListener("click", () => fetchOutilDetail(outil.id));
     });
   };
 
-  // Lancer le chargement
-  fetchCategories();
+  const fetchOutilDetail = async (outilId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:6080/api/outils/${outilId}`
+      );
+      if (!response.ok)
+        throw new Error(`Erreur lors du chargement de l'outil ${outilId}`);
+      const outil = await response.json();
+
+      alert(
+        `Nom: ${outil.nom}\nCatégorie: ${outil.categorie}\nDescription: ${
+          outil.description || "Aucune"
+        }`
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de charger les informations de l'outil.");
+    }
+  };
+
+  fetchCategoriesAndTools();
 });
