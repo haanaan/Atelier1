@@ -90,13 +90,13 @@ class PDOPanierRepository implements PanierRepositoryInterface
     public function getOrCreatePanier(string $userId): PanierDTO
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE user_id = :user_id");
-            $stmt->execute(['user_id' => $userId]);
+            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE id_utilisateur = :id_utilisateur");
+            $stmt->execute(['id_utilisateur' => $userId]);
             $panierData = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$panierData) {
-                $stmt = $this->pdo->prepare("INSERT INTO panier (user_id) VALUES (:user_id)");
-                $stmt->execute(['user_id' => $userId]);
+                $stmt = $this->pdo->prepare("INSERT INTO panier (id_utilisateur) VALUES (:id_utilisateur)");
+                $stmt->execute(['id_utilisateur' => $userId]);
                 $panierId = $this->pdo->lastInsertId();
             } else {
                 $panierId = $panierData['id'];
@@ -117,8 +117,8 @@ class PDOPanierRepository implements PanierRepositoryInterface
     public function getByUser(string $userId): PanierDTO
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE user_id = :user_id");
-            $stmt->execute(['user_id' => $userId]);
+            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE id_utilisateur = :id_utilisateur");
+            $stmt->execute(['id_utilisateur' => $userId]);
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$data) {
@@ -157,11 +157,11 @@ class PDOPanierRepository implements PanierRepositoryInterface
                 $total += $item['montant'];
             }
 
-            $stmt = $this->pdo->prepare("SELECT user_id FROM panier WHERE id = :id");
+            $stmt = $this->pdo->prepare("SELECT id_utilisateur FROM panier WHERE id = :id");
             $stmt->execute(['id' => $panierId]);
             $panier = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return new PanierDTO($panierId, $panier['user_id'], $items, $total);
+            return new PanierDTO($panierId, $panier['id_utilisateur'], $items, $total);
 
         } catch (PDOException $e) {
             throw new Exception("Erreur base de données dans getItems: " . $e->getMessage());

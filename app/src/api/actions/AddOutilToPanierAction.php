@@ -13,13 +13,19 @@ class AddOutilToPanierAction{
     public function __invoke(Request $request,Response $response,array $args):Response{
         try {
     
-        $userId = $args['userId'];
-        $outilId = $args['outilId'];
+        $userId = trim($args['userId']);
+        $outilId =trim($args['outilId']) ;
 
         $panier = $this->panierService->addOutilToPanier($userId, $outilId);
 
         $response->getBody()->write(json_encode($panier));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
+    catch (\Exception $e) {
+            $response->getBody()->write(json_encode([
+                'error' => $e->getMessage()
+            ]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+        }
     }
 }

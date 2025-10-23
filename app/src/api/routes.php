@@ -6,14 +6,11 @@ use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
-<<<<<<< HEAD
 use charlymatloc\api\actions\AddOutilToPanierAction;
 use charlymatloc\api\actions\RemoveOutilFromPanierAction;
-=======
 use charlymatloc\api\actions\ListerReservationsAction;
 use charlymatloc\api\actions\AjouterReservationAction;
 use charlymatloc\api\actions\SupprimerReservationAction;
->>>>>>> 2ed87149e594d39561a97a577289bbed392021d8
 
 return function (\Slim\App $app): \Slim\App {
     $app->get('/api/outils', ListerOutilsAction::class);
@@ -21,17 +18,14 @@ return function (\Slim\App $app): \Slim\App {
     $app->get('/api/panier/{id}', GetPanierAction::class);
     $app->post('/api/inscription', InscriptionAction::class);
 
-<<<<<<< HEAD
-    $app->get('/users/{userId}/panier', GetPanierByUserAction::class);
+$app->get('/users/{userId}/panier', GetPanierByUserAction::class);
 $app->post('/users/{userId}/panier/outils/{outilId}', AddOutilToPanierAction::class);
 $app->delete('/users/{userId}/panier/outils/{outilId}', RemoveOutilFromPanierAction::class);
 $app->delete('/users/{userId}/panier/clear', ClearPanierAction::class);
 
-=======
     $app->get('/api/reservations', ListerReservationsAction::class);
     $app->post('/api/reservations', AjouterReservationAction::class);
     $app->delete('/api/reservations/{id}', SupprimerReservationAction::class);
->>>>>>> 2ed87149e594d39561a97a577289bbed392021d8
 
     return $app;
 };

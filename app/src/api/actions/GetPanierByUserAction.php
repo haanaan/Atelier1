@@ -29,7 +29,7 @@ class GetPanierByUserAction{
                 'total' => $panierDTO->total,
                 'items' => array_map(function ($item) {
                     return [
-                        'id' => $item->id,
+                        'outilID' => $item->id_outil,
                         'nom' => $item->nom,
                         'montant' => $item->montant
                     ];
