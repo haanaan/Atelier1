@@ -1,52 +1,85 @@
-// @use 'grille-options';
-// @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@use 'grille-options';
 
-
-// header{
-//     nav{
-//    @extend %row;
-//    padding:1em 0em;
-//    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
-//    align-items: center;   
-//    a{ 
-//     color:#333;
-//     font-weight: bold;
-//     text-decoration: none;
-//     transition: all 0.5s ease;
-//     &:hover{
-//         color:#f09124;
-//     }
-//     @extend %s2;
-//     @extend %m1;
-//     @extend %col;
-//     img{
-//         @extend %m10;
-//     }
-//     }
-//     ul{
-//            @extend %row;
-//            @extend %s10;
-//            @extend %m11;
-//            @extend %col;
-//            justify-content: right;
-//            li{
-//               justify-content: right;
-//                 @extend %col;
-//                 @extend %s12;
-//                 list-style: none;
-                
-//                 a{
-//                     text-decoration: none;
-//                     color:#333;
-//                     font-weight: 600;
-//                     font-family: "Inter", sans-serif;
-//                     transition:all 0.3s ease;
-//                 }
-//                 a:hover{
-//                     color:#ff9010;
-//                 }
-              
-//            }
-//     }
-//     }
-// }
+header {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
+  
+  nav {
+    @extend %row;
+    padding: 1em 0;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    
+    a {
+      color: #333;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.5s ease;
+      
+      &:hover {
+        color: #f09124;
+      }
+      
+      @extend %s6;
+      @extend %m2;
+      @extend %col;
+      
+      img {
+        @extend %m10;
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    
+    ul {
+      @extend %row;
+      @extend %s12;
+      @extend %m10;
+      @extend %col;
+      justify-content: flex-end;
+      margin-top: 0;
+      
+      @media screen and (max-width: 40em) {
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+        margin-top: 1em;
+      }
+      
+      li {
+        @extend %col;
+        margin-left: 1em;
+        margin-top:1em;
+        padding: 0;
+        list-style: none;
+        
+        @media screen and (max-width: 40em) {
+          margin-bottom: 0.5em;
+          margin-left: 0;
+          text-align: right;
+          width: auto;
+        }
+        
+        a, button {
+          text-decoration: none;
+          color: #333;
+          font-weight: 600;
+          font-family: "Inter", sans-serif;
+          transition: all 0.3s ease;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          font-size: 1rem;
+          
+          &:hover, &.active {
+            color: #ff9010;
+          }
+        }
+    }
+    }
+  }
+}

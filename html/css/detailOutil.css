@@ -1,0 +1,57 @@
+.main nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.main nav a {
+  text-decoration: none;
+  color: #ff7a1a;
+  padding: 0.6em 1em;
+}
+
+.main nav a:hover {
+  text-decoration: none;
+  color: rgba(255, 121, 26, 0.5647058824);
+}
+
+.main nav ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.main nav ul li {
+  margin-right: 2em;
+}
+
+.main .detail {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: rgba(255, 246, 239, 0.1019607843);
+  box-shadow: 0 5px 9px rgba(0, 0, 0, 0);
+}
+
+.main .detail > div:nth-child(1) img {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main .detail > div:nth-child(2) {
+  display: flex;
+  margin: 2em;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+/*# sourceMappingURL=detailOutil.css.map */

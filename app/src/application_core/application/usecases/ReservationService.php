@@ -27,7 +27,7 @@ class ReservationService implements ReservationServiceInterface
                 $r->getDateFin(),
                 (float)$r->getMontantTotal(),
                 $r->getStatut(),
-                $r->getUtilisateur()->getNom()
+                $r->getUtilisateur()->getId()
             );
         }
 
@@ -45,7 +45,7 @@ class ReservationService implements ReservationServiceInterface
             $r->getDateFin(),
             (float)$r->getMontantTotal(),
             $r->getStatut(),
-            $r->getUtilisateur()->getNom()
+            $r->getUtilisateur()->getId()
         );
     }
 

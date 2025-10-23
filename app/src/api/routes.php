@@ -30,17 +30,18 @@ return function (\Slim\App $app): \Slim\App {
 
 
         $group->get('/panier/{id}', GetPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
-        
         $group->get('/reservations', ListerReservationsAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->post('/reservations', AjouterReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->delete('/reservations/{id}', SupprimerReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->get('/users/{userId}/panier', GetPanierByUserAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->post('/users/{userId}/panier/outils/{outilId}', AddOutilToPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->delete('/users/{userId}/panier/outils/{outilId}', RemoveOutilFromPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->delete('/users/{userId}/panier/clear', ClearPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
     })->add(AuthnMiddleware::class);
-// $app->get('/users/{userId}/panier', GetPanierByUserAction::class);
-// $app->post('/users/{userId}/panier/outils/{outilId}', AddOutilToPanierAction::class);
-// $app->delete('/users/{userId}/panier/outils/{outilId}', RemoveOutilFromPanierAction::class);
-// $app->delete('/users/{userId}/panier/clear', ClearPanierAction::class);
-//     $app->get('/users/{userId}/panier', GetPanierByUserAction::class);
-//     $app->delete('/users/{userId}/panier/clear', ClearPanierAction::class);
+    
+
+    // $app->get('/api/users/{userId}/panier', GetPanierByUserAction::class);
+    // $app->delete('/users/{userId}/panier/clear', ClearPanierAction::class);
 
     $app->get('/api/categories', GetAllCategorieAction::class);
     return $app;

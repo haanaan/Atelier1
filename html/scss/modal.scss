@@ -1,24 +1,23 @@
 @use 'sass:color';
-$couleur-overlay: rgba(0, 0, 0, 0.2); // 20% black for overlay
+$couleur-overlay: rgba(0, 0, 0, 0.2);
 $couleur-modal-background: #fff;
 $couleur-primaire: #3498db;
 $couleur-texte: #333;
 $couleur-texte-clair: #fff;
 $bordure-radius: 8px;
 
-// Modal container (overlay)
 .modal {
-  display: none;  // Hidden by default, shown via JS
+  display: none; 
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: $couleur-overlay;
-  z-index: 9999;  // Ensure it is on top of other content
+  z-index: 9999;  
   display: flex;
   justify-content: center;
-  align-items: center;  // Center the modal in the middle of the screen
+  align-items: center;  
   padding: 10px;
 
   .modal-content {
@@ -28,7 +27,7 @@ $bordure-radius: 8px;
     padding: 20px;
     border-radius: $bordure-radius;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  // Add slight shadow to make the modal pop
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
 
     h3 {
       font-size: 1.5rem;
