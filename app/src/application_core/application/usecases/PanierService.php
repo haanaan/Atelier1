@@ -40,4 +40,30 @@ class PanierService implements PanierServiceInterface
             round($total, 2)  
         );
     }
+    public function getPanierByUser(string $userId): PanierDTO
+    {
+        return $this->panierRepository->getByUser($userId);
+    }
+
+    public function addOutilToPanier(string $userId, string $outilId): PanierDTO
+    {
+        $panier = $this->panierRepository->getOrCreatePanier($userId);
+        $this->panierRepository->addItem($panier->id, $outilId);
+
+        return $this->panierRepository->getItems($panier->id);
+    }
+
+    public function removeOutilFromPanier(string $userId, string $outilId): PanierDTO
+    {
+        $panier = $this->panierRepository->getByUser($userId);
+        $this->panierRepository->removeItem($panier->id, $outilId);
+
+        return $this->panierRepository->getItems($panier->id);
+    }
+
+    public function clearPanier(string $userId): bool
+    {
+        $panier = $this->panierRepository->getByUser($userId);
+        return $this->panierRepository->clearItems($panier->id);
+    }
 }

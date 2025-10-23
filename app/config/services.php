@@ -1,9 +1,13 @@
 <?php
 
+use charlymatloc\api\actions\AddOutilToPanierAction;
+use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
+use charlymatloc\api\actions\GetPanierByUserAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\InscriptionAction;
+use charlymatloc\api\actions\RemoveOutilFromPanierAction;
 use charlymatloc\core\application\ports\api\OutilsServiceInterface;
 use charlymatloc\core\application\ports\api\PanierServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryInterfaces\PanierRepositoryInterface;
@@ -61,5 +65,22 @@ return [
     InscriptionAction::class => function ($c) {
         return new InscriptionAction($c->get(\charlymatloc\core\application\usecases\RegisterUserService::class));
     },
+
+    GetPanierByUserAction::class => function ($c) {
+    return new GetPanierByUserAction($c->get(PanierServiceInterface::class));
+   },
+   AddOutilToPanierAction::class =>function ($c) {
+    return new AddOutilToPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+   RemoveOutilFromPanierAction::class => function ($c) {
+    return new RemoveOutilFromPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+   ClearPanierAction::class => function ($c) {
+    return new ClearPanierAction($c->get(PanierServiceInterface::class));
+   },
+
+
 
 ];
