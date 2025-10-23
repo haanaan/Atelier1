@@ -23,6 +23,7 @@ header {
   align-items: center;
   gap: 0;
 }
+
 .navbar .brand {
   display: flex;
   justify-content: flex-start;
@@ -33,6 +34,7 @@ header {
   text-decoration: none;
   font-size: 1.2rem;
 }
+
 .navbar ul {
   list-style: none;
   display: flex;
@@ -40,12 +42,14 @@ header {
   align-items: center;
   gap: 1rem;
 }
+
 .navbar ul a {
   text-decoration: none;
   color: #1f2937;
   font-weight: 500;
   transition: 0.2s;
 }
+
 .navbar ul a:hover {
   color: #ff7a1a;
 }
@@ -54,10 +58,12 @@ header {
   text-align: center;
   margin: 2rem 0;
 }
+
 .intro h1 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
 }
+
 .intro p {
   color: #6b7280;
 }
@@ -78,29 +84,35 @@ header {
   padding-bottom: 1rem;
   transition: transform 0.2s ease;
 }
+
 .outil:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
+
 .outil img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
+
 .outil h2 {
   font-size: 1.1rem;
   color: #1f2937;
   margin: 0.8rem 0 0.4rem;
 }
+
 .outil p {
   margin: 0.3rem 0;
   font-size: 0.95rem;
   color: #6b7280;
 }
+
 .outil .prix {
   color: #ff7a1a;
   font-weight: 600;
 }
+
 .outil .stock {
   color: #1f2937;
   font-size: 0.9rem;
@@ -116,9 +128,11 @@ header {
   font-weight: 600;
   transition: background 0.2s ease;
 }
+
 .btn-reserver:hover {
   background: rgb(240.2, 100.6951965066, 0);
 }
+
 .btn-reserver {
   margin-top: 0.5rem;
 }
@@ -143,18 +157,21 @@ header {
   position: relative;
   animation: fadeIn 0.3s ease;
 }
+
 .modal-content label {
   display: block;
   margin: 1rem 0 0.4rem;
   color: #1f2937;
   font-weight: 500;
 }
+
 .modal-content input {
   width: 100%;
   padding: 0.6rem;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
 .modal-content button {
   margin-top: 1rem;
   background: #ff7a1a;
@@ -166,9 +183,11 @@ header {
   font-weight: 600;
   transition: background 0.2s ease;
 }
+
 .modal-content button:hover {
   background: rgb(240.2, 100.6951965066, 0);
 }
+
 .modal-content .close {
   position: absolute;
   right: 15px;
@@ -177,6 +196,7 @@ header {
   color: #6b7280;
   cursor: pointer;
 }
+
 .modal-content .close:hover {
   color: #ff7a1a;
 }
@@ -216,6 +236,7 @@ footer {
   font-weight: 600;
   transition: background 0.2s ease;
 }
+
 .btn-secondaire:hover {
   background: #d1d5db;
 }
@@ -230,6 +251,7 @@ footer {
   font-weight: 600;
   transition: background 0.2s ease;
 }
+
 .btn-confirmer:hover {
   background: #e96d15;
 }
@@ -243,6 +265,7 @@ footer {
   cursor: pointer;
   margin-top: 0.5rem;
 }
+
 .btn-supprimer:hover {
   background: #dc2626;
 }
@@ -259,6 +282,7 @@ footer {
   align-items: center;
   animation: fadeIn 0.4s ease;
 }
+
 .detail h1 {
   color: #ff7a1a;
   font-size: 2rem;
@@ -266,10 +290,12 @@ footer {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 .detail > div {
   width: 100%;
   max-width: 600px;
 }
+
 .detail > div div {
   margin: 0.6rem 0;
   display: flex;
@@ -277,20 +303,24 @@ footer {
   border-bottom: 1px solid #eee;
   padding-bottom: 0.5rem;
 }
+
 .detail > div div strong {
   color: #1f2937;
   font-weight: 600;
 }
+
 .detail > div div span {
   color: #6b7280;
   text-align: right;
 }
+
 .detail #image img {
   max-width: 300px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   margin: 1.5rem 0;
 }
+
 .detail .btn-panier {
   background: #ff7a1a;
   color: #fff;
@@ -301,9 +331,11 @@ footer {
   font-weight: 600;
   transition: background 0.2s ease;
 }
+
 .detail .btn-panier:hover {
   background: rgb(240.2, 100.6951965066, 0);
 }
+
 .detail .btn-panier {
   margin-top: 2rem;
   padding: 0.8rem 1.6rem;
@@ -311,6 +343,7 @@ footer {
   font-size: 1rem;
   transition: transform 0.2s ease;
 }
+
 .detail .btn-panier:hover {
   transform: scale(1.05);
 }
@@ -345,5 +378,6 @@ footer {
     width: 100%;
   }
 }
+
 
 /*# sourceMappingURL=catalogue.css.map */

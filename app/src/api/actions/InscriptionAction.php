@@ -1,48 +1,51 @@
 <?php
-
 namespace charlymatloc\api\actions;
 
-use charlymatloc\core\application\usecases\RegisterUserService;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use charlymatloc\core\application\ports\api\InscriptionServiceInterface;
 use charlymatloc\api\dto\InscriptionDTO;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Exception;
 
-class InscriptionAction
-{
-    public function __construct(private RegisterUserService $usecase)
-    {
+class InscriptionAction {
+    private InscriptionServiceInterface $inscriptionService;
+
+    public function __construct(InscriptionServiceInterface $inscriptionService) {
+        $this->inscriptionService = $inscriptionService;
     }
 
-    public function __invoke(Request $req, Response $res): Response
-    {
-        $data = json_decode((string) $req->getBody(), true) ?? [];
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $data = json_decode($request->getBody()->getContents(), true);
+        error_log(print_r($data, true)); 
 
-        $dto = new InscriptionDTO(
-            $data['nom'] ?? '',
-            $data['prenom'] ?? '',
-            $data['email'] ?? '',
-            $data['motDePasse'] ?? $data['password'] ?? ''
+        error_log(print_r($data, true)); 
+
+        if (!isset($data['nom'], $data['prenom'], $data['email'], $data['motDePasse'])) {
+            $response->getBody()->write(json_encode(['message' => 'Nom, prénom, email, and motDePasse are required']));
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
+        }
+
+        $inscriptionDTO = new InscriptionDTO(
+            $data['nom'],
+            $data['prenom'],
+            $data['email'],
+            $data['motDePasse']
         );
 
         try {
-            $authDto = $this->usecase->handle($dto);
+            $user = $this->inscriptionService->register($inscriptionDTO);
 
-            return $this->json($res, [
-                'user' => $authDto->toArray(),
-            ]);
-
-        } catch (\InvalidArgumentException $e) {
-            return $this->json($res->withStatus(400), ['error' => $e->getMessage()]);
-        } catch (\DomainException $e) {
-            return $this->json($res->withStatus(409), ['error' => $e->getMessage()]);
-        } catch (\Throwable $e) {
-            return $this->json($res->withStatus(500), ['error' => 'Erreur serveur: ' . $e->getMessage()]);
+            $response->getBody()->write(json_encode([
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'message' => 'User registered successfully'
+            ]));
+            return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->getBody()->write(json_encode(['message' => $e->getMessage()]));
+            return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
     }
-
-    private function json(Response $res, array $payload): Response
-    {
-        $res->getBody()->write(json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-        return $res->withHeader('Content-Type', 'application/json');
-    }
 }
+
+
