@@ -27,7 +27,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $reservations = [];
 
         foreach ($rows as $row) {
-            $utilisateur = new Utilisateurs($row['utilisateur_id'], $row['utilisateur_nom'], '', '', '');
+            $utilisateur = new Utilisateurs($row['utilisateur_id'], $row['utilisateur_nom'], '', '', '', 1);
             $reservations[] = new Reservation(
                 $row['id'],
                 $row['datedebut'],
@@ -49,7 +49,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
 
         if (!$row) return null;
 
-        $utilisateur = new Utilisateurs($row['utilisateur_id'], '', '', '', '');
+        $utilisateur = new Utilisateurs($row['utilisateur_id'], '', '', '', '',1);
         return new Reservation(
             $row['id'],
             $row['datedebut'],

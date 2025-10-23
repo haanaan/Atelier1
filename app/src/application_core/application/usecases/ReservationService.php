@@ -15,9 +15,6 @@ class ReservationService implements ReservationServiceInterface
         $this->repo = $repo;
     }
 
-    /**
-     * Retourne la liste de toutes les réservations.
-     */
     public function ListerReservations(): array
     {
         $reservations = $this->repo->FindAll();
@@ -37,9 +34,6 @@ class ReservationService implements ReservationServiceInterface
         return $dtoList;
     }
 
-    /**
-     * Récupère une réservation par son ID.
-     */
     public function TrouverReservation(string $id): ?ReservationDto
     {
         $r = $this->repo->FindById($id);
@@ -55,17 +49,13 @@ class ReservationService implements ReservationServiceInterface
         );
     }
 
-    /**
-     * Ajoute une réservation en base.
-     */
+
     public function AjouterReservation(Reservation $reservation): void
     {
         $this->repo->Save($reservation);
     }
 
-    /**
-     * Supprime une réservation.
-     */
+
     public function SupprimerReservation(string $id): void
     {
         $this->repo->Delete($id);
