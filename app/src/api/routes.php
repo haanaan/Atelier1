@@ -18,6 +18,7 @@ return function (\Slim\App $app): \Slim\App {
     $app->post('/api/reservations', AjouterReservationAction::class);
     $app->delete('/api/reservations/{id}', SupprimerReservationAction::class);
 
+    $app->get('/api/categories', \charlymatloc\api\actions\GetAllCategorieAction::class);
     return $app;
 };
 
