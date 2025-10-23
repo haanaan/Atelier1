@@ -16,9 +16,9 @@ class InscriptionAction {
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $data = json_decode($request->getBody()->getContents(), true);
-        error_log(print_r($data, true)); 
+        // error_log(print_r($data, true)); 
 
-        error_log(print_r($data, true)); 
+        // error_log(print_r($data, true)); 
 
         if (!isset($data['nom'], $data['prenom'], $data['email'], $data['motDePasse'])) {
             $response->getBody()->write(json_encode(['message' => 'Nom, prénom, email, and motDePasse are required']));
