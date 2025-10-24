@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const outilTitre = document.getElementById("outilTitre");
     const closeBtn = document.querySelector(".close");
     const confirmerBtn = document.getElementById("confirmerBtn");
-    const API_BASE_URL = 'http://localhost:6080/api';
+    const API_BASE_URL = 'http://localhost:24789/api';
 
     let outilSelectionne = null;
 
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             article.classList.add('outil');
             
             article.innerHTML = `
-              <img src="images/${outil.image}" alt="${outil.nom}" onerror="this.src='images/default-tool.jpg'">
+              <img src="images/${outil.image}" alt="${outil.nom}" >
               <a href="detailOutil.html?id=${outil.id}"><h2>${outil.nom}</h2></a>
               <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
               <button class="btn-reserver" data-id="${outil.id}">Réserver</button>

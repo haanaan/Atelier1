@@ -4,7 +4,7 @@ const id = params.get('id');
 if (!id) {
   document.getElementById("outil-detail").textContent = "Aucun ID d'outil fourni dans l'URL.";
 } else {
-  const API_URL = `http://localhost:6080/api/outils/${id}`; 
+  const API_URL = `http://localhost:24789/api/outils/${id}`; 
   console.log(id);
 
   fetch(API_URL)

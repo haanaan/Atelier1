@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const API_BASE_URL = 'http://localhost:6080/api';
+    const API_BASE_URL = 'http://localhost:24789/api';
     const panierContainer = document.getElementById("liste-panier");
     const summaryContainer = document.getElementById("panier-summary");
     
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
         } catch (error) {
             console.error('Erreur lors de la récupération du panier:', error);
-            panierContainer.innerHTML = `
+            panierContainer.innerHTML = ` 
                 <div id="empty-panier">
                     <p>Une erreur est survenue lors du chargement de votre panier.</p>
                     <button onclick="window.location.href='catalogue.html'">
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     
     const displayEmptyCart = () => {
-        panierContainer.innerHTML = `
+        panierContainer.innerHTML = ` 
             <div id="empty-panier">
                 <img src="images/empty-cart.svg" alt="Panier vide" onerror="this.style.display='none'">
                 <h2>Votre panier est vide</h2>
@@ -155,16 +155,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageUrl = outil.image ? `images/${outil.image}` : `images/${outil.nom.toLowerCase().replace(/\s+/g, '-')}.jpg`;
             const outilId = outil.id || outil.outilID || outil.outil_id;
             
-            item.innerHTML = `
+            item.innerHTML = ` 
                 <div class="outil-image">
-                    <img src="${imageUrl}" alt="${outil.nom}">
+                    <img src="${imageUrl}" alt="${outil.nom}" >
                 </div>
                 <div class="outil-info">
                     <h2>${outil.nom}</h2>
                     <p>${outil.description || 'Aucune description disponible'}</p>
-                    <div class="outil-categorie">${outil.categorie || 'Non catégorisé'}</div>
+                    <div class="outil-categorie">${outil.categorie_nom || outil.categorie || 'Non catégorisé'}</div>
                 </div>
-                <div class="outil-prix">${parseFloat(outil.montant || outil.prix).toFixed(2)} €/heure</div>
+                <div class="outil-prix">${parseFloat(outil.montant || outil.prix).toFixed(2)} €/jour</div>
                 <div class="outil-actions">
                     <button class="btn-remove" id="remove-${outilId}" data-id="${outilId}">Supprimer</button>
                 </div>
@@ -186,21 +186,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div id="summary-items">
                     <span>${outils.length} article${outils.length > 1 ? 's' : ''}</span>
                 </div>
+
                 <div id="summary-total">
                     <span>Total estimé:</span>
                     <span>${parseFloat(panierData.total || 0).toFixed(2)} €</span>
                 </div>
-                <button id="checkout-button">Passer la commande</button>
+                <button id="checkout-button">Confirmer la réservation</button>
                 <button id="continue-shopping">Continuer mes réservations</button>
                 <button id="clear-cart">Vider mon panier</button>
             </div>
         `;
         
         document.getElementById('checkout-button').addEventListener('click', () => {
-            showMessage('Votre commande a été passée avec succès !', 'success');
-            setTimeout(() => {
-                window.location.href = 'catalogue.html';
-            }, 2000);
+            createReservation(outils);
         });
         
         document.getElementById('continue-shopping').addEventListener('click', () => {
@@ -281,14 +279,79 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleLoader(false);
         }
     };
-     const logoutBtn = document.querySelector("#logoutbtn");
-      if (logoutBtn) {
-    logoutBtn.onclick = () => {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user');
-      window.location.href = 'auth.html';
+    
+    const createReservation = async (outils) => {
+        toggleLoader(true);
+        
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userId = user && user.id ? user.id : 'a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1';
+            
+            const token = localStorage.getItem('access_token');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const outilsTotal = outils.reduce((total, outil) => {
+                return total + (parseFloat(outil.montant || outil.prix) || 0);
+            }, 0);
+            
+            const totalAmount = outilsTotal;
+            
+            const outilIds = outils.map(outil => {
+                return outil.id || outil.outilID || outil.outil_id;
+            });
+            
+            const reservation = {
+                montanttotal: totalAmount,
+                statut: "pending",
+                outils: outilIds.join(',')
+            };
+            
+            console.log("Reservation payload:", reservation);
+            
+            // Créer la réservation
+            const response = await fetch(`${API_BASE_URL}/users/${userId}/reservations`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(reservation)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la création de la réservation: ${response.status}`);
+            }
+            
+            const reservationResult = await response.json();
+            
+            await clearPanier();
+            
+            showMessage("Réservation confirmée avec succès !", "success");
+            
+            setTimeout(() => {
+                window.location.href = 'reservations.html';
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Erreur lors de la création de la réservation:', error);
+            showMessage("Erreur lors de la création de la réservation", "error");
+        } finally {
+            toggleLoader(false);
+        }
     };
-  }
+    
+    const logoutBtn = document.querySelector("#logoutbtn");
+    if (logoutBtn) {
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            window.location.href = 'auth.html';
+        };
+    }
+    
     fetchUserPanier();
 });

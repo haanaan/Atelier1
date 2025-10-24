@@ -56,10 +56,11 @@ return [
         $user = $dbConfig['username'] ?? 'charlyoutils';
         $pass = $dbConfig['password'] ?? 'charlyoutils';
         $charset = $dbConfig['charset'] ?? 'utf8mb4';
+        $port = $dbConfig['port'];
 
         $dsn = $driver === 'mysql'
-            ? "mysql:host={$host};dbname={$dbname};charset={$charset}"
-            : "pgsql:host={$host};dbname={$dbname}";
+            ? "mysql:host={$host};port={$port};dbname={$dbname};charset={$charset}"
+            : "pgsql:host={$host};port={$port};dbname={$dbname}";
 
         return new PDO($dsn, $user, $pass);
     },
@@ -94,16 +95,16 @@ return [
 
 
         // Actions
-     AjouterReservationAction::class => function ($c) {
+    AjouterReservationAction::class => function ($c) {
         return new AjouterReservationAction(
             $c->get(ReservationServiceInterface::class)
         );
     },
-    
+
     GetOutilsAction::class => function ($c) {
         return new GetOutilsAction($c->get(OutilsServiceInterface::class));
     },
-        GetUserReservationsAction::class => function ($c) {
+    GetUserReservationsAction::class => function ($c) {
         return new GetUserReservationsAction($c->get(ReservationServiceInterface::class));
     },
 
@@ -144,15 +145,15 @@ return [
     ReservationServiceInterface::class => fn($c) =>
         new ReservationService($c->get(PDOReservationRepositoryInterface::class)),
 
-         // Auth Services
+        // Auth Services
     JwtManagerInterface::class => function ($c) {
         $settings = $c->get('settings');
         $secret = $_ENV['JWT_SECRET'] ?? $settings['jwtSecret'] ?? '511e532e2b5b5842';
         $issuer = $_ENV['JWT_ISSUER'] ?? 'charlymatloc-api';
-        
+
         $jwtManager = new JwtManager($secret);
         $jwtManager->setIssuer($issuer);
-        
+
         return $jwtManager;
     },
 
@@ -171,7 +172,7 @@ return [
         return new AuthzUtilisateurService();
     },
 
-    // Middleware
+        // Middleware
     AuthnMiddleware::class => function ($c) {
         return new AuthnMiddleware($c->get(AuthProviderInterface::class));
     },

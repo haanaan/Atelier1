@@ -3,6 +3,7 @@ declare(strict_types=1);
 use charlymatloc\api\actions\GetReservationAction;
 use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetAllCategorieAction;
+use charlymatloc\api\actions\GetOutilsByCategorieAction;
 use charlymatloc\api\actions\GetPanierByUserAction;
 use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\SigninAction;
@@ -24,14 +25,14 @@ return function (\Slim\App $app): \Slim\App {
     $app->get('/api/outils', ListerOutilsAction::class);
     $app->get('/api/outils/{id}', GetOutilsAction::class);
     $app->post('/api/inscription', InscriptionAction::class);
-    
+
     $app->post('/api/signin', SigninAction::class);
     $app->post('/api/refresh-token', RefreshTokenAction::class);
 
 
     $app->group('/api', function (\Slim\Routing\RouteCollectorProxy $group) {
 
-  
+
         // $group->get('/panier/{id}', GetPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
         // $group->get('/reservations/{id}', ListerReservationsAction::class)->add(AuthzUtilisateurMiddleware::class);
         // $group->post('/reservations', AjouterReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
@@ -43,11 +44,12 @@ return function (\Slim\App $app): \Slim\App {
         $group->delete('/users/{userId}/panier/outils/{outilId}', RemoveOutilFromPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->delete('/users/{userId}/panier/clear', ClearPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
     })->add(AuthnMiddleware::class);
-    
+
 
     // $app->get('/api/users/{userId}/panier', GetPanierByUserAction::class);
     // $app->delete('/users/{userId}/panier/clear', ClearPanierAction::class);
-
+    $app->get('/api/categories/{id}/outils', GetOutilsByCategorieAction::class);
     $app->get('/api/categories', GetAllCategorieAction::class);
+
     return $app;
 };

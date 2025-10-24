@@ -28,10 +28,10 @@ class ReservationService implements ReservationServiceInterface
                 $r->getDateFin(),
                 (float)$r->getMontantTotal(),
                 $r->getStatut(),
-                $r->getUtilisateur()->getId()
+                $r->getUtilisateur()->getId(),
+                [] 
             );
         }
-
         return $dtoList;
     }
 // Récupère les réservations par ID utilisateur
@@ -39,18 +39,31 @@ class ReservationService implements ReservationServiceInterface
     {
         $reservations = $this->repository->FindByUserId($userId);
         $dtoList = [];
-
+        
         foreach ($reservations as $r) {
+            $outilsDetails = [];
+            try {
+                $outilsJson = $r->getOutil();
+                if (!empty($outilsJson)) {
+                    $outilsDetails = json_decode($outilsJson, true);
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        $outilsDetails = [];
+                    }
+                }
+            } catch (\Exception $e) {
+                $outilsDetails = [];
+            }
+            
             $dtoList[] = new ReservationDto(
                 $r->getId(),
                 $r->getDateDebut(),
                 $r->getDateFin(),
                 (float)$r->getMontantTotal(),
                 $r->getStatut(),
-                $r->getUtilisateur()->getId()
+                $r->getUtilisateur()->getId(),
+                $outilsDetails 
             );
         }
-
         return $dtoList;
     }
 
@@ -59,14 +72,28 @@ class ReservationService implements ReservationServiceInterface
     {
         $r = $this->repository->FindById($id);
         if (!$r) return null;
-
+        
+        $outilsDetails = [];
+        try {
+            $outilsJson = $r->getOutil();
+            if (!empty($outilsJson)) {
+                $outilsDetails = json_decode($outilsJson, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    $outilsDetails = [];
+                }
+            }
+        } catch (\Exception $e) {
+            $outilsDetails = [];
+        }
+        
         return new ReservationDto(
             $r->getId(),
             $r->getDateDebut(),
             $r->getDateFin(),
             (float)$r->getMontantTotal(),
             $r->getStatut(),
-            $r->getUtilisateur()->getId()
+            $r->getUtilisateur()->getId(),
+            $outilsDetails 
         );
     }
 
