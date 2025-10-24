@@ -56,10 +56,11 @@ return [
         $user = $dbConfig['username'] ?? 'charlyoutils';
         $pass = $dbConfig['password'] ?? 'charlyoutils';
         $charset = $dbConfig['charset'] ?? 'utf8mb4';
+        $port = $dbConfig['port'];
 
         $dsn = $driver === 'mysql'
-            ? "mysql:host={$host};dbname={$dbname};charset={$charset}"
-            : "pgsql:host={$host};dbname={$dbname}";
+            ? "mysql:host={$host};port={$port};dbname={$dbname};charset={$charset}"
+            : "pgsql:host={$host};port={$port};dbname={$dbname}";
 
         return new PDO($dsn, $user, $pass);
     },

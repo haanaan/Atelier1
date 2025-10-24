@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showLoader();
     try {
       const categoriesResponse = await fetch(
-        "http://localhost:6080/api/categories"
+        "http://localhost:24789/api/categories"
       );
       if (!categoriesResponse.ok)
         throw new Error("Erreur lors de la récupération des catégories.");
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         categoriesContainer.appendChild(section);
 
-        const toolsResponse = await fetch(`http://localhost:6080/api/outils`);
+        const toolsResponse = await fetch(`http://localhost:24789/api/outils`);
         if (!toolsResponse.ok)
           throw new Error(`Erreur pour la catégorie ${cat.nom}`);
         const allOutils = await toolsResponse.json();
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const detailedPromises = outilsCat.map(async (outil) => {
           const res = await fetch(
-            `http://localhost:6080/api/outils/${outil.id}`
+            `http://localhost:24789/api/outils/${outil.id}`
           );
           if (!res.ok) throw new Error(`Erreur pour l'outil ${outil.id}`);
           return res.json();
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchOutilDetail = async (outilId) => {
     try {
       const response = await fetch(
-        `http://localhost:6080/api/outils/${outilId}`
+        `http://localhost:24789/api/outils/${outilId}`
       );
       if (!response.ok)
         throw new Error(`Erreur lors du chargement de l'outil ${outilId}`);

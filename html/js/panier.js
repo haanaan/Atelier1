@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const API_BASE_URL = 'http://localhost:6080/api';
+    const API_BASE_URL = 'http://localhost:24789/api';
     const panierContainer = document.getElementById("liste-panier");
     const summaryContainer = document.getElementById("panier-summary");
     
@@ -157,14 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
             
             item.innerHTML = `
                 <div class="outil-image">
-                    <img src="${imageUrl}" alt="${outil.nom}">
+                    <img src="${imageUrl}" alt="${outil.nom}" >
                 </div>
                 <div class="outil-info">
                     <h2>${outil.nom}</h2>
                     <p>${outil.description || 'Aucune description disponible'}</p>
-                    <div class="outil-categorie">${outil.categorie || 'Non catégorisé'}</div>
+                    <div class="outil-categorie">${outil.categorie_nom || outil.categorie || 'Non catégorisé'}</div>
                 </div>
-                <div class="outil-prix">${parseFloat(outil.montant || outil.prix).toFixed(2)} €/heure</div>
+                <div class="outil-prix">${parseFloat(outil.montant || outil.prix).toFixed(2)} €/jour</div>
                 <div class="outil-actions">
                     <button class="btn-remove" id="remove-${outilId}" data-id="${outilId}">Supprimer</button>
                 </div>
@@ -180,27 +180,33 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
         
+        const currentDate = new Date();
+        const futureDate = new Date();
+        futureDate.setDate(currentDate.getDate() + 7);
+        
+        const formatDateForInput = (date) => {
+            return date.toISOString().split('T')[0];
+        };
+        
         summaryContainer.innerHTML = `
             <div id="summary-content">
                 <h2>Résumé de votre commande</h2>
                 <div id="summary-items">
                     <span>${outils.length} article${outils.length > 1 ? 's' : ''}</span>
                 </div>
+
                 <div id="summary-total">
                     <span>Total estimé:</span>
                     <span>${parseFloat(panierData.total || 0).toFixed(2)} €</span>
                 </div>
-                <button id="checkout-button">Passer la commande</button>
+                <button id="checkout-button">Confirmer la réservation</button>
                 <button id="continue-shopping">Continuer mes réservations</button>
                 <button id="clear-cart">Vider mon panier</button>
             </div>
         `;
         
         document.getElementById('checkout-button').addEventListener('click', () => {
-            showMessage('Votre commande a été passée avec succès !', 'success');
-            setTimeout(() => {
-                window.location.href = 'catalogue.html';
-            }, 2000);
+            createReservation(outils);
         });
         
         document.getElementById('continue-shopping').addEventListener('click', () => {
@@ -212,6 +218,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearPanier();
             }
         });
+        
+        const dateDebut = document.getElementById('date-debut');
+        const dateFin = document.getElementById('date-fin');
+        
+        if (dateDebut && dateFin) {
+            const updateDateRange = () => {
+                const start = new Date(dateDebut.value);
+                const end = new Date(dateFin.value);
+                
+                if (end < start) {
+                    end.setDate(start.getDate() + 1);
+                    dateFin.value = formatDateForInput(end);
+                }
+                
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const dailyTotal = panierData.total || 0;
+                const newTotal = dailyTotal * diffDays;
+                
+                document.querySelector('#summary-total span:last-child').textContent = 
+                    `${parseFloat(newTotal).toFixed(2)} € (${diffDays} jour${diffDays > 1 ? 's' : ''})`;
+            };
+            
+            dateDebut.addEventListener('change', updateDateRange);
+            dateFin.addEventListener('change', updateDateRange);
+        }
     };
     
     const removeFromPanier = async (outilID) => {
@@ -281,14 +314,88 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleLoader(false);
         }
     };
-     const logoutBtn = document.querySelector("#logoutbtn");
-      if (logoutBtn) {
-    logoutBtn.onclick = () => {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user');
-      window.location.href = 'auth.html';
+    
+    const createReservation = async (outils) => {
+        toggleLoader(true);
+        
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userId = user && user.id ? user.id : 'a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1';
+            
+            const token = localStorage.getItem('access_token');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const dateDebut = document.getElementById('date-debut').value;
+            const dateFin = document.getElementById('date-fin').value;
+            const start = new Date(dateDebut);
+            const end = new Date(dateFin);
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            const outilsTotal = outils.reduce((total, outil) => {
+                return total + (parseFloat(outil.montant || outil.prix) || 0);
+            }, 0);
+            
+            const totalAmount = outilsTotal * diffDays;
+            
+            const outilIds = outils.map(outil => {
+                return outil.id || outil.outilID || outil.outil_id;
+            });
+            
+            const reservation = {
+                datedebut: `${dateDebut} 10:00:00`,
+                datefin: `${dateFin} 18:00:00`,
+                montanttotal: totalAmount,
+                statut: "pending",
+                outils: outilIds.join(',')
+            };
+            
+            console.log("Reservation payload:", reservation);
+            
+            // Créer la réservation
+            const response = await fetch(`${API_BASE_URL}/users/${userId}/reservations`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(reservation)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la création de la réservation: ${response.status}`);
+            }
+            
+            const reservationResult = await response.json();
+            
+            await clearPanier();
+            
+            showMessage("Réservation confirmée avec succès !", "success");
+            
+            setTimeout(() => {
+                window.location.href = 'reservations.html';
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Erreur lors de la création de la réservation:', error);
+            showMessage("Erreur lors de la création de la réservation", "error");
+        } finally {
+            toggleLoader(false);
+        }
     };
-  }
+    
+    const logoutBtn = document.querySelector("#logoutbtn");
+    if (logoutBtn) {
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            window.location.href = 'auth.html';
+        };
+    }
+    
     fetchUserPanier();
 });

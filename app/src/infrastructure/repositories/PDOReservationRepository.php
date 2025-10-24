@@ -4,6 +4,8 @@ namespace charlymatloc\infra\repositories;
 use PDO;
 use charlymatloc\core\domain\entities\Reservation;
 use charlymatloc\core\domain\entities\Utilisateurs;
+use charlymatloc\core\domain\entities\Outils;
+use charlymatloc\core\domain\entities\Categorie;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationRepositoryInterface;
 
 class PDOReservationRepository implements PDOReservationRepositoryInterface
@@ -29,7 +31,6 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         foreach ($rows as $row) {
             $utilisateur = new Utilisateurs($row['utilisateur_id'], $row['utilisateur_nom'], '', '', '', 1);
             
-            // Get associated tools
             $outilsIds = $this->getOutilsForReservation($row['id']);
             
             $reservations[] = new Reservation(
@@ -39,7 +40,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
                 $row['montanttotal'],
                 $row['statut'],
                 $utilisateur,
-                implode(',', $outilsIds) // Join tool IDs as a comma-separated string
+                implode(',', $outilsIds) 
             );
         }
         return $reservations;
@@ -48,7 +49,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
     public function FindByUserId(string $userId): array
     {
         $stmt = $this->pdo->prepare("
-            SELECT r.*, u.id AS utilisateur_id, u.nom AS utilisateur_nom
+            SELECT r.*, u.id AS utilisateur_id, u.nom AS utilisateur_nom, u.prenom AS utilisateur_prenom
             FROM reservation r
             JOIN utilisateurs u ON r.utilisateur_id = u.id
             WHERE r.utilisateur_id = :utilisateur_id
@@ -59,10 +60,16 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $reservations = [];
 
         foreach ($rows as $row) {
-            $utilisateur = new Utilisateurs($row['utilisateur_id'], $row['utilisateur_nom'], '', '', '', 1);
+            $utilisateur = new Utilisateurs(
+                $row['utilisateur_id'], 
+                $row['utilisateur_nom'] ?? '', 
+                $row['utilisateur_prenom'] ?? '', 
+                '', 
+                '', 
+                1
+            );
             
-            // Get associated tools
-            $outilsIds = $this->getOutilsForReservation($row['id']);
+            $outilsDetails = $this->getOutilsDetailsForReservation($row['id']);
             
             $reservations[] = new Reservation(
                 $row['id'],
@@ -71,7 +78,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
                 $row['montanttotal'],
                 $row['statut'],
                 $utilisateur,
-                implode(',', $outilsIds)
+                json_encode($outilsDetails)  
             );
         }
         return $reservations;
@@ -80,7 +87,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
     public function FindById(string $id): ?Reservation
     {
         $stmt = $this->pdo->prepare("
-            SELECT r.*, u.id AS utilisateur_id, u.nom AS utilisateur_nom
+            SELECT r.*, u.id AS utilisateur_id, u.nom AS utilisateur_nom, u.prenom AS utilisateur_prenom
             FROM reservation r
             JOIN utilisateurs u ON r.utilisateur_id = u.id
             WHERE r.id = :id
@@ -90,9 +97,16 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
 
         if (!$row) return null;
 
-        $utilisateur = new Utilisateurs($row['utilisateur_id'], $row['utilisateur_nom'], '', '', '', 1);
+        $utilisateur = new Utilisateurs(
+            $row['utilisateur_id'], 
+            $row['utilisateur_nom'] ?? '', 
+            $row['utilisateur_prenom'] ?? '', 
+            '', 
+            '', 
+            1
+        );
         
-        $outilsIds = $this->getOutilsForReservation($row['id']);
+        $outilsDetails = $this->getOutilsDetailsForReservation($row['id']);
         
         return new Reservation(
             $row['id'],
@@ -101,7 +115,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
             $row['montanttotal'],
             $row['statut'],
             $utilisateur,
-            implode(',', $outilsIds) 
+            json_encode($outilsDetails)  
         );
     }
 
@@ -110,7 +124,6 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $this->pdo->beginTransaction();
         
         try {
-            // Insert into the reservation table
             $stmt = $this->pdo->prepare("
                 INSERT INTO reservation (id, utilisateur_id, datedebut, datefin, montanttotal, statut)
                 VALUES (:id, :utilisateur_id, :datedebut, :datefin, :montanttotal, :statut)
@@ -124,10 +137,28 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
                 'statut' => $reservation->getStatut()
             ]);
             
-            // Handle the outils (tools) relationship
             $outilsString = $reservation->getOutil();
             if (!empty($outilsString)) {
-                $outilsIds = explode(',', $outilsString);
+                if (substr($outilsString, 0, 1) === '[' || substr($outilsString, 0, 1) === '{') {
+                    try {
+                        $outilsData = json_decode($outilsString, true);
+                        if (is_array($outilsData)) {
+                            if (isset($outilsData[0]) && is_array($outilsData[0]) && isset($outilsData[0]['id'])) {
+                                $outilsIds = array_map(function($outil) {
+                                    return $outil['id'];
+                                }, $outilsData);
+                            } else {
+                                $outilsIds = is_array($outilsData) ? $outilsData : [$outilsString];
+                            }
+                        } else {
+                            $outilsIds = explode(',', $outilsString);
+                        }
+                    } catch (\Exception $e) {
+                        $outilsIds = explode(',', $outilsString);
+                    }
+                } else {
+                    $outilsIds = explode(',', $outilsString);
+                }
                 
                 foreach ($outilsIds as $outilId) {
                     if (empty($outilId)) continue;
@@ -155,11 +186,9 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $this->pdo->beginTransaction();
         
         try {
-            // First delete from the relation table
             $stmt = $this->pdo->prepare("DELETE FROM reservation_outils WHERE reservation_id = :id");
             $stmt->execute(['id' => $id]);
             
-            // Then delete the reservation
             $stmt = $this->pdo->prepare("DELETE FROM reservation WHERE id = :id");
             $stmt->execute(['id' => $id]);
             
@@ -169,10 +198,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
             throw $e;
         }
     }
-    
-    /**
-     * Helper method to get tool IDs for a reservation
-     */
+
     private function getOutilsForReservation(string $reservationId): array
     {
         $stmt = $this->pdo->prepare("
@@ -182,5 +208,55 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $stmt->execute(['reservation_id' => $reservationId]);
         
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+    
+    private function getOutilsDetailsForReservation(string $reservationId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT o.id, o.nom, o.description, o.montant, o.image, o.exemplaires,
+                   c.id AS categorie_id, c.nom AS categorie_nom, c.description AS categorie_description
+            FROM outils o
+            JOIN reservation_outils ro ON ro.outil_id = o.id
+            LEFT JOIN categorie c ON o.categorie_id = c.id
+            WHERE ro.reservation_id = :reservation_id
+        ");
+        $stmt->execute(['reservation_id' => $reservationId]);
+        $outilsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $outilsDetails = [];
+        
+        foreach ($outilsData as $outilData) {
+            $categorie = new Categorie(
+                $outilData['categorie_id'] ?? '',
+                $outilData['categorie_nom'] ?? '',
+                $outilData['categorie_description'] ?? ''
+            );
+            
+            $outil = new Outils(
+                $outilData['id'],
+                $outilData['nom'],
+                $outilData['description'],
+                $outilData['montant'],
+                $outilData['image'],
+                $outilData['exemplaires'],
+                $categorie
+            );
+            
+            $outilsDetails[] = [
+                'id' => $outil->getId(),
+                'nom' => $outil->getNom(),
+                'description' => $outil->getDescription(),
+                'montant' => $outil->getMontant(),
+                'image' => $outil->getImage(),
+                'exemplaires' => $outil->getExemplaires(),
+                'categorie' => [
+                    'id' => $categorie->getId(),
+                    'nom' => $categorie->getNom(),
+                    'description' => $categorie->getDescription()
+                ]
+            ];
+        }
+        
+        return $outilsDetails;
     }
 }

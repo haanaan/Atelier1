@@ -9,6 +9,7 @@ class ReservationDto
     public float $montanttotal;
     public string $statut;
     public string $utilisateur_id;
+    public array $outils;
 
     public function __construct(
         string $id,
@@ -16,7 +17,8 @@ class ReservationDto
         string $datefin,
         float $montanttotal,
         string $statut,
-        string $utilisateur_id
+        string $utilisateur_id,
+        array $outils = []
     ) {
         $this->id = $id;
         $this->datedebut = $datedebut;
@@ -24,5 +26,6 @@ class ReservationDto
         $this->montanttotal = $montanttotal;
         $this->statut = $statut;
         $this->utilisateur_id = $utilisateur_id;
+        $this->outils = $outils;
     }
 }

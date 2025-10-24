@@ -3,46 +3,55 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Catalogue</title>
+    <title>Catalogue - CharlyMatLoc</title>
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/cataloguess.css" />
     <link rel="icon" type="image/png" href="images/Charly.png" />
-    <style>
-
-    </style>
 </head>
-
 <body>
   <header>
     <nav class="navbar">
-      <a href="#" >
+      <a href="index.html" class="brand">
         CharlyMATLOC
-        <!-- <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" /> -->
       </a>
       <ul>
         <li><a href="index.html">Accueil</a></li>
         <li><a href="catalogue.html" class="active">Catalogue</a></li>
         <li><a href="panier.html">Panier</a></li>
+        <li><a href="reservations.html">Mes Réservations</a></li>
         <li><a href="#" id="logoutbtn">Logout</a></li>
       </ul>
     </nav>
   </header>
-
   <main>
     <section class="intro">
       <h1>Nos outils disponibles à la location</h1>
-      <p>Découvrez notre sélection d’outils pour vos travaux, rénovations et projets de bricolage.</p>
+      <p>Découvrez notre sélection d'outils pour vos travaux, rénovations et projets de bricolage.</p>
     </section>
-
-    <section class="catalogue" id="catalogue" aria-label="Catalogue d’outils"></section>
-
+    <section class="catalogue" id="catalogue" aria-label="Catalogue d'outils"></section>
     <div class="loader" id="loader"></div>
   </main>
-
-
   <footer>
-    <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
+    <p>&copy; 2025 CharlyMatLoc — Location d'outils entre particuliers.</p>
   </footer>
+  
+  <div id="calendrierModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="outilTitre"></div>
+      <button id="confirmerBtn">Ajouter au panier</button>
+    </div>
+  </div>
+  
+  <div id="message-container"></div>
+  
+  <script src="js/token.js"></script>
+  <script src="js/catal.js"></script>
+</body>
+</html>
+
+
+
 <div id="calendrierModal">
   <div class="modal-content">
     <span class="close">&times;</span> 
@@ -56,7 +65,3 @@
     <button id="confirmerBtn">Confirmer la réservation</button>
   </div>
 </div>
-   <script src="js/token.js"></script>
-  <script src="js/catal.js"></script>
-</body>
-</html>

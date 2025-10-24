@@ -9,7 +9,7 @@
 
 .main nav a {
   text-decoration: none;
-  color: #ff7a1a;
+  color: black;
   padding: 0.6em 1em;
 }
 
@@ -45,7 +45,6 @@
 }
 
 .main .detail > div:nth-child(2) {
-  display: flex;
   margin: 2em;
 }
 
