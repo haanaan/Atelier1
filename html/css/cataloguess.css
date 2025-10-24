@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-header nav, header nav ul, #catalogue {
+#catalogue {
   display: flex;
   flex-wrap: wrap;
 }
 
-header nav a, header nav ul, header nav ul li, article {
+article {
   margin-left: 0.5em;
   margin-top: 0.5em;
   padding: 0.2em 0.5em;
@@ -19,50 +19,14 @@ article img {
 }
 
 @media screen and (max-width: 60em) {
-  header nav a {
-    width: 15.5%;
-  }
-}
-
-@media screen and (max-width: 60em) {
-  header nav ul {
-    width: 81.5%;
-  }
-}
-
-@media screen and (max-width: 60em) {
-  header nav ul li, article {
+  article {
     width: 98%;
   }
 }
 
 @media screen and (min-width: 60em) {
-  header nav a {
-    width: 7.25%;
-  }
-}
-
-@media screen and (min-width: 60em) {
   article {
-    width: 48.5%;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  header nav a img {
-    width: 81.5%;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  header nav ul {
-    width: 89.75%;
-  }
-}
-
-@media screen and (min-width: 80em) {
-  article {
-    width: 32%;
+    width: 23.75%;
   }
 }
 
@@ -84,11 +48,22 @@ article {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 1rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+article div {
+  text-align: center;
+}
+article div img {
+  height: 15em;
+  width: 15em;
 }
 article a {
   text-decoration: none;
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1.1em;
+  height: 4em;
   font-weight: bold;
   text-align: center;
   display: block;
@@ -146,38 +121,6 @@ main section p {
     transform: rotate(360deg);
   }
 }
-header nav {
-  padding: 1em 0em;
-  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
-  align-items: center;
-}
-header nav a {
-  color: #333;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.5s ease;
-}
-header nav a:hover {
-  color: #f09124;
-}
-header nav ul {
-  justify-content: right;
-}
-header nav ul li {
-  justify-content: right;
-  list-style: none;
-}
-header nav ul li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  font-family: "Inter", sans-serif;
-  transition: all 0.3s ease;
-}
-header nav ul li a:hover {
-  color: #ff9010;
-}
-
 footer p {
   color: #333;
   text-align: left;

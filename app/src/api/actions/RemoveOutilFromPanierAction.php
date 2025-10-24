@@ -1,16 +1,18 @@
 <?php
 namespace charlymatloc\api\actions;
- use charlymatloc\core\application\usecases\PanierService;
+
+use charlymatloc\core\application\usecases\PanierService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class RemoveOutilFromPanierAction{
+class RemoveOutilFromPanierAction {
     private PanierService $panierService;
-    public function __construct(PanierService $panierService){
-        $this->panierService=$panierService;
+
+    public function __construct(PanierService $panierService) {
+        $this->panierService = $panierService;
     }
 
-    public function __invoke(Response $response,Request $request,array $args):Response{
+    public function __invoke(Request $request, Response $response, array $args): Response {
         try {
             $userId = $args['userId'] ?? null;
             $outilId = $args['outilId'] ?? null;
@@ -37,7 +39,5 @@ class RemoveOutilFromPanierAction{
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
         }
-    
-
     }
 }

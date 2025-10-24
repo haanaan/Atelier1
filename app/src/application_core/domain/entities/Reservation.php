@@ -9,7 +9,7 @@ class Reservation
     private float $montanttotal;
     private string $statut;
     private Utilisateurs $utilisateur;
-    private array $outils;
+    private string $outils;
 
     public function __construct(
         string $id,
@@ -18,7 +18,7 @@ class Reservation
         float $montanttotal,
         string $statut,
         Utilisateurs $utilisateur,
-        array $outils = []         
+        string $outils      
     ) {
         $this->id = $id;
         $this->datedebut = $datedebut;
@@ -35,5 +35,5 @@ class Reservation
     public function getMontantTotal(): float { return $this->montanttotal; }
     public function getStatut(): string { return $this->statut; }
     public function getUtilisateur(): Utilisateurs { return $this->utilisateur; }
-    public function getOutil(): array { return $this->outils; }
+    public function getOutil(): string{ return $this->outils; }
 }

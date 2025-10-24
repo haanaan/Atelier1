@@ -4,58 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Votre Panier - CharlyMatLoc</title>
-  <link rel="stylesheet" href="css/cataloguess.css" />
+  <link rel="stylesheet" href="css/header.css" />
   <link rel="stylesheet" href="css/panier.css" />
   <link rel="icon" type="image/png" href="images/Charly.png" />
-  </head>
-
+</head>
 <body class="page-panier">
   <header>
-    <nav class="navbar">
+    <nav>
       <a href="catalogue.html" class="brand">
-        <!-- <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" /> -->
         <span>CharlyMatLoc</span>
       </a>
       <ul>
         <li><a href="index.html">Accueil</a></li>
-        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="catalogue.html" >Catalogue</a></li>
         <li><a href="panier.html" class="active">Panier</a></li>
-        <li><a href="apropos.html">À propos</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" id="logoutbtn">Logout</a></li>
       </ul>
     </nav>
   </header>
-
   <main>
     <section class="intro">
       <h1>Mon panier de réservations</h1>
-      <p>Voici les outils que vous avez sélectionnés avec leur date et statut.</p>
+      <p>Voici les outils que vous avez sélectionnés pour votre projet.</p>
     </section>
+    
+    <div id="panier-container">
+      <section id="liste-panier">
 
-    <section id="liste-panier">
-
+      </section>
       
-    </section>
-
+      <aside id="panier-summary">
+        
+      </aside>
+    </div>
+    
     <section class="actions-panier">
-      <button class="btn-secondaire" onclick="window.location.href='catalogue.html'">
+      <button class="btn-secondaire" id="continue-shopping">
          Continuer mes réservations
       </button>
-
       <button class="btn-confirmer" id="confirmerPanier">
          Confirmer mon panier
       </button>
-
       <button class="btn-secondaire" id="viderPanier">
         Vider le panier
       </button>
     </section>
   </main>
-
   <footer>
-    <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
+    <p>&copy; 2025 CharlyMatLoc — Location d'outils entre particuliers.</p>
   </footer>
-
+  
+  <!-- Loader pour les appels API -->
+  <div id="api-loader"></div>
+  <div id="loader-overlay"></div>
+  <script src="js/token.js"></script>
   <script src="js/panier.js"></script>
 </body>
 </html>

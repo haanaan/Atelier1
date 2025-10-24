@@ -1,10 +1,12 @@
 <?php
 
 use charlymatloc\api\actions\AddOutilToPanierAction;
+use charlymatloc\api\actions\AjouterReservationAction;
 use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
 use charlymatloc\api\actions\GetPanierByUserAction;
+use charlymatloc\api\actions\GetUserReservationsAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\RemoveOutilFromPanierAction;
@@ -34,12 +36,8 @@ use charlymatloc\api\provider\AuthProviderInterface;
 use charlymatloc\api\provider\jwt\JwtAuthProvider;
 use charlymatloc\core\application\ports\api\AuthzUtilisateurServiceInterface;
 use charlymatloc\core\application\ports\api\InscriptionServiceInterface;
-use charlymatloc\core\application\ports\api\ReservationServiceInterface;
-use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationRepositoryInterface;
 use charlymatloc\core\application\usecases\AuthzUtilisateurService;
 use charlymatloc\core\application\usecases\InscriptionService;
-use charlymatloc\core\application\usecases\ReservationService;
-use charlymatloc\infra\repositories\PDOReservationRepository;
 use charlymatloc\infra\repositories\UserRepository;
 use charlymatloc\api\provider\jwt\JwtManagerInterface;
 use charlymatloc\core\application\ports\api\CategorieServiceInterface;
@@ -94,9 +92,19 @@ return [
 
 
 
+
         // Actions
+     AjouterReservationAction::class => function ($c) {
+        return new AjouterReservationAction(
+            $c->get(ReservationServiceInterface::class)
+        );
+    },
+    
     GetOutilsAction::class => function ($c) {
         return new GetOutilsAction($c->get(OutilsServiceInterface::class));
+    },
+        GetUserReservationsAction::class => function ($c) {
+        return new GetUserReservationsAction($c->get(ReservationServiceInterface::class));
     },
 
     GetOutilsAction::class => fn($c) =>

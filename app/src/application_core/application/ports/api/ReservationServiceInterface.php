@@ -10,5 +10,5 @@ interface ReservationServiceInterface
     public function AfficheById(string $id): ?ReservationDto;
     public function AjouterReservation(Reservation $reservation): void;
     public function SupprimerReservation(string $id): void;
-
+    public function ListerReservationsByUserId(string $userId): array;
 }

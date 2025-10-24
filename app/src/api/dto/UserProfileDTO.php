@@ -1,8 +1,6 @@
 <?php
 namespace charlymatloc\api\dto;
 
-
-
 class UserProfileDTO{
     public string $id;
     public string $email;

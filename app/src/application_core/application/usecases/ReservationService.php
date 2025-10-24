@@ -19,15 +19,52 @@ class ReservationService implements ReservationServiceInterface
     {
         $reservations = $this->repository->FindAll();
 
-        return array_map(fn($r) => new ReservationDto($r), $reservations);
+        foreach ($reservations as $r) {
+            $dtoList[] = new ReservationDto(
+                $r->getId(),
+                $r->getDateDebut(),
+                $r->getDateFin(),
+                (float)$r->getMontantTotal(),
+                $r->getStatut(),
+                $r->getUtilisateur()->getId()
+            );
+        }
+
+        return $dtoList;
     }
+public function ListerReservationsByUserId(string $userId): array
+    {
+        $reservations = $this->repository->FindByUserId($userId);
+        $dtoList = [];
+
+        foreach ($reservations as $r) {
+            $dtoList[] = new ReservationDto(
+                $r->getId(),
+                $r->getDateDebut(),
+                $r->getDateFin(),
+                (float)$r->getMontantTotal(),
+                $r->getStatut(),
+                $r->getUtilisateur()->getId()
+            );
+        }
+
+        return $dtoList;
+    }
+
 
     public function AfficheById(string $id): ?ReservationDto
     {
         $r = $this->repository->FindById($id);
         if (!$r) return null;
 
-        return new ReservationDto($r);
+        return new ReservationDto(
+            $r->getId(),
+            $r->getDateDebut(),
+            $r->getDateFin(),
+            (float)$r->getMontantTotal(),
+            $r->getStatut(),
+            $r->getUtilisateur()->getId()
+        );
     }
 
     public function AjouterReservation(Reservation $reservation): void
