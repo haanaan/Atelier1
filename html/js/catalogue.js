@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const outilTitre = document.getElementById("outilTitre");
     const closeBtn = document.querySelector(".close");
     const confirmerBtn = document.getElementById("confirmerBtn");
-    const API_BASE_URL = 'http://localhost:6080/api';
+    const API_BASE_URL = 'http://localhost:24789/api';
 
     let outilSelectionne = null;
 

@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '6080:80'  # Port exposé pour l'API Slim
+      - '24789:80'  # Port exposé pour l'API Slim
     volumes:
       - ./app:/var/php
     working_dir: /var/php
@@ -26,7 +26,7 @@ services:
     image: 'postgres:latest'
     env_file: ./charyoutils.env  # Chargement des variables d'environnement pour PostgreSQL
     ports:
-      - '5432:5432'  # Port exposé pour la base de données outils
+      - '24790:5432'  # Port exposé pour la base de données outils
     networks:
       - charlymatloc.net
     volumes:
@@ -87,7 +87,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     ports:
-      - "8080:80"
+      - "24791:80"
     volumes:
       - ./html:/var/www/html
     networks:

@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Votre Panier - CharlyMatLoc</title>
+  <title>Mes Réservations - CharlyMatLoc</title>
   <link rel="stylesheet" href="css/header.css" />
-  <link rel="stylesheet" href="css/panier.css" />
+  <link rel="stylesheet" href="css/reservations.css" />
   <link rel="icon" type="image/png" href="images/Charly.png" />
 </head>
-<body class="page-panier">
+<body class="page-reservations">
   <header>
     <nav>
       <a href="catalogue.html" class="brand">
@@ -16,39 +16,32 @@
       </a>
       <ul>
         <li><a href="index.html">Accueil</a></li>
-        <li><a href="catalogue.html" >Catalogue</a></li>
-        <li><a href="panier.html" class="active">Panier</a></li>
-        <li><a href="reservations.html" >Mes Réservations</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="panier.html">Panier</a></li>
+        <li><a href="reservations.html" class="active">Mes Réservations</a></li>
         <li><a href="#" id="logoutbtn">Logout</a></li>
       </ul>
     </nav>
   </header>
   <main>
     <section class="intro">
-      <h1>Mon panier de réservations</h1>
-      <p>Voici les outils que vous avez sélectionnés pour votre projet.</p>
+      <h1>Mes Réservations</h1>
+      <p>Voici l'historique de vos réservations d'outils.</p>
     </section>
-    
-    <div id="panier-container">
-      <section id="liste-panier">
-
-      </section>
-      
-      <aside id="panier-summary">
-        
-      </aside>
+   
+    <div id="reservations-container">
     </div>
-    
-
+   
   </main>
   <footer>
     <p>&copy; 2025 CharlyMatLoc — Location d'outils entre particuliers.</p>
   </footer>
-  
-  <!-- Loader pour les appels API -->
+ 
   <div id="api-loader"></div>
   <div id="loader-overlay"></div>
+  <div id="message-container"></div>
+  
   <script src="js/token.js"></script>
-  <script src="js/panier.js"></script>
+  <script src="js/reservations.js"></script>
 </body>
 </html>

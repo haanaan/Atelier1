@@ -4,9 +4,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.querySelector(".close");
   const logoutBtn = document.querySelector("#logoutbtn");
   const confirmerBtn = document.getElementById("confirmerBtn");
-  const API_BASE_URL = 'http://localhost:6080/api';
+  const API_BASE_URL = 'http://localhost:24789/api';
 
   let outilSelectionne = null;
+
+  // Initialiser les champs de date avec des valeurs par défaut
+  const datePicker = document.getElementById("datePicker");
+  const timePicker = document.getElementById("timePicker");
+  
+  // Définir la date d'aujourd'hui comme valeur par défaut pour le datePicker
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  if (datePicker) {
+    datePicker.value = formattedDate;
+    datePicker.min = formattedDate; // Empêcher la sélection de dates passées
+  }
+  
+  // Définir une heure par défaut (10:00)
+  if (timePicker) {
+    timePicker.value = "10:00";
+  }
 
   const showLoader = () => {
     const loader = document.getElementById('loader');
@@ -82,18 +99,41 @@ document.addEventListener("DOMContentLoaded", () => {
       const article = document.createElement('article');
       article.classList.add('outil', 'm3', 's12', 'l3');
       
+      // Utiliser une image par défaut si l'image n'existe pas
+      const imageUrl = outil.image ? `images/${outil.image}` : 'images/tool-placeholder.jpg';
+      
       article.innerHTML = `
-        <div class="img-container"><img src="images/${outil.image}" alt="${outil.nom}" ></div>
+        <div class="img-container">
+          <img src="${imageUrl}" alt="${outil.nom}" onerror="this.src='images/tool-placeholder.jpg'">
+        </div>
         <a href="detailOutil.html?id=${outil.id}"><h2>${outil.nom}</h2></a>
         <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
         <div class="btn-container">
           <button class="btn-reserver" data-id="${outil.id}">Réserver</button>
+          <button class="btn-ajouter-panier" data-id="${outil.id}">Ajouter au panier</button>
         </div>
       `;
       catalogueSection.appendChild(article);
     });
 
+    // Écouteur pour le bouton réserver (ouvrir modal avec date)
     document.querySelectorAll('.btn-reserver').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.id) {
+          showMessage("Vous devez être connecté pour réserver", "error");
+          setTimeout(() => {
+            window.location.href = 'auth.html';
+          }, 1500);
+          return;
+        }
+        fetchOutilDetails(id, 'reserver');
+      });
+    });
+    
+    // Écouteur pour le bouton ajouter au panier (direct sans modal)
+    document.querySelectorAll('.btn-ajouter-panier').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.target.getAttribute('data-id');
         const user = JSON.parse(localStorage.getItem('user'));
@@ -104,19 +144,24 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 1500);
           return;
         }
-        fetchOutilDetails(id);
+        addToPanier(id);
       });
     });
   };
 
-  const fetchOutilDetails = async (id) => {
+  const fetchOutilDetails = async (id, action = 'reserver') => {
     try {
       const response = await fetch(`${API_BASE_URL}/outils/${id}`);
       if (!response.ok) {
         throw new Error("Erreur dans la récupération des détails de l'outil.");
       }
       const outil = await response.json();
-      showModal(outil); 
+      
+      if (action === 'reserver') {
+        showModal(outil);
+      } else {
+        addToPanier(id);
+      }
     } catch (error) {
       console.error('Erreur lors de la récupération des détails de l\'outil:', error);
       showMessage("Une erreur est survenue lors du chargement des détails de l'outil.", "error");
@@ -130,19 +175,70 @@ document.addEventListener("DOMContentLoaded", () => {
       image: outil.image,
       description: outil.description,
       montant: outil.montant,
-      categorie: outil.categorie
+      categorie: outil.categorie_nom || outil.categorie
     };
+
+    // Générer la date de fin par défaut (7 jours après la date de début)
+    const endDate = new Date(datePicker.value);
+    endDate.setDate(endDate.getDate() + 7);
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+    
+    // Calculer le prix total par défaut (pour 7 jours)
+    const prixJournalier = parseFloat(outilSelectionne.montant);
+    const totalEstime = (prixJournalier * 7).toFixed(2);
 
     outilTitre.innerHTML = `
       <h3>${outilSelectionne.nom}</h3>
-      <p>${outilSelectionne.description}</p>
-      <p><strong>Catégorie:</strong> ${outilSelectionne.categorie}</p>
-      <p><strong>Prix:</strong> ${outilSelectionne.montant} €/heure</p>
+      <p>${outilSelectionne.description || 'Aucune description disponible'}</p>
+      <p><strong>Catégorie:</strong> ${outilSelectionne.categorie || 'Non catégorisé'}</p>
+      <p><strong>Prix:</strong> ${prixJournalier.toFixed(2)} €/jour</p>
+      <div class="dates-reservation">
+        <div class="date-field">
+          <label for="date-debut">Date de début:</label>
+          <input type="date" id="date-debut" value="${datePicker.value}" min="${datePicker.value}">
+        </div>
+        <div class="date-field">
+          <label for="date-fin">Date de fin:</label>
+          <input type="date" id="date-fin" value="${formattedEndDate}" min="${datePicker.value}">
+        </div>
+      </div>
+      <div class="prix-total">
+        <p>Total estimé: <span>${totalEstime}</span> €</p>
+      </div>
     `;
+    
+    // Mettre à jour le total lorsque les dates changent
+    const dateDebut = document.getElementById('date-debut');
+    const dateFin = document.getElementById('date-fin');
+    
+    if (dateDebut && dateFin) {
+      const updateTotal = () => {
+        const start = new Date(dateDebut.value);
+        const end = new Date(dateFin.value);
+        
+        // S'assurer que la date de fin est après la date de début
+        if (end < start) {
+          end.setDate(start.getDate() + 1);
+          dateFin.value = end.toISOString().split('T')[0];
+        }
+        
+        // Calculer le nombre de jours
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        // Mettre à jour le total
+        const newTotal = (prixJournalier * diffDays).toFixed(2);
+        document.querySelector('.prix-total span').textContent = newTotal;
+      };
+      
+      dateDebut.addEventListener('change', updateTotal);
+      dateFin.addEventListener('change', updateTotal);
+    }
+    
     modal.style.display = "flex";
   };
   
-  const addToPanier = async (outilId, dateTime = null) => {
+  const addToPanier = async (outilId) => {
     showLoader();
     
     try {
@@ -168,6 +264,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       await response.json();
+      
+      // Stocker les dates sélectionnées dans localStorage si disponibles
+      if (modal.style.display === "flex") {
+        const dateDebut = document.getElementById('date-debut');
+        const dateFin = document.getElementById('date-fin');
+        
+        if (dateDebut && dateFin) {
+          // Sauvegarder les dates pour les utiliser dans la page panier
+          localStorage.setItem('reservation_date_debut', dateDebut.value);
+          localStorage.setItem('reservation_date_fin', dateFin.value);
+          localStorage.setItem('reservation_total', document.querySelector('.prix-total span').textContent);
+        }
+      }
       
       showMessage("Outil ajouté au panier avec succès", "success");
       
@@ -206,15 +315,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (confirmerBtn) {
     confirmerBtn.onclick = () => {
-      const date = document.getElementById("datePicker");
-      const time = document.getElementById("timePicker");
-      
-      if (!date || !time || !date.value || !time.value) {
-        showMessage("Veuillez choisir une date et une heure", "error");
-        return;
+      if (modal.style.display === "flex") {
+        const dateDebut = document.getElementById('date-debut');
+        const dateFin = document.getElementById('date-fin');
+        
+        if (!dateDebut || !dateFin || !dateDebut.value || !dateFin.value) {
+          showMessage("Veuillez choisir une date de début et de fin", "error");
+          return;
+        }
+        
+        const start = new Date(dateDebut.value);
+        const end = new Date(dateFin.value);
+        
+        if (end < start) {
+          showMessage("La date de fin doit être après la date de début", "error");
+          return;
+        }
+        
+        addToPanier(outilSelectionne.id);
+      } else {
+        if (!datePicker || !timePicker || !datePicker.value || !timePicker.value) {
+          showMessage("Veuillez choisir une date et une heure", "error");
+          return;
+        }
+        
+        addToPanier(outilSelectionne.id, `${datePicker.value} ${timePicker.value}`);
       }
       
-      addToPanier(outilSelectionne.id, `${date.value} ${time.value}`);
       modal.style.display = "none";
     };
   }

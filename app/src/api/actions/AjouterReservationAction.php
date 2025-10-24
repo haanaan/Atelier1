@@ -14,7 +14,7 @@ class AjouterReservationAction
     private ReservationServiceInterface $service;
 
     public function __construct(
-        ReservationServiceInterface $service,
+        ReservationServiceInterface $service
     ) {
         $this->service = $service;
     }
@@ -22,15 +22,14 @@ class AjouterReservationAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $userId = $args['id'];
-        $data = (array)$request->getParsedBody();
+        $requestBody = $request->getBody()->getContents();
+        $data = json_decode($requestBody, true);
         
-        // Get the authenticated user from the request attributes
         $authenticatedUser = $request->getAttribute('authenticated_user');
         
-        // Check if the authenticated user is trying to create a reservation for someone else
         if ($authenticatedUser instanceof UserProfileDTO && 
             $authenticatedUser->id !== $userId && 
-            $authenticatedUser->role !== '100') { // Assuming 100 is admin role
+            $authenticatedUser->role !== '100') {
             
             $response->getBody()->write(json_encode([
                 'error' => 'Forbidden',
@@ -39,28 +38,26 @@ class AjouterReservationAction
             return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
         }
         
-        // Create a minimal user object with just the ID
         $utilisateur = new Utilisateurs(
             $userId,
-            '', // nom
-            '', // prenom
-            '', // email
-            '', // password
-            1
+            '', 
+            '', 
+            '', 
+            '',
+            1  
         );
         
-        // Parse outils (tools) from the request
-        $outilsIds = isset($data['outils']) ? $data['outils'] : [];
-        
-        // If outils is a string, convert it to array
-        if (is_string($outilsIds) && !empty($outilsIds)) {
-            $outilsIds = explode(',', $outilsIds);
+        $outilsString = "";
+        if (isset($data['outils'])) {
+            if (is_array($data['outils'])) {
+                $outilsString = implode(',', array_filter(array_map('trim', $data['outils'])));
+            } else {
+                $outilsString = $data['outils'];
+            }
         }
         
-        // Generate a new UUID for the reservation
         $reservationId = $data['id'] ?? Uuid::uuid4()->toString();
         
-        // Ensure we have valid date values (use current date/time if missing)
         $currentDateTime = date('Y-m-d H:i:s');
         $dateDebut = !empty($data['datedebut']) ? $data['datedebut'] : $currentDateTime;
         $dateFin = !empty($data['datefin']) ? $data['datefin'] : date('Y-m-d H:i:s', strtotime('+7 days'));
@@ -72,21 +69,25 @@ class AjouterReservationAction
             (float)($data['montanttotal'] ?? 0),
             $data['statut'] ?? 'pending',
             $utilisateur,
-            is_array($outilsIds) ? implode(',', $outilsIds) : $outilsIds
+            $outilsString
         );
         
         try {
             $this->service->AjouterReservation($reservation);
-            
+                        
             $response->getBody()->write(json_encode([
+                'success' => true,
                 'message' => 'Réservation ajoutée avec succès',
-                'reservation_id' => $reservationId
+                'reservation_id' => $reservationId,
+                'outils' => $outilsString,
+                'data' => $data
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
         } catch (\Exception $e) {
             $response->getBody()->write(json_encode([
                 'error' => 'Error creating reservation',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'outils_data' => $outilsString
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
