@@ -53,4 +53,30 @@ class OutilsService implements OutilsServiceInterface
             $outil->getMontant()
         );
     }
+
+    public function AfficheOutilsByCategorie(string $categorieId): array
+    {
+        $outils = $this->outilsRepository->findAll();
+        $outilsDTO = [];
+
+        foreach ($outils as $outil) {
+            if ($outil->getCategorie()->getId() === $categorieId) {
+                $outilsDTO[] = new OutilCatalogue(
+                    $outil->getId(),
+                    $outil->getNom(),
+                    $outil->getImage(),
+                    $outil->getExemplaires()
+                );
+            }
+        }
+
+        foreach ($outils as $outil) {
+            error_log("Outil: " . $outil->getNom() . " Catégorie: " . ($outil->getCategorie() ? $outil->getCategorie()->getNom() : 'null'));
+        }
+
+
+        return $outilsDTO;
+    }
+
+
 }

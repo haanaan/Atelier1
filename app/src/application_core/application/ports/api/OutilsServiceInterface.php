@@ -4,8 +4,11 @@ namespace charlymatloc\core\application\ports\api;
 
 use charlymatloc\api\dto\DetailOutilDto;
 
-interface OutilsServiceInterface {
+interface OutilsServiceInterface
+{
     public function AfficheOutils(): array;
 
     public function AfficheById(string $id_p): DetailOutilDto;
+
+    public function AfficheOutilsByCategorie(string $categorieId): array;
 }

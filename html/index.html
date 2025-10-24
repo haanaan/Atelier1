@@ -10,13 +10,15 @@
 </head>
 
 <body>
-  <!-- HEADER -->
   <header>
     <nav class="navbar">
-      <a href="index.html">CharlyMATLOC</a>
+      <a href="#" >
+        CharlyMATLOC
+        <!-- <img src="images/Charly.png" alt="Logo CharlyMatLoc" width="48" height="48" /> -->
+      </a>
       <ul>
         <li><a href="index.html" class="active">Accueil</a></li>
-        <li><a href="catalogue.html" >Catalogue</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
         <li><a href="panier.html">Panier</a></li>
         <li><a href="#" id="logoutbtn">Logout</a></li>
       </ul>
@@ -33,21 +35,49 @@
       </p>
     </section>
 
-    <section class="popular" id="popular">
-    <h2>Outils populaires</h2>
-    <div class="popular-grid" id="popular-grid">
-    </div>
-  </section>
+    <section class="categories">
+      <h2>Catégories</h2>
+      <div class="categories-grid">
 
-  <section class="categories" id="categories"></section>
-  <div class="loader" id="loader"></div>
+        <a href="categorie.html?id=11111111-1111-1111-1111-111111111111" class="category-card">
+          <img src="images/petit_outillage.jpg" alt="Petit outillage" />
+          <div class="overlay"><h3>Petit outillage</h3></div>
+        </a>
+
+        <a href="categorie.html?id=22222222-2222-2222-2222-222222222222" class="category-card">
+          <img src="images/menuiserie.jpg" alt="Menuiserie et charpente" />
+          <div class="overlay"><h3>Menuiserie et charpente</h3></div>
+        </a>
+
+        <a href="categorie.html?id=33333333-3333-3333-3333-333333333333" class="category-card">
+          <img src="images/peinture-decoration.jpg" alt="Peinture et décoration" />
+          <div class="overlay"><h3>Peinture & décoration</h3></div>
+        </a>
+
+        <a href="categorie.html?id=44444444-4444-4444-4444-444444444444" class="category-card">
+          <img src="images/nettoyage_entretien.jpg" alt="Nettoyage et entretien" />
+          <div class="overlay"><h3>Nettoyage et entretien</h3></div>
+        </a>
+
+        <a href="categorie.html?id=55555555-5555-5555-5555-555555555555" class="category-card">
+          <img src="images/jardinage-espaces_verts.jpeg" alt="Jardinage et espaces verts" />
+          <div class="overlay"><h3>Jardinage et espaces verts</h3></div>
+        </a>
+
+        <a href="categorie.html?id=66666666-6666-6666-6666-666666666666" class="category-card">
+          <img src="images/carrelage_revetement.jpg" alt="Carrelage et revêtement de sol" />
+          <div class="overlay"><h3>Carrelage et revêtement de sol</h3></div>
+        </a>
+
+      </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
   </footer>
 
-   <script src="js/token.js"></script>
+  <script src="js/token.js"></script>
   <script src="js/index.js"></script>
 </body>
 </html>
