@@ -1,20 +1,125 @@
-@use 'contentDetail';
-@use 'header';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-.main{
+body, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.outil-detail {
+  max-width: 900px;
+  margin: 4em auto;
+  padding: 0 2em;
+
+  .loading {
+    text-align: center;
+    font-size: 1.2em;
+    color: #777;
+  }
+
+  .outil-card {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2em;
+    background: #fff;
+    padding: 2em;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
-    .detail{
-        @extend %detail;
-  > div:nth-child(1) img {
-   @extend %image
+    img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .outil-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      h2 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 0.5em;
+      }
+
+      p {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 0.5em;
+      }
+
+      .btn-reserver {
+        margin-top: 1em;
+        padding: 0.8em 1.2em;
+        background-color: #ff9010;
+        border: none;
+        color: white;
+        font-size: 1em;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background-color: #e07b00;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+      }
+    }
   }
-  > div:nth-child(2){
-    @extend %content;
-  }
+    .btn-retour {
+      display: inline-block;
+      padding: 0.6em 1.2em;
+      background-color: #ff9010;
+      color: #5e380d;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1em;
+      text-decoration: none;
+      text-align: center;
+  
+      &:hover {
+        background-color: #e67e22;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+  
+      &:active {
+        transform: translateY(0);
+        box-shadow: none;
+      }
+  
+      &:focus {
+        outline: none;
+      }
     }
 }
-footer{
-  @extend  %footer;
+
+
+@media (max-width: 768px) {
+  .outil-card {
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+    }
+
+    .outil-info {
+      width: 100%;
+      text-align: center;
+    }
+  }
 }

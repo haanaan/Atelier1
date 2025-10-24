@@ -50,7 +50,8 @@ class OutilsService implements OutilsServiceInterface
             $outil->getDescription(),
             $outil->getImage(),
             $outil->getCategorie()->getNom(),
-            $outil->getMontant()
+            $outil->getMontant(),
+            $outil->getExemplaires()
         );
     }
 

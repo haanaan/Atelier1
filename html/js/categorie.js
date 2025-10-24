@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const catRes = await fetch(`http://localhost:6080/api/categories`);
+      const catRes = await fetch(`http://localhost:24789/api/categories`);
       if (!catRes.ok)
         throw new Error("Erreur lors du chargement des catégories");
       const categories = await catRes.json();
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       descCategorie.textContent = cat.description || "";
 
       const outilsRes = await fetch(
-        `http://localhost:6080/api/categories/${id}/outils`
+        `http://localhost:24789/api/categories/${id}/outils`
       );
       if (!outilsRes.ok)
         throw new Error("Erreur lors du chargement des outils");
@@ -45,8 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
         article.innerHTML = `
           <img src="${imgSrc}" alt="${outil.nom}" />
           <h3>${outil.nom}</h3>
-          <p>${outil.description || "Aucune description"}</p>
         `;
+        article.style.cursor = "pointer";
+        article.addEventListener("click", () => {
+          window.location.href = `detailOutil.html?id=${outil.id}`;
+        });
         outilsGrid.appendChild(article);
       });
     } catch (err) {

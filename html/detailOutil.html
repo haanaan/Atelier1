@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiche Outil</title>
-    <link rel="stylesheet" href="css/detailOutil.css">
-    <link rel="icon" type="image/png" href="images/Charly.png" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Détail Outil — CharlyMatLoc</title>
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/detailOutil.css" />
+  <link rel="icon" type="image/png" href="images/Charly.png" />
 </head>
-</body>
-</html>
- <div class="main">
+
+<body>
   <header>
     <nav class="navbar">
-      <a href="index.html">CharlyMATLOC</a>
+      <a href="#">CharlyMATLOC</a>
       <ul>
-        <li><a href="index.html" class="active">Accueil</a></li>
-        <li><a href="catalogue.html" >Catalogue</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
         <li><a href="panier.html">Panier</a></li>
+        <li><a href="reservations.html">Mes Réservations</a></li>
         <li><a href="#" id="logoutbtn">Logout</a></li>
       </ul>
     </nav>
   </header>
-  <div class="detail">
-    <div>
-        <div> <div id="image"></div></div> 
-        <div><strong>Nom :</strong> <span id="nom"></span></div>
-        <div><strong>Description :</strong><span id="description"></span></div>
-        <div><strong>Categorie :</strong><span id="categorie"></span></div>
-        <div><strong>Montant :</strong><span id="montant"></span></div>
-    </div>
-</div>
 
- </div>
+  <main>
+    <section class="outil-detail">
+      <div class="loading">Chargement des détails de l'outil...</div>
+    </section>
+  </main>
 
-    <script src="js/detailOutil.js"></script>
+  <footer>
+    <p>&copy; 2025 CharlyMatLoc — Location d’outils entre particuliers.</p>
+  </footer>
+
+  <script src="js/token.js"></script>
+  <script src="js/detailOutil.js"></script>
 </body>
 </html>

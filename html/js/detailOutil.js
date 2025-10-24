@@ -1,33 +1,71 @@
-const params = new URLSearchParams(window.location.search);
-const id = params.get('id');
+document.addEventListener("DOMContentLoaded", () => {
+  const sectionOutil = document.querySelector(".outil-detail");
 
-if (!id) {
-  document.getElementById("outil-detail").textContent = "Aucun ID d'outil fourni dans l'URL.";
-} else {
-  const API_URL = `http://localhost:24789/api/outils/${id}`; 
-  console.log(id);
+  const params = new URLSearchParams(window.location.search);
+  const outilId = params.get("id");
 
-  fetch(API_URL)
-    .then(response => {
-      if (!response.ok) throw new Error("Erreur lors du chargement des données");
-      return response.json();
+  if (!outilId) {
+    sectionOutil.innerHTML = "<p>ID d'outil manquant.</p>";
+    return;
+  }
+
+  fetch(`http://localhost:24789/api/outils/${outilId}`)
+    .then((res) => {
+      if (!res.ok) throw new Error("Outil non trouvé");
+      return res.json();
     })
-    .then(data => {
-      document.getElementById("nom").textContent = data.nom;
-      document.getElementById("description").textContent = data.description;
-      document.getElementById("categorie").textContent = data.categorie;
-      document.getElementById("montant").textContent = `${data.montant} €`;
-
-      const imageElement = document.createElement('img');
-      imageElement.src = `images/${data.image}`;
-      imageElement.alt = data.nom; 
-      imageElement.style.maxWidth = '100%'; 
-
-      document.getElementById("image").innerHTML = '';
-      document.getElementById("image").appendChild(imageElement); 
-    })
-    .catch(error => {
-      console.error(error);
-      document.getElementById("outil-detail").textContent = "Erreur de chargement du détail de l’outil.";
+    .then((outil) => afficherOutil(outil))
+    .catch((err) => {
+      sectionOutil.innerHTML = `<p>Erreur : ${err.message}</p>`;
     });
-}
+
+  function afficherOutil(outil) {
+    const imgSrc = outil.image
+      ? `images/${outil.image}`
+      : "images/default-tool.jpg";
+
+    const categorieNom =
+      typeof outil.categorie === "object"
+        ? outil.categorie.nom
+        : outil.categorie;
+
+    const categorieId =
+      typeof outil.categorie === "object"
+        ? outil.categorie.id
+        : outil.categorie_id ?? ""; // fallback si API renvoie juste l'id
+
+    const exemplaires = parseInt(outil.exemplaires ?? 1);
+    const dispoTexte =
+      exemplaires > 0
+        ? `${exemplaires} exemplaire${exemplaires > 1 ? "s" : ""} disponible${
+            exemplaires > 1 ? "s" : ""
+          }`
+        : "Aucun exemplaire disponible";
+
+    sectionOutil.innerHTML = `
+      <div class="outil-card">
+        <img src="${imgSrc}" alt="${outil.nom}" />
+        <div class="outil-info">
+          <h2>${outil.nom}</h2>
+          <p><strong>Catégorie :</strong> ${categorieNom}</p>
+          <p><strong>Description :</strong> ${outil.description}</p>
+          <p><strong>Montant :</strong> ${outil.montant} €</p>
+          <p class="disponibilite"><strong>Disponibilité :</strong> ${dispoTexte}</p>
+          <button id="btn-retour" class="btn-retour">← Retour</button>
+        </div>
+      </div>
+    `;
+
+    // Écouteur pour le bouton retour
+    const btnRetour = document.getElementById("btn-retour");
+    if (btnRetour) {
+      btnRetour.addEventListener("click", () => {
+        if (categorieId) {
+          window.location.href = `categorie.html?id=${categorieId}`;
+        } else {
+          window.history.back();
+        }
+      });
+    }
+  }
+});

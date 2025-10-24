@@ -10,7 +10,9 @@ class DetailOutilDto
     public string $categorie;
     public float $montant;
 
-    public function __construct(string $id, string $nom, string $description, string $image, string $categorie, float $montant)
+    public int $exemplaires;
+
+    public function __construct(string $id, string $nom, string $description, string $image, string $categorie, float $montant, int $exemplaires)
     {
         $this->id = $id;
         $this->nom = $nom;
@@ -18,5 +20,6 @@ class DetailOutilDto
         $this->image = $image;
         $this->categorie = $categorie;
         $this->montant = $montant;
+        $this->exemplaires = $exemplaires;
     }
 }

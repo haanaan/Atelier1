@@ -1,138 +1,111 @@
-.main .detail {
-  display: flex;
-  flex-direction: row;
-  width: 60%;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background-color: rgba(255, 246, 239, 0.1019607843);
-  box-shadow: 0 5px 9px rgba(0, 0, 0, 0);
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+body, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
-.main .detail > div:nth-child(1) img {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.outil-detail {
+  max-width: 900px;
+  margin: 4em auto;
+  padding: 0 2em;
 }
-
-.main .detail > div:nth-child(2) {
-  margin: 2em;
-}
-
-footer {
+.outil-detail .loading {
   text-align: center;
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: 2rem;
-  padding: 1rem;
+  font-size: 1.2em;
+  color: #777;
 }
-
-header nav, header nav ul {
+.outil-detail .outil-card {
   display: flex;
   flex-wrap: wrap;
+  gap: 2em;
+  background: #fff;
+  padding: 2em;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
-header nav a, header nav ul, header nav ul li {
-  margin-left: 0.5em;
-  margin-top: 0.5em;
-  padding: 0.2em 0.5em;
-  box-sizing: border-box;
-}
-
-@media screen and (max-width: 60em) {
-  header nav a {
-    width: 48.5%;
-  }
-}
-
-@media screen and (max-width: 60em) {
-  header nav ul {
-    width: 98%;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  header nav a {
-    width: 15.5%;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  header nav a img, header nav ul {
-    width: 81.5%;
-  }
-}
-
-header {
+.outil-detail .outil-card img {
+  max-width: 400px;
   width: 100%;
-  background-color: #fff;
-  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.192);
+  border-radius: 12px;
+  object-fit: cover;
 }
-header nav {
-  padding: 1em 0;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-}
-header nav a {
-  color: #333;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.5s ease;
-}
-header nav a:hover {
-  color: #f09124;
-}
-header nav a img {
-  max-width: 100%;
-  height: auto;
-}
-header nav ul {
-  justify-content: flex-end;
-  margin-top: 0;
-}
-@media screen and (max-width: 40em) {
-  header nav ul {
-    flex-direction: column;
-    align-items: flex-end;
-    width: 100%;
-    margin-top: 1em;
-  }
-}
-header nav ul li {
-  margin-left: 1em;
-  margin-top: 1em;
-  padding: 0;
-  list-style: none;
-}
-@media screen and (max-width: 40em) {
-  header nav ul li {
-    margin-bottom: 0.5em;
-    margin-left: 0;
-    text-align: right;
-    width: auto;
-  }
-}
-header nav ul li a, header nav ul li button {
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  font-family: "Inter", sans-serif;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 1rem;
-}
-header nav ul li a:hover, header nav ul li a.active, header nav ul li button:hover, header nav ul li button.active {
-  color: #ff9010;
-}
-
-.main {
+.outil-detail .outil-card .outil-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+.outil-detail .outil-card .outil-info h2 {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 0.5em;
+}
+.outil-detail .outil-card .outil-info p {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 0.5em;
+}
+.outil-detail .outil-card .outil-info .btn-reserver {
+  margin-top: 1em;
+  padding: 0.8em 1.2em;
+  background-color: #ff9010;
+  border: none;
+  color: white;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.outil-detail .outil-card .outil-info .btn-reserver:hover {
+  background-color: #e07b00;
+}
+.outil-detail .outil-card .outil-info .btn-reserver:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.outil-detail .btn-retour {
+  display: inline-block;
+  padding: 0.6em 1.2em;
+  background-color: #ff9010;
+  color: #5e380d;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1em;
+  text-decoration: none;
+  text-align: center;
+}
+.outil-detail .btn-retour:hover {
+  background-color: #e67e22;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.outil-detail .btn-retour:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+.outil-detail .btn-retour:focus {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .outil-card {
+    flex-direction: column;
+    align-items: center;
+  }
+  .outil-card img {
+    max-width: 100%;
+  }
+  .outil-card .outil-info {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /*# sourceMappingURL=detailOutil.css.map */
