@@ -28,7 +28,7 @@ class UserRepository implements UserRepositoryInterface {
             $row['prenom'],
             $row['email'],
             $row['password'],
-            $row['role']
+            (int)$row['role']
         );
     }
 

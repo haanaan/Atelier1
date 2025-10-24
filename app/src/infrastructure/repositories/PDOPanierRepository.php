@@ -1,6 +1,7 @@
 <?php
 namespace charlymatloc\infra\repositories;
 
+use charlymatloc\api\dto\PanierItemDto;
 use PDO;
 use PDOException;
 use Exception;
@@ -9,6 +10,7 @@ use charlymatloc\core\domain\entities\Panier;
 use charlymatloc\core\domain\entities\Outils;
 use charlymatloc\core\domain\entities\Categorie;
 use charlymatloc\core\domain\entities\Utilisateurs;
+use charlymatloc\api\dto\PanierDTO;
 
 class PDOPanierRepository implements PanierRepositoryInterface
 {
@@ -74,7 +76,7 @@ class PDOPanierRepository implements PanierRepositoryInterface
             $panier = new Panier(
                 $panierData['id'],
                 $utilisateur,
-                $outils
+                $outils,
             );
 
             return $panier;
@@ -83,6 +85,136 @@ class PDOPanierRepository implements PanierRepositoryInterface
             throw new Exception("Database error in FindById: " . $e->getMessage());
         } catch (Exception $e) {
             throw new Exception("Error in FindById: " . $e->getMessage());
+        }
+    }
+    public function getOrCreatePanier(string $userId): PanierDTO
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE id_utilisateur = :id_utilisateur");
+            $stmt->execute(['id_utilisateur' => $userId]);
+            $panierData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$panierData) {
+                $stmt = $this->pdo->prepare("INSERT INTO panier (id_utilisateur) VALUES (:id_utilisateur)");
+                $stmt->execute(['id_utilisateur' => $userId]);
+                $panierId = $this->pdo->lastInsertId();
+            } else {
+                $panierId = $panierData['id'];
+            }
+
+            $itemsDTO = $this->getItems($panierId);
+            $items = $itemsDTO->outils;
+            $total = $itemsDTO->total;
+            return new PanierDTO($panierId, $userId, $items, $total);
+
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans getOrCreatePanier: " . $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception("Erreur dans getOrCreatePanier: " . $e->getMessage());
+        }
+    }
+
+    public function getByUser(string $userId): PanierDTO
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM panier WHERE id_utilisateur = :id_utilisateur");
+            $stmt->execute(['id_utilisateur' => $userId]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$data) {
+                throw new Exception("Aucun panier trouvé pour cet utilisateur");
+            }
+
+            return $this->getItems($data['id']);
+
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans getByUser: " . $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception("Erreur dans getByUser: " . $e->getMessage());
+        }
+    }
+
+    public function getItems(string $panierId): PanierDTO
+    {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT o.id AS outil_id, o.nom, o.montant
+                FROM panier_outils i
+                JOIN outils o ON o.id = i.outil_id
+                WHERE i.panier_id = :id
+            ");
+            $stmt->execute(['id' => $panierId]);
+            $itemsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $items = [];
+            $total = 0;
+            foreach ($itemsData as $item) {
+                $items[] = new PanierItemDto(
+                    $item['outil_id'],
+                    $item['nom'],
+                    $item['montant']
+                );
+                $total += $item['montant'];
+            }
+
+            $stmt = $this->pdo->prepare("SELECT id_utilisateur FROM panier WHERE id = :id");
+            $stmt->execute(['id' => $panierId]);
+            $panier = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return new PanierDTO($panierId, $panier['id_utilisateur'], $items, $total);
+
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans getItems: " . $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception("Erreur dans getItems: " . $e->getMessage());
+        }
+    }
+
+    public function addItem(string $panierId, string $outilId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT COUNT(*) FROM panier_outils 
+                WHERE panier_id = :panier_id AND outil_id = :outil_id
+            ");
+            $stmt->execute(['panier_id' => $panierId, 'outil_id' => $outilId]);
+
+            if ($stmt->fetchColumn() > 0) return false;
+
+            $stmt = $this->pdo->prepare("
+                INSERT INTO panier_outils (panier_id, outil_id)
+                VALUES (:panier_id, :outil_id)
+            ");
+            return $stmt->execute(['panier_id' => $panierId, 'outil_id' => $outilId]);
+
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans addItem: " . $e->getMessage());
+        }
+    }
+
+    public function removeItem(string $panierId, string $outilId): PanierDTO
+    {
+        try {
+            $stmt = $this->pdo->prepare("
+                DELETE FROM panier_outils 
+                WHERE panier_id = :panier_id AND outil_id = :outil_id
+            ");
+            $stmt->execute(['panier_id' => $panierId, 'outil_id' => $outilId]);
+
+            return $this->getItems($panierId);
+
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans removeItem: " . $e->getMessage());
+        }
+    }
+
+    public function clearItems(string $panierId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM panier_outils WHERE panier_id = :panier_id");
+            return $stmt->execute(['panier_id' => $panierId]);
+        } catch (PDOException $e) {
+            throw new Exception("Erreur base de données dans clearItems: " . $e->getMessage());
         }
     }
 }
