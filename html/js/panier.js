@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
         } catch (error) {
             console.error('Erreur lors de la récupération du panier:', error);
-            panierContainer.innerHTML = `
+            panierContainer.innerHTML = ` 
                 <div id="empty-panier">
                     <p>Une erreur est survenue lors du chargement de votre panier.</p>
                     <button onclick="window.location.href='catalogue.html'">
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     
     const displayEmptyCart = () => {
-        panierContainer.innerHTML = `
+        panierContainer.innerHTML = ` 
             <div id="empty-panier">
                 <img src="images/empty-cart.svg" alt="Panier vide" onerror="this.style.display='none'">
                 <h2>Votre panier est vide</h2>
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageUrl = outil.image ? `images/${outil.image}` : `images/${outil.nom.toLowerCase().replace(/\s+/g, '-')}.jpg`;
             const outilId = outil.id || outil.outilID || outil.outil_id;
             
-            item.innerHTML = `
+            item.innerHTML = ` 
                 <div class="outil-image">
                     <img src="${imageUrl}" alt="${outil.nom}" >
                 </div>
@@ -179,14 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         });
-        
-        const currentDate = new Date();
-        const futureDate = new Date();
-        futureDate.setDate(currentDate.getDate() + 7);
-        
-        const formatDateForInput = (date) => {
-            return date.toISOString().split('T')[0];
-        };
         
         summaryContainer.innerHTML = `
             <div id="summary-content">
@@ -218,33 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearPanier();
             }
         });
-        
-        const dateDebut = document.getElementById('date-debut');
-        const dateFin = document.getElementById('date-fin');
-        
-        if (dateDebut && dateFin) {
-            const updateDateRange = () => {
-                const start = new Date(dateDebut.value);
-                const end = new Date(dateFin.value);
-                
-                if (end < start) {
-                    end.setDate(start.getDate() + 1);
-                    dateFin.value = formatDateForInput(end);
-                }
-                
-                const diffTime = Math.abs(end - start);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
-                const dailyTotal = panierData.total || 0;
-                const newTotal = dailyTotal * diffDays;
-                
-                document.querySelector('#summary-total span:last-child').textContent = 
-                    `${parseFloat(newTotal).toFixed(2)} € (${diffDays} jour${diffDays > 1 ? 's' : ''})`;
-            };
-            
-            dateDebut.addEventListener('change', updateDateRange);
-            dateFin.addEventListener('change', updateDateRange);
-        }
     };
     
     const removeFromPanier = async (outilID) => {
@@ -331,26 +296,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers['Authorization'] = `Bearer ${token}`;
             }
             
-            const dateDebut = document.getElementById('date-debut').value;
-            const dateFin = document.getElementById('date-fin').value;
-            const start = new Date(dateDebut);
-            const end = new Date(dateFin);
-            const diffTime = Math.abs(end - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
             const outilsTotal = outils.reduce((total, outil) => {
                 return total + (parseFloat(outil.montant || outil.prix) || 0);
             }, 0);
             
-            const totalAmount = outilsTotal * diffDays;
+            const totalAmount = outilsTotal;
             
             const outilIds = outils.map(outil => {
                 return outil.id || outil.outilID || outil.outil_id;
             });
             
             const reservation = {
-                datedebut: `${dateDebut} 10:00:00`,
-                datefin: `${dateFin} 18:00:00`,
                 montanttotal: totalAmount,
                 statut: "pending",
                 outils: outilIds.join(',')

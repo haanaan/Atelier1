@@ -100,11 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
       article.classList.add('outil', 'm3', 's12', 'l3');
       
       // Utiliser une image par défaut si l'image n'existe pas
-      const imageUrl = outil.image ? `images/${outil.image}` : 'images/tool-placeholder.jpg';
+      const imageUrl = `images/${outil.image}`;
       
       article.innerHTML = `
         <div class="img-container">
-          <img src="${imageUrl}" alt="${outil.nom}" onerror="this.src='images/tool-placeholder.jpg'">
+          <img src="${imageUrl}" alt="${outil.nom}">
         </div>
         <a href="detailOutil.html?id=${outil.id}"><h2>${outil.nom}</h2></a>
         <p class="stock">Exemplaires disponibles : ${outil.nombreExemplaires}</p>
