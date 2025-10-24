@@ -5,7 +5,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use charlymatloc\core\application\ports\api\ReservationServiceInterface;
 
-class SupprimerReservationAction
+class GetReservationAction
 {
     private ReservationServiceInterface $service;
 
@@ -22,9 +22,14 @@ class SupprimerReservationAction
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
-        $this->service->SupprimerReservation($id);
+        $reservation = $this->service->AfficheById($id);
 
-        $response->getBody()->write(json_encode(['message' => "Réservation $id supprimée avec succès"]));
+        if ($reservation === null) {
+            $response->getBody()->write(json_encode(['error' => 'Réservation introuvable']));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+        }
+
+        $response->getBody()->write(json_encode($reservation));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

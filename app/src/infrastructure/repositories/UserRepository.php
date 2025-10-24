@@ -14,7 +14,7 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     public function FindByEmail(string $email): ?Utilisateurs {
-        $stmt = $this->pdo->prepare("SELECT id, nom, prenom, email, password,role FROM utilisateurs WHERE email = :email");
+        $stmt = $this->pdo->prepare("SELECT id, nom, prenom, email, password, role FROM utilisateurs WHERE email = :email");
         $stmt->execute([':email' => strtolower($email)]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         

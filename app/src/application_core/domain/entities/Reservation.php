@@ -1,11 +1,12 @@
 <?php
 namespace charlymatloc\core\domain\entities;
 
-class Reservation {
+class Reservation
+{
     private string $id;
     private string $datedebut;
     private string $datefin;
-    private string $montanttotal;
+    private float $montanttotal;
     private string $statut;
     private Utilisateurs $utilisateur;
     private string $outils;
@@ -14,10 +15,10 @@ class Reservation {
         string $id,
         string $datedebut,
         string $datefin,
-        string $montanttotal,
+        float $montanttotal,
         string $statut,
         Utilisateurs $utilisateur,
-        string $outils
+        string $outils      
     ) {
         $this->id = $id;
         $this->datedebut = $datedebut;
@@ -31,8 +32,8 @@ class Reservation {
     public function getId(): string { return $this->id; }
     public function getDateDebut(): string { return $this->datedebut; }
     public function getDateFin(): string { return $this->datefin; }
-    public function getMontantTotal(): string { return $this->montanttotal; }
+    public function getMontantTotal(): float { return $this->montanttotal; }
     public function getStatut(): string { return $this->statut; }
     public function getUtilisateur(): Utilisateurs { return $this->utilisateur; }
-    public function getOutil(): string { return $this->outils; }
+    public function getOutil(): string{ return $this->outils; }
 }

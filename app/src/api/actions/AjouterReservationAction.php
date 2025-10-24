@@ -25,11 +25,13 @@ class AjouterReservationAction
         $requestBody = $request->getBody()->getContents();
         $data = json_decode($requestBody, true);
         
+        // autentification de l'utilisateur
         $authenticatedUser = $request->getAttribute('authenticated_user');
         
+        // verifier si l'utilisateur authentifié a le droit de créer une réservation pour cet utilisateur
         if ($authenticatedUser instanceof UserProfileDTO && 
             $authenticatedUser->id !== $userId && 
-            $authenticatedUser->role !== '100') {
+            $authenticatedUser->role !== '100') { //100 est le rôle admin
             
             $response->getBody()->write(json_encode([
                 'error' => 'Forbidden',
@@ -38,6 +40,7 @@ class AjouterReservationAction
             return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
         }
         
+        // creer un utilisateur minimal avec juste l'ID
         $utilisateur = new Utilisateurs(
             $userId,
             '', 
@@ -47,15 +50,15 @@ class AjouterReservationAction
             1  
         );
         
-        $outilsString = "";
-        if (isset($data['outils'])) {
-            if (is_array($data['outils'])) {
-                $outilsString = implode(',', array_filter(array_map('trim', $data['outils'])));
-            } else {
-                $outilsString = $data['outils'];
-            }
+        // outils de la requête
+        $outilsIds = isset($data['outils']) ? $data['outils'] : [];
+        
+        // si outilsIds est une chaîne, la convertir en tableau
+        if (is_string($outilsIds) && !empty($outilsIds)) {
+            $outilsIds = explode(',', $outilsIds);
         }
         
+        // génération de la reservation id
         $reservationId = $data['id'] ?? Uuid::uuid4()->toString();
         
         $currentDateTime = date('Y-m-d H:i:s');

@@ -1,24 +1,25 @@
 <?php
 namespace charlymatloc\core\application\usecases;
 
-use charlymatloc\api\dto\ReservationDto;
 use charlymatloc\core\application\ports\api\ReservationServiceInterface;
 use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationRepositoryInterface;
+use charlymatloc\api\dto\ReservationDto;
 use charlymatloc\core\domain\entities\Reservation;
 
+// Service de gestion des réservations
 class ReservationService implements ReservationServiceInterface
 {
-    private PDOReservationRepositoryInterface $repo;
+    private PDOReservationRepositoryInterface $repository;
 
-    public function __construct(PDOReservationRepositoryInterface $repo)
+    public function __construct(PDOReservationRepositoryInterface $repository)
     {
-        $this->repo = $repo;
+        $this->repository = $repository;
     }
 
-    public function ListerReservations(): array
+// Récupère toutes les réservations
+    public function AfficheReservations(): array
     {
-        $reservations = $this->repo->FindAll();
-        $dtoList = [];
+        $reservations = $this->repository->FindAll();
 
         foreach ($reservations as $r) {
             $dtoList[] = new ReservationDto(
@@ -33,10 +34,10 @@ class ReservationService implements ReservationServiceInterface
         }
         return $dtoList;
     }
-
+// Récupère les réservations par ID utilisateur
     public function ListerReservationsByUserId(string $userId): array
     {
-        $reservations = $this->repo->FindByUserId($userId);
+        $reservations = $this->repository->FindByUserId($userId);
         $dtoList = [];
         
         foreach ($reservations as $r) {
@@ -66,9 +67,10 @@ class ReservationService implements ReservationServiceInterface
         return $dtoList;
     }
 
-    public function TrouverReservation(string $id): ?ReservationDto
+// Récupère une réservation par ID
+    public function AfficheById(string $id): ?ReservationDto
     {
-        $r = $this->repo->FindById($id);
+        $r = $this->repository->FindById($id);
         if (!$r) return null;
         
         $outilsDetails = [];
@@ -95,13 +97,29 @@ class ReservationService implements ReservationServiceInterface
         );
     }
 
+    // Ajouter une nouvelle réservation
     public function AjouterReservation(Reservation $reservation): void
-    {
-        $this->repo->Save($reservation);
+{
+    $outilsString = $reservation->getOutil();
+    $outilsIds = explode(',', $outilsString);
+
+    foreach ($outilsIds as $outilId) {
+        if (!$this->repository->EstOutilDisponible(
+            trim($outilId),
+            $reservation->getDateDebut(),
+            $reservation->getDateFin()
+        )) {
+            throw new \Exception("L’outil $outilId n’est pas disponible sur cette période");
+        }
     }
 
-    public function SupprimerReservation(string $id): void
+    $this->repository->Save($reservation);
+}
+
+
+// Supprimer une réservation par ID
+public function SupprimerReservation(string $id): void
     {
-        $this->repo->Delete($id);
+        $this->repository->Delete($id);
     }
 }

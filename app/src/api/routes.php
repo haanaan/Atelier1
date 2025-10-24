@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+use charlymatloc\api\actions\GetReservationAction;
 use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetAllCategorieAction;
 use charlymatloc\api\actions\GetOutilsByCategorieAction;
@@ -27,9 +28,6 @@ return function (\Slim\App $app): \Slim\App {
 
     $app->post('/api/signin', SigninAction::class);
     $app->post('/api/refresh-token', RefreshTokenAction::class);
-
-
-
 
 
     $app->group('/api', function (\Slim\Routing\RouteCollectorProxy $group) {

@@ -16,7 +16,8 @@ class ListerReservationsAction
 
     public function __invoke(Request $request, Response $response): Response
     {
-        $reservations = $this->service->ListerReservations();
+        $reservations = $this->service->AfficheReservations();
+
         $response->getBody()->write(json_encode($reservations));
         return $response->withHeader('Content-Type', 'application/json');
     }

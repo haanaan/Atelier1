@@ -1,6 +1,8 @@
 <?php
 namespace charlymatloc\api\dto;
 
+use charlymatloc\core\domain\entities\Reservation;
+
 class ReservationDto
 {
     public string $id;
