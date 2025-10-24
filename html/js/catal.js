@@ -316,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (confirmerBtn) {
     confirmerBtn.onclick = () => {
       if (modal.style.display === "flex") {
-        // Si le modal avec les dates est visible, utilisez ces dates
         const dateDebut = document.getElementById('date-debut');
         const dateFin = document.getElementById('date-fin');
         
@@ -325,7 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         
-        // Vérifier que la date de fin est après la date de début
         const start = new Date(dateDebut.value);
         const end = new Date(dateFin.value);
         
@@ -336,7 +334,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         addToPanier(outilSelectionne.id);
       } else {
-        // Sinon, utilisez les valeurs par défaut du datePicker et timePicker
         if (!datePicker || !timePicker || !datePicker.value || !timePicker.value) {
           showMessage("Veuillez choisir une date et une heure", "error");
           return;
