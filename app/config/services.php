@@ -1,10 +1,12 @@
 <?php
 
 use charlymatloc\api\actions\AddOutilToPanierAction;
+use charlymatloc\api\actions\AjouterReservationAction;
 use charlymatloc\api\actions\ClearPanierAction;
 use charlymatloc\api\actions\GetOutilsAction;
 use charlymatloc\api\actions\GetPanierAction;
 use charlymatloc\api\actions\GetPanierByUserAction;
+use charlymatloc\api\actions\GetUserReservationsAction;
 use charlymatloc\api\actions\ListerOutilsAction;
 use charlymatloc\api\actions\InscriptionAction;
 use charlymatloc\api\actions\RemoveOutilFromPanierAction;
@@ -90,9 +92,19 @@ return [
 
 
 
+
         // Actions
+     AjouterReservationAction::class => function ($c) {
+        return new AjouterReservationAction(
+            $c->get(ReservationServiceInterface::class)
+        );
+    },
+    
     GetOutilsAction::class => function ($c) {
         return new GetOutilsAction($c->get(OutilsServiceInterface::class));
+    },
+        GetUserReservationsAction::class => function ($c) {
+        return new GetUserReservationsAction($c->get(ReservationServiceInterface::class));
     },
 
     GetOutilsAction::class => fn($c) =>

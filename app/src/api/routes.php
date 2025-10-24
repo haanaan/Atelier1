@@ -13,6 +13,7 @@ use charlymatloc\api\actions\AddOutilToPanierAction;
 use charlymatloc\api\actions\RemoveOutilFromPanierAction;
 use charlymatloc\api\actions\ListerReservationsAction;
 use charlymatloc\api\actions\AjouterReservationAction;
+use charlymatloc\api\actions\GetUserReservationsAction;
 use charlymatloc\api\actions\SupprimerReservationAction;
 use charlymatloc\api\middlewares\AuthnMiddleware;
 use charlymatloc\api\middlewares\AuthzUtilisateurMiddleware;
@@ -26,13 +27,19 @@ return function (\Slim\App $app): \Slim\App {
     $app->post('/api/signin', SigninAction::class);
     $app->post('/api/refresh-token', RefreshTokenAction::class);
     
+
+
+        
+
     $app->group('/api', function (\Slim\Routing\RouteCollectorProxy $group) {
 
-
-        $group->get('/panier/{id}', GetPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
-        $group->get('/reservations', ListerReservationsAction::class)->add(AuthzUtilisateurMiddleware::class);
-        $group->post('/reservations', AjouterReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
-        $group->delete('/reservations/{id}', SupprimerReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
+  
+        // $group->get('/panier/{id}', GetPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
+        // $group->get('/reservations/{id}', ListerReservationsAction::class)->add(AuthzUtilisateurMiddleware::class);
+        // $group->post('/reservations', AjouterReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
+        // $group->delete('/reservations/{id}', SupprimerReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->post('/users/{id}/reservations', AjouterReservationAction::class)->add(AuthzUtilisateurMiddleware::class);
+        $group->get('/users/{id}/reservations', GetUserReservationsAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->get('/users/{userId}/panier', GetPanierByUserAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->post('/users/{userId}/panier/outils/{outilId}', AddOutilToPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
         $group->delete('/users/{userId}/panier/outils/{outilId}', RemoveOutilFromPanierAction::class)->add(AuthzUtilisateurMiddleware::class);
