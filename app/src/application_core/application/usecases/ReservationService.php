@@ -33,6 +33,25 @@ class ReservationService implements ReservationServiceInterface
 
         return $dtoList;
     }
+public function ListerReservationsByUserId(string $userId): array
+    {
+        $reservations = $this->repo->FindByUserId($userId);
+        $dtoList = [];
+
+        foreach ($reservations as $r) {
+            $dtoList[] = new ReservationDto(
+                $r->getId(),
+                $r->getDateDebut(),
+                $r->getDateFin(),
+                (float)$r->getMontantTotal(),
+                $r->getStatut(),
+                $r->getUtilisateur()->getId()
+            );
+        }
+
+        return $dtoList;
+    }
+
 
     public function TrouverReservation(string $id): ?ReservationDto
     {
