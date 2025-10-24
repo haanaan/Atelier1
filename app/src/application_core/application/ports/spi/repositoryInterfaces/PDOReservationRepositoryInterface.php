@@ -8,6 +8,8 @@ interface PDOReservationRepositoryInterface
     public function FindAll(): array;
     public function FindById(string $id): ?Reservation;
     public function Save(Reservation $reservation): void;
-      public function FindByUserId(string $userId): array;
+    public function FindByUserId(string $userId): array;
     public function Delete(string $id): void;
+    public function EstOutilDisponible(string $outilId, string $dateDebut, string $dateFin): bool;
+
 }

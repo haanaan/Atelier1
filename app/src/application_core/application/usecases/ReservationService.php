@@ -6,6 +6,7 @@ use charlymatloc\core\application\ports\spi\repositoryinterfaces\PDOReservationR
 use charlymatloc\api\dto\ReservationDto;
 use charlymatloc\core\domain\entities\Reservation;
 
+// Service de gestion des réservations
 class ReservationService implements ReservationServiceInterface
 {
     private PDOReservationRepositoryInterface $repository;
@@ -15,6 +16,7 @@ class ReservationService implements ReservationServiceInterface
         $this->repository = $repository;
     }
 
+// Récupère toutes les réservations
     public function AfficheReservations(): array
     {
         $reservations = $this->repository->FindAll();
@@ -32,7 +34,8 @@ class ReservationService implements ReservationServiceInterface
 
         return $dtoList;
     }
-public function ListerReservationsByUserId(string $userId): array
+// Récupère les réservations par ID utilisateur
+    public function ListerReservationsByUserId(string $userId): array
     {
         $reservations = $this->repository->FindByUserId($userId);
         $dtoList = [];
@@ -51,7 +54,7 @@ public function ListerReservationsByUserId(string $userId): array
         return $dtoList;
     }
 
-
+// Récupère une réservation par ID
     public function AfficheById(string $id): ?ReservationDto
     {
         $r = $this->repository->FindById($id);
@@ -67,12 +70,28 @@ public function ListerReservationsByUserId(string $userId): array
         );
     }
 
+    // Ajouter une nouvelle réservation
     public function AjouterReservation(Reservation $reservation): void
-    {
-        $this->repository->Save($reservation);
+{
+    $outilsString = $reservation->getOutil();
+    $outilsIds = explode(',', $outilsString);
+
+    foreach ($outilsIds as $outilId) {
+        if (!$this->repository->EstOutilDisponible(
+            trim($outilId),
+            $reservation->getDateDebut(),
+            $reservation->getDateFin()
+        )) {
+            throw new \Exception("L’outil $outilId n’est pas disponible sur cette période");
+        }
     }
 
-    public function SupprimerReservation(string $id): void
+    $this->repository->Save($reservation);
+}
+
+
+// Supprimer une réservation par ID
+public function SupprimerReservation(string $id): void
     {
         $this->repository->Delete($id);
     }

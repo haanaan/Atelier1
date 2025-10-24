@@ -27,10 +27,7 @@ return function (\Slim\App $app): \Slim\App {
     
     $app->post('/api/signin', SigninAction::class);
     $app->post('/api/refresh-token', RefreshTokenAction::class);
-    
 
-
-        
 
     $app->group('/api', function (\Slim\Routing\RouteCollectorProxy $group) {
 

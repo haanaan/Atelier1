@@ -15,6 +15,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $this->pdo = $pdo;
     }
 
+    // Récupère toutes les réservations avec les utilisateurs associés
     public function FindAll(): array
     {
         $stmt = $this->pdo->query("
@@ -53,6 +54,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         return $reservations;
     }
 
+    // Récupère les réservations par ID utilisateur
     public function FindByUserId(string $userId): array
     {
         $stmt = $this->pdo->prepare("
@@ -86,6 +88,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         return $reservations;
     }
 
+    // Récupère une réservation par son ID
     public function FindById(string $id): ?Reservation
     {
         $stmt = $this->pdo->prepare("
@@ -114,12 +117,13 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         );
     }
 
+    // Sauvegarde une nouvelle réservation
     public function Save(Reservation $reservation): void
     {
         $this->pdo->beginTransaction();
         
         try {
-            // Insert into the reservation table
+            // Insertion dans la table reservation
             $stmt = $this->pdo->prepare("
                 INSERT INTO reservation (id, utilisateur_id, datedebut, datefin, montanttotal, statut)
                 VALUES (:id, :utilisateur_id, :datedebut, :datefin, :montanttotal, :statut)
@@ -133,7 +137,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
                 'statut' => $reservation->getStatut()
             ]);
             
-            // Handle the outils (tools) relationship
+            // insertion dans la table de relation reservation_outils
             $outilsString = $reservation->getOutil();
             if (!empty($outilsString)) {
                 $outilsIds = explode(',', $outilsString);
@@ -159,16 +163,15 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         }
     }
 
+    // Supprime une réservation par son ID
     public function Delete(string $id): void
     {
         $this->pdo->beginTransaction();
         
         try {
-            // First delete from the relation table
             $stmt = $this->pdo->prepare("DELETE FROM reservation_outils WHERE reservation_id = :id");
             $stmt->execute(['id' => $id]);
             
-            // Then delete the reservation
             $stmt = $this->pdo->prepare("DELETE FROM reservation WHERE id = :id");
             $stmt->execute(['id' => $id]);
             
@@ -178,10 +181,7 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
             throw $e;
         }
     }
-    
-    /**
-     * Helper method to get tool IDs for a reservation
-     */
+    // Récupère les IDs des outils associés à une réservation
     private function getOutilsForReservation(string $reservationId): array
     {
         $stmt = $this->pdo->prepare("
@@ -191,5 +191,29 @@ class PDOReservationRepository implements PDOReservationRepositoryInterface
         $stmt->execute(['reservation_id' => $reservationId]);
         
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    // Vérifie si un outil est disponible (nombre d'exemplaires non dépassé)
+    public function EstOutilDisponible(string $outilId, string $dateDebut, string $dateFin): bool
+    {
+    $sql = "
+        SELECT COUNT(*) 
+        FROM reservation_outils ro
+        JOIN reservation r ON r.id = ro.reservation_id
+        WHERE ro.outil_id = :outil_id
+          AND (
+                (r.datedebut <= :dateFin AND r.datefin >= :dateDebut)
+              )
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        'outil_id' => $outilId,
+        'dateDebut' => $dateDebut,
+        'dateFin' => $dateFin
+    ]);
+
+    // S’il y a 0 conflit → disponible
+    return $stmt->fetchColumn() == 0;
     }
 }

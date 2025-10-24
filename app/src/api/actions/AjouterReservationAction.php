@@ -24,13 +24,13 @@ class AjouterReservationAction
         $userId = $args['id'];
         $data = (array)$request->getParsedBody();
         
-        // Get the authenticated user from the request attributes
+        // autentification de l'utilisateur
         $authenticatedUser = $request->getAttribute('authenticated_user');
         
-        // Check if the authenticated user is trying to create a reservation for someone else
+        // verifier si l'utilisateur authentifié a le droit de créer une réservation pour cet utilisateur
         if ($authenticatedUser instanceof UserProfileDTO && 
             $authenticatedUser->id !== $userId && 
-            $authenticatedUser->role !== '100') { // Assuming 100 is admin role
+            $authenticatedUser->role !== '100') { //100 est le rôle admin
             
             $response->getBody()->write(json_encode([
                 'error' => 'Forbidden',
@@ -39,7 +39,7 @@ class AjouterReservationAction
             return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
         }
         
-        // Create a minimal user object with just the ID
+        // creer un utilisateur minimal avec juste l'ID
         $utilisateur = new Utilisateurs(
             $userId,
             '', // nom
@@ -49,15 +49,15 @@ class AjouterReservationAction
             1
         );
         
-        // Parse outils (tools) from the request
+        // outils de la requête
         $outilsIds = isset($data['outils']) ? $data['outils'] : [];
         
-        // If outils is a string, convert it to array
+        // si outilsIds est une chaîne, la convertir en tableau
         if (is_string($outilsIds) && !empty($outilsIds)) {
             $outilsIds = explode(',', $outilsIds);
         }
         
-        // Generate a new UUID for the reservation
+        // génération de la reservation id
         $reservationId = $data['id'] ?? Uuid::uuid4()->toString();
         
         // Ensure we have valid date values (use current date/time if missing)
